@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>שנינו 👶💛</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cream:#FDF6EE;--brioche:#FAF0DC;--vanilla:#FDF9F4;
+  --cin:#C0714F;--cinLt:#D4896A;--rose:#E8A598;--roseLt:#FCEEE9;
+  --brown:#3D2B1F;--gray:#7A6658;--taupe:#A8957F;
+  --dough:#EDE0CE;--doughLt:#F5EBD8;
+  --green:#7BAE7F;--greenLt:#EAF4EA;
+  --saffron:#E8A23A;--saffronLt:#FDF3E0;
+  --red:#C0544F;--redLt:#FCEAEA;
+  --plum:#C4A8D4;--plumLt:#F3EDF8;--plumDk:#6B4C7A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--cream);font-family:'Heebo',sans-serif;direction:rtl;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--dough);border-radius:99px;}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh;background:var(--cream);}
+.screen.active{display:block;}
+
+/* ── ANIMATIONS ── */
+@keyframes pulse{0%{transform:scale(1);opacity:.6;}100%{transform:scale(1.9);opacity:0;}}
+@keyframes w1{0%,100%{height:8px;}50%{height:26px;}}
+@keyframes w2{0%,100%{height:14px;}50%{height:36px;}}
+@keyframes w3{0%,100%{height:20px;}50%{height:44px;}}
+@keyframes w4{0%,100%{height:10px;}50%{height:28px;}}
+@keyframes w5{0%,100%{height:6px;}50%{height:18px;}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+@keyframes fin{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes shimmer{0%{opacity:.4;}50%{opacity:1;}100%{opacity:.4;}}
+.fin{animation:fin .35s ease forwards;}
+.spin{animation:spin 1s linear infinite;}
+.shimmer{animation:shimmer 1.5s ease infinite;}
+
+/* ── LAYOUT ── */
+.page{padding:14px 14px 82px;overflow-y:auto;min-height:calc(100vh - 58px);}
+.topbar{background:var(--brioche);padding:11px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--dough);position:sticky;top:0;z-index:50;}
+.tabbar{position:fixed;bottom:0;left:0;right:0;height:62px;background:var(--brioche);border-top:1px solid var(--dough);display:flex;align-items:center;justify-content:space-around;box-shadow:0 -3px 14px rgba(61,43,31,.07);}
+
+/* ── CARDS ── */
+.card{background:var(--brioche);border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:0 4px 18px rgba(61,43,31,.08);border:1px solid var(--dough);}
+.card-hero{background:linear-gradient(145deg,var(--brioche),#FDF3E8);border-radius:22px;padding:18px 16px 14px;margin-bottom:12px;box-shadow:0 6px 24px rgba(61,43,31,.1);border:1px solid var(--dough);position:relative;overflow:hidden;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:13px 22px;border-radius:999px;cursor:pointer;font-family:'Heebo',sans-serif;font-weight:700;font-size:14px;border:none;transition:all .2s;width:auto;}
+.btn-pri{background:linear-gradient(135deg,var(--cin),var(--cinLt));color:var(--vanilla);box-shadow:0 4px 16px rgba(192,113,79,.4);}
+.btn-sec{background:transparent;color:var(--cin);border:1.5px solid var(--cin);}
+.btn-ghost{background:transparent;color:var(--gray);border:1.5px solid var(--dough);}
+.btn-danger{background:var(--redLt);color:var(--red);border:1.5px solid rgba(192,84,79,.35);}
+.btn-sm{padding:8px 16px;font-size:12px;}
+.btn-full{width:100%;}
+
+/* ── INPUTS ── */
+.inp-wrap{margin-bottom:13px;direction:rtl;}
+.inp-label{font-size:13px;font-weight:600;color:var(--brown);margin-bottom:5px;}
+.inp-row{position:relative;}
+.inp{width:100%;background:var(--vanilla);border-radius:13px;border:1.5px solid var(--dough);padding:12px 42px 12px 13px;font-size:14px;color:var(--brown);text-align:right;direction:rtl;outline:none;font-family:'Heebo',sans-serif;transition:all .2s;}
+.inp:focus{border-color:var(--cin);box-shadow:0 0 0 3px rgba(192,113,79,.12);}
+.inp.err{border-color:var(--red);}
+.inp-icon{position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;}
+.inp-toggle{position:absolute;left:13px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;}
+.inp-err{font-size:11px;color:var(--red);margin-top:3px;text-align:right;}
+.inp-hint{font-size:11px;color:var(--taupe);margin-top:3px;text-align:right;}
+
+/* ── CHIPS ── */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.chip{padding:7px 14px;border-radius:999px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:12px;font-weight:400;border:1.5px solid var(--dough);background:var(--vanilla);color:var(--gray);transition:all .15s;}
+.chip.on{border-color:var(--cin);background:var(--roseLt);color:var(--cin);font-weight:700;}
+.chip.lock-chip.on{border-color:var(--plum);background:var(--plumLt);color:var(--plumDk);}
+
+/* ── PROGRESS DOTS ── */
+.dots{display:flex;gap:6px;justify-content:center;margin-bottom:20px;}
+.dot{height:6px;border-radius:999px;background:var(--dough);transition:all .3s;width:6px;}
+.dot.on{background:var(--cin);}
+.dot.cur{width:22px;background:var(--cin);}
+
+/* ── TOGGLE ── */
+.toggle-track{width:46px;height:26px;border-radius:999px;background:var(--dough);position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;}
+.toggle-track.on{background:var(--cin);}
+.toggle-thumb{width:20px;height:20px;border-radius:50%;background:white;position:absolute;top:3px;left:3px;transition:all .25s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.toggle-track.on .toggle-thumb{left:23px;}
+
+/* ── METRICS ── */
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.metric-card{background:var(--vanilla);border:1.5px solid var(--dough);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.metric-card.on{transform:scale(.97);}
+.metric-bar{position:absolute;top:0;left:0;right:0;height:3px;}
+
+/* ── WAVE BARS ── */
+.waves{height:46px;display:flex;align-items:center;justify-content:center;gap:4px;}
+.wave-bar{width:5px;border-radius:99px;background:var(--dough);}
+.wave-bar.active{background:linear-gradient(180deg,var(--cin),var(--rose));}
+.wave-bar.a1{animation:w1 .6s ease-in-out infinite;}
+.wave-bar.a2{animation:w2 .6s ease-in-out infinite .07s;}
+.wave-bar.a3{animation:w3 .6s ease-in-out infinite .14s;}
+.wave-bar.a4{animation:w4 .6s ease-in-out infinite .21s;}
+.wave-bar.a5{animation:w5 .6s ease-in-out infinite .28s;}
+.wave-bar.a6{animation:w4 .6s ease-in-out infinite .35s;}
+.wave-bar.a7{animation:w3 .6s ease-in-out infinite .42s;}
+.wave-bar.a8{animation:w2 .6s ease-in-out infinite .49s;}
+.wave-bar.a9{animation:w1 .6s ease-in-out infinite .56s;}
+
+/* ── MIC BUTTON ── */
+.mic-btn{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--cinLt));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 7px 20px rgba(192,113,79,.5);transition:all .3s;position:relative;}
+.mic-btn.recording{background:linear-gradient(135deg,#C05050,#e07070);}
+.mic-btn.processing{background:var(--dough);cursor:not-allowed;}
+.pulse-ring{position:absolute;inset:-7px;border-radius:50%;background:rgba(192,113,79,.25);animation:pulse .9s ease-out infinite;}
+.pulse-ring2{position:absolute;inset:-16px;border-radius:50%;background:rgba(232,165,152,.18);animation:pulse .9s ease-out .3s infinite;}
+
+/* ── FACE ID MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(61,43,31,.55);z-index:999;display:flex;align-items:center;justify-content:center;}
+.modal-box{background:var(--vanilla);border-radius:24px;padding:28px 24px;width:260px;text-align:center;box-shadow:0 20px 50px rgba(61,43,31,.25);animation:fin .3s ease;}
+.face-ring{position:absolute;inset:0;border-radius:50%;border:3px solid var(--dough);animation:pulse .9s infinite;opacity:.5;}
+.face-ring.active{border-color:var(--cin);}
+
+/* ── PW STRENGTH ── */
+.pw-bars{display:flex;gap:3px;margin-bottom:3px;}
+.pw-bar{flex:1;height:4px;border-radius:999px;background:var(--dough);transition:all .3s;}
+
+/* ── BLUR ── */
+.blurred{filter:blur(5px);user-select:none;cursor:pointer;transition:filter .3s;}
+.unblurred{filter:none;transition:filter .3s;}
+
+/* ── CHAT ── */
+.chat-msgs{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}
+.chat-msg{max-width:88%;border-radius:13px;padding:9px 12px;font-size:11px;color:var(--gray);line-height:1.6;text-align:right;}
+.chat-msg.user{background:var(--vanilla);border:1px solid var(--dough);border-radius:13px 13px 3px 13px;align-self:flex-start;}
+.chat-msg.ai{background:linear-gradient(135deg,var(--plumLt),#f8f0fc);border:1px solid rgba(196,168,212,.44);border-radius:13px 13px 13px 3px;align-self:flex-end;}
+.typing-dots span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--plum);margin:0 2px;}
+.typing-dots span:nth-child(1){animation:blink 1s ease-in-out 0s infinite;}
+.typing-dots span:nth-child(2){animation:blink 1s ease-in-out .2s infinite;}
+.typing-dots span:nth-child(3){animation:blink 1s ease-in-out .4s infinite;}
+
+/* ── VIP GRID ── */
+.vip-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vip-card{border-radius:12px;padding:10px;border-width:1px;border-style:solid;}
+.streak-dots{display:flex;gap:2px;}
+.streak-dot{width:5px;height:5px;border-radius:50%;}
+
+/* ── SCANNER TABLE ── */
+.scan-row{padding:9px 14px;display:flex;align-items:center;gap:9px;}
+.scan-row:nth-child(even){background:var(--vanilla);}
+
+/* ── SPLASH ── */
+.splash-bg{min-height:100vh;background:linear-gradient(155deg,var(--cream),var(--brioche) 55%,var(--roseLt));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 28px;position:relative;overflow:hidden;}
+.splash-blob1{position:absolute;top:-60px;left:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(232,165,152,.28),transparent);}
+.splash-blob2{position:absolute;bottom:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(192,113,79,.14),transparent);}
+
+/* ── ONBOARDING ── */
+.ob-topbar{background:var(--brioche);padding:11px 18px 9px;border-bottom:1px solid var(--dough);position:sticky;top:0;z-index:10;}
+.ob-progress{height:4px;border-radius:999px;background:var(--dough);overflow:hidden;}
+.ob-progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--rose),var(--cin));transition:width .4s;}
+
+/* ── TAB INDICATOR ── */
+.tab-btn{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:3px 9px;position:relative;background:none;border:none;}
+.tab-indicator{position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:20px;height:3px;border-radius:999px;background:var(--cin);}
+
+/* ── PASTRY DISPLAY ── */
+.pastry-circle{width:88px;height:88px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FAE8CC,#F0D890);display:flex;align-items:center;justify-content:center;box-shadow:0 5px 22px rgba(192,113,79,.25);flex-shrink:0;position:relative;border:2px solid #E8C870;}
+.pastry-check{position:absolute;bottom:0;right:0;width:22px;height:22px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.badge-pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700;}
+
+/* ── WEEK SLIDER ── */
+input[type=range]{width:100%;accent-color:var(--cin);cursor:pointer;}
+
+/* ── UTILS ── */
+.row{display:flex;align-items:center;gap:8px;}
+.row-sb{display:flex;align-items:center;justify-content:space-between;}
+.col{display:flex;flex-direction:column;}
+.txt-brown{color:var(--brown);}
+.txt-gray{color:var(--gray);}
+.txt-taupe{color:var(--taupe);}
+.txt-cin{color:var(--cin);}
+.txt-green{color:var(--green);}
+.txt-plum{color:var(--plumDk);}
+.fw7{font-weight:700;}
+.fw6{font-weight:600;}
+.fs10{font-size:10px;}
+.fs11{font-size:11px;}
+.fs12{font-size:12px;}
+.fs13{font-size:13px;}
+.fs14{font-size:14px;}
+.fs16{font-size:16px;}
+.fs18{font-size:18px;}
+.mb4{margin-bottom:4px;}
+.mb8{margin-bottom:8px;}
+.mb12{margin-bottom:12px;}
+.mb16{margin-bottom:16px;}
+.mb20{margin-bottom:20px;}
+.mt4{margin-top:4px;}
+.mt8{margin-top:8px;}
+.mt12{margin-top:12px;}
+.gap6{gap:6px;}
+.gap8{gap:8px;}
+.gap10{gap:10px;}
+.text-center{text-align:center;}
+.flex1{flex:1;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: SPLASH
+══════════════════════════════════════════ -->
+<div id="scr-splash" class="screen active">
+  <div class="splash-bg">
+    <div class="splash-blob1"></div>
+    <div class="splash-blob2"></div>
+    <div style="text-align:center;width:100%;position:relative;z-index:1;">
+      <div style="font-size:72px;line-height:1;margin-bottom:6px;">👶</div>
+      <div class="fs11 fw7" style="color:var(--rose);letter-spacing:3px;margin-bottom:4px;">אפליקציית ההריון שלך</div>
+      <h1 style="font-size:50px;font-weight:800;color:var(--brown);line-height:1;margin-bottom:2px;">שנינו</h1>
+      <div style="font-size:24px;margin-bottom:16px;">💛</div>
+      <p class="fs14 txt-gray" style="line-height:1.7;margin:0 auto 32px;max-width:270px;">המקום החם לאורך כל תשעת החודשים — בשבילך ובשביל הקטן/ה שלך 🌸</p>
+      <div style="display:flex;flex-direction:column;gap:11px;">
+        <button class="btn btn-pri btn-full" onclick="showScreen('scr-register')">✨ יצירת חשבון חדש</button>
+        <button class="btn btn-sec btn-full" onclick="showScreen('scr-login')">כבר יש לי חשבון — כניסה</button>
+      </div>
+      <div class="fs11 txt-taupe row" style="justify-content:center;margin-top:18px;gap:5px;">
+        🔒 כל המידע שלך מוצפן ומאובטח
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: REGISTER
+══════════════════════════════════════════ -->
+<div id="scr-register" class="screen">
+  <div style="background:var(--brioche);padding:13px 18px;border-bottom:1px solid var(--dough);display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;">
+    <button onclick="showScreen('scr-splash')" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--cin);">→</button>
+    <div class="fs15 fw7 txt-brown">יצירת חשבון · שנינו 👶💛</div>
+  </div>
+  <div style="padding:24px 22px 40px;">
+    <div class="text-center mb20"><div style="font-size:44px;">👶💛</div><div class="fs13 txt-gray mt8">בואי ניצור את החשבון שלך</div></div>
+
+    <div class="inp-wrap">
+      <div class="inp-label">שם מלא</div>
+      <div class="inp-row"><span class="inp-icon">👤</span><input id="reg-name" class="inp" type="text" placeholder="השם המלא שלך..." oninput="regValidate()"/></div>
+      <div id="reg-name-err" class="inp-err" style="display:none;"></div>
+    </div>
+    <div class="inp-wrap">
+      <div class="inp-label">אימייל</div>
+      <div class="inp-row"><span class="inp-icon">📧</span><input id="reg-email" class="inp" type="email" placeholder="your@email.com" oninput="regValidate()"/></div>
+      <div id="reg-email-err" class="inp-err" style="display:none;"></div>
+    </div>
+    <div class="inp-wrap">
+      <div class="inp-label">סיסמה</div>
+      <div class="inp-row">
+        <span class="inp-icon">🔒</span>
+        <input id="reg-pw" class="inp" type="password" placeholder="לפחות 6 תווים..." oninput="updatePwBar();regValidate()"/>
+        <button class="inp-toggle" onclick="togglePw('reg-pw','eye-pw1')">👁️<span id="eye-pw1"></span></button>
+      </div>
+      <div id="reg-pw-err" class="inp-err" style="display:none;"></div>
+    </div>
+    <div id="pw-bar-wrap" style="margin-top:-8px;margin-bottom:11px;display:none;">
+      <div class="pw-bars"><div id="pb1" class="pw-bar"></div><div id="pb2" class="pw-bar"></div><div id="pb3" class="pw-bar"></div><div id="pb4" class="pw-bar"></div></div>
+      <div id="pw-bar-label" class="fs11" style="text-align:right;"></div>
+    </div>
+    <div class="inp-wrap">
+      <div class="inp-label">אימות סיסמה</div>
+      <div class="inp-row">
+        <span class="inp-icon">🔒</span>
+        <input id="reg-pw2" class="inp" type="password" placeholder="הקלידי שנית..." oninput="regValidate()"/>
+        <button class="inp-toggle" onclick="togglePw('reg-pw2','eye-pw2')">👁️</button>
+      </div>
+      <div id="reg-pw2-err" class="inp-err" style="display:none;"></div>
+      <div id="pw-match" class="fs11" style="display:none;color:var(--green);text-align:right;margin-top:3px;">✓ הסיסמאות תואמות</div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div class="row">
+        <div id="rem-toggle" class="toggle-track on" onclick="toggleRemember()"><div class="toggle-thumb"></div></div>
+        <div>
+          <div class="fs13 fw7 txt-brown mb4">💾 זכור אותי במכשיר זה</div>
+          <div id="rem-label" class="fs11 txt-gray">✅ הפרטים ישמרו — לא תצטרכי להתחבר שוב</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-pri btn-full" onclick="doRegister()">✨ יצירת החשבון שלי</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: LOGIN
+══════════════════════════════════════════ -->
+<div id="scr-login" class="screen">
+  <div style="background:var(--brioche);padding:13px 18px;border-bottom:1px solid var(--dough);display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;">
+    <button onclick="showScreen('scr-splash')" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--cin);">→</button>
+    <div class="fs15 fw7 txt-brown">כניסה לחשבון · שנינו 👶💛</div>
+  </div>
+  <div style="padding:32px 22px 40px;">
+    <div class="text-center mb20">
+      <div style="font-size:48px;">👶💛</div>
+      <div id="login-saved-info" style="margin-top:10px;display:none;">
+        <div id="login-avatar" style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--rose));display:flex;align-items:center;justify-content:center;font-size:20px;color:white;font-weight:700;margin:0 auto 7px;"></div>
+        <div id="login-saved-name" class="fs15 fw7 txt-brown"></div>
+        <div id="login-saved-email" class="fs11 txt-taupe"></div>
+      </div>
+      <div id="login-no-saved" class="fs14 txt-gray mt8">ברוכה השבה 🌸</div>
+    </div>
+    <div id="login-email-wrap" class="inp-wrap">
+      <div class="inp-label">אימייל</div>
+      <div class="inp-row"><span class="inp-icon">📧</span><input id="login-email" class="inp" type="email" placeholder="your@email.com"/></div>
+    </div>
+    <div class="inp-wrap">
+      <div class="inp-label">סיסמה</div>
+      <div class="inp-row">
+        <span class="inp-icon">🔒</span>
+        <input id="login-pw" class="inp" type="password" placeholder="הסיסמה שלך..."/>
+        <button class="inp-toggle" onclick="togglePw('login-pw','')">👁️</button>
+      </div>
+      <div id="login-err" class="inp-err" style="display:none;">נא להזין סיסמה</div>
+    </div>
+    <button class="btn btn-pri btn-full" onclick="doLogin()">כניסה לשנינו →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: ONBOARDING
+══════════════════════════════════════════ -->
+<div id="scr-onboarding" class="screen">
+  <div class="ob-topbar">
+    <div class="row-sb mb8">
+      <span id="ob-title" class="fs11 txt-taupe">ברוכה הבאה</span>
+      <span style="font-size:16px;">👶💛</span>
+      <span id="ob-step-label" class="fs11 txt-taupe">1/6</span>
+    </div>
+    <div class="ob-progress"><div id="ob-fill" class="ob-progress-fill" style="width:16.6%;"></div></div>
+  </div>
+  <div style="padding:20px 22px 40px;overflow-y:auto;">
+    <div id="ob-dots" class="dots"></div>
+    <div id="ob-content"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: APP (Shell)
+══════════════════════════════════════════ -->
+<div id="scr-app" class="screen">
+  <div class="topbar">
+    <div class="row gap8">
+      <div id="app-avatar" style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--rose));display:flex;align-items:center;justify-content:center;font-size:12px;color:white;font-weight:700;"></div>
+      <div>
+        <div class="fs12 fw7 txt-brown" style="line-height:1.2;">שנינו 👶💛</div>
+        <div id="app-tab-label" class="fs9 txt-taupe">המטבח</div>
+      </div>
+    </div>
+    <div class="row gap10">
+      <div id="app-fund-badge" style="display:none;font-size:9px;font-weight:700;color:var(--cin);background:var(--roseLt);padding:2px 7px;border-radius:999px;"></div>
+      <span style="font-size:15px;cursor:pointer;">🔔</span>
+    </div>
+  </div>
+
+  <div id="app-page" class="page"></div>
+
+  <div class="tabbar">
+    <button class="tab-btn" id="tab-0" onclick="switchTab(0)">
+      <div id="tab-ind-0" class="tab-indicator"></div>
+      <div style="font-size:19px;">🍽️</div>
+      <div class="fs9 fw7 txt-cin">המטבח</div>
+    </button>
+    <button class="tab-btn" id="tab-1" onclick="switchTab(1)">
+      <div id="tab-ind-1" class="tab-indicator" style="display:none;"></div>
+      <div style="font-size:19px;">📄</div>
+      <div id="tab-lbl-1" class="fs9 txt-taupe">סורק</div>
+    </button>
+    <button class="tab-btn" id="tab-2" onclick="switchTab(2)">
+      <div id="tab-ind-2" class="tab-indicator" style="display:none;"></div>
+      <div style="font-size:19px;">🎙️</div>
+      <div id="tab-lbl-2" class="fs9 txt-taupe">יומן</div>
+    </button>
+    <button class="tab-btn" id="tab-3" onclick="switchTab(3)">
+      <div id="tab-ind-3" class="tab-indicator" style="display:none;"></div>
+      <div style="font-size:19px;">👨‍👩‍👧</div>
+      <div id="tab-lbl-3" class="fs9 txt-taupe">הקן</div>
+    </button>
+    <button class="tab-btn" id="tab-4" onclick="switchTab(4)">
+      <div id="tab-ind-4" class="tab-indicator" style="display:none;"></div>
+      <div style="font-size:19px;">👤</div>
+      <div id="tab-lbl-4" class="fs9 txt-taupe">פרופיל</div>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FACE ID MODAL
+══════════════════════════════════════════ -->
+<div id="face-modal" class="modal-overlay" style="display:none;" onclick="closeFaceModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="fs10 fw7 txt-taupe mb12" style="letter-spacing:2px;">אימות זהות</div>
+    <div style="position:relative;width:72px;height:72px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;">
+      <div id="face-ring" class="face-ring" style="display:none;"></div>
+      <div id="face-circle" style="width:58px;height:58px;border-radius:50%;background:var(--plumLt);display:flex;align-items:center;justify-content:center;border:2px solid var(--plum);transition:all .4s;font-size:24px;">😐</div>
+    </div>
+    <div id="face-title" class="fs14 fw7 txt-brown mb4">ממתינה לאימות...</div>
+    <div id="face-sub" class="fs11 txt-taupe">הביטי למצלמה לאישור</div>
+    <div id="face-bar-wrap" style="display:none;margin-top:12px;height:3px;background:var(--dough);border-radius:999px;overflow:hidden;">
+      <div id="face-bar" style="height:100%;background:linear-gradient(90deg,var(--plum),var(--cin));border-radius:999px;width:0%;transition:width 1.5s ease;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const ST = {
+  user: null,
+  remember: true,
+  obStep: 0,
+  obData: {},
+  currentTab: 0,
+  demoWeek: 14,
+  // Tab 1
+  medDone: false,
+  vipUnlocked: false,
+  metrics: [
+    {k:'w',icon:'⚖️',label:'משקל',val:'68.2',unit:'ק״ג',col:'#C0714F',on:false},
+    {k:'b',icon:'💊',label:'לחץ דם',val:'112/74',unit:'',col:'#E8A598',on:false},
+    {k:'k',icon:'👶',label:'בעיטות',val:'7',unit:'היום',col:'#7BAE7F',on:false},
+    {k:'d',icon:'💧',label:'מים',val:'5',unit:'כוסות',col:'#6BAED6',on:false},
+  ],
+  // Tab 2
+  scanPhase: 'idle',
+  scanBlur: true,
+  // Tab 3
+  recording: false,
+  processing: false,
+  recTimer: null,
+  journalEntries: [],
+  journalBlur: true,
+  chatMessages: [],
+  chatTyping: false,
+  // Face modal
+  faceCallback: null,
+  faceTimer: null,
+  // Voice diary
+  liveTranscript: '',
+  recSeconds: 0,
+  // Scanner
+  scanFileName: '',
+  scanResults: null,
+  scanSummary: [],
+  scanWarnings: [],
+  // Partner
+  partnerData: null,
+};
+
+const _mem = {};
+function lsGet(k){try{return localStorage.getItem(k)||_mem[k]||null;}catch(e){return _mem[k]||null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}  _mem[k]=v;}
+function lsDel(k){try{localStorage.removeItem(k);}catch(e){} delete _mem[k];}
+
+// ═══════════════════════════════════════════════
+// PASTRY SYSTEM
+// ═══════════════════════════════════════════════
+function svgMiniRugelach(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 80 80" fill="none">
+    <ellipse cx="40" cy="48" rx="30" ry="14" fill="#E8C98A"/>
+    <path d="M14 42 Q20 20 40 18 Q60 16 66 42" fill="#D4A843" opacity=".7"/>
+    <path d="M28 40 Q32 34 38 36 Q44 38 42 44" stroke="#8B5E1A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M36 38 Q40 32 46 34 Q52 36 50 42" stroke="#8B5E1A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <circle cx="16" cy="44" r="4" fill="#C8832A"/>
+    <circle cx="64" cy="44" r="4" fill="#C8832A"/>
+    <ellipse cx="38" cy="36" rx="8" ry="3" fill="white" opacity=".25"/>
+  </svg>`;
+}
+function svgMiniBurekas(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 80 80" fill="none">
+    <path d="M40 12 L68 62 L12 62 Z" fill="#E8D08A"/>
+    <path d="M40 12 L68 62 L12 62 Z" fill="none" stroke="#C8A030" stroke-width="2"/>
+    <path d="M40 22 L62 58 L18 58 Z" fill="#D4B850" opacity=".6"/>
+    <path d="M40 32 L56 54 L24 54 Z" fill="#C8A030" opacity=".4"/>
+    <circle cx="40" cy="46" r="6" fill="white" opacity=".5"/>
+    <circle cx="40" cy="46" r="3" fill="#FAF0DC" opacity=".8"/>
+    <circle cx="40" cy="30" r="2" fill="#C8A030" opacity=".6"/>
+    <path d="M32 20 Q36 16 40 18" stroke="white" stroke-width="1.5" opacity=".4" stroke-linecap="round"/>
+  </svg>`;
+}
+function svgMiniCroissant(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 80 80" fill="none">
+    <path d="M15 50 Q20 25 40 20 Q60 25 65 50 Q55 45 40 47 Q25 45 15 50Z" fill="#D4A843"/>
+    <path d="M15 50 Q20 30 40 26 Q60 30 65 50" fill="none" stroke="#B8903A" stroke-width="1.5"/>
+    <path d="M20 47 Q25 32 40 29 Q55 32 60 47" fill="none" stroke="#C8973A" stroke-width="1" opacity=".6"/>
+    <path d="M13 48 Q10 44 14 42 Q18 40 17 45Z" fill="#C8832A"/>
+    <path d="M67 48 Q70 44 66 42 Q62 40 63 45Z" fill="#C8832A"/>
+    <ellipse cx="35" cy="32" rx="7" ry="3" fill="white" opacity=".2" transform="rotate(-15 35 32)"/>
+  </svg>`;
+}
+function svgBurekas(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 90 90" fill="none">
+    <path d="M45 8 L80 75 L10 75 Z" fill="#EDD080"/>
+    <path d="M45 8 L80 75 L10 75 Z" fill="none" stroke="#C8A030" stroke-width="2.5"/>
+    <path d="M45 18 L74 71 L16 71 Z" fill="#D4B850" opacity=".5"/>
+    <path d="M45 28 L68 67 L22 67 Z" fill="#C8A030" opacity=".35"/>
+    <ellipse cx="45" cy="58" rx="9" ry="5" fill="white" opacity=".55"/>
+    <ellipse cx="45" cy="58" rx="5" ry="3" fill="#FAF0DC" opacity=".9"/>
+    <circle cx="38" cy="38" r="2.5" fill="#C8A030" opacity=".5"/>
+    <circle cx="52" cy="38" r="2.5" fill="#C8A030" opacity=".5"/>
+    <path d="M34 16 Q40 10 45 13" stroke="white" stroke-width="2" opacity=".35" stroke-linecap="round"/>
+  </svg>`;
+}
+function svgRugelach(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 90 90" fill="none">
+    <path d="M10 55 Q15 20 45 16 Q75 12 80 55 Q65 46 45 48 Q25 46 10 55Z" fill="#E8C870"/>
+    <path d="M10 55 Q15 22 45 18 Q75 14 80 55" fill="none" stroke="#C09030" stroke-width="2"/>
+    <path d="M16 52 Q20 26 45 22 Q70 18 74 52" fill="none" stroke="#C8A030" stroke-width="1.5" opacity=".6"/>
+    <path d="M22 50 Q26 30 45 27 Q64 24 68 50" fill="none" stroke="#B89028" stroke-width="1.2" opacity=".5"/>
+    <path d="M30 46 Q38 38 45 40 Q52 42 50 48" fill="#7B4A1A" opacity=".55"/>
+    <ellipse cx="12" cy="53" rx="6" ry="5" fill="#C8832A"/>
+    <ellipse cx="78" cy="53" rx="6" ry="5" fill="#C8832A"/>
+    <ellipse cx="40" cy="30" rx="10" ry="4" fill="white" opacity=".2" transform="rotate(-5 40 30)"/>
+  </svg>`;
+}
+function svgCroissant(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 90 90" fill="none">
+    <path d="M12 60 Q18 28 45 22 Q72 16 78 60 Q62 50 45 53 Q28 50 12 60Z" fill="#D4A843"/>
+    <path d="M12 60 Q18 30 45 24 Q72 18 78 60" fill="none" stroke="#B8903A" stroke-width="2"/>
+    <path d="M18 57 Q23 34 45 28 Q67 22 72 57" fill="none" stroke="#C8973A" stroke-width="1.5" opacity=".6"/>
+    <path d="M10 57 Q6 50 10 44 Q16 38 14 50Z" fill="#C07828"/>
+    <path d="M80 57 Q84 50 80 44 Q74 38 76 50Z" fill="#C07828"/>
+    <ellipse cx="38" cy="33" rx="10" ry="4" fill="white" opacity=".22" transform="rotate(-12 38 33)"/>
+  </svg>`;
+}
+function svgGiantBurekas(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" fill="none">
+    <path d="M50 5 L92 88 L8 88 Z" fill="#EDD080"/>
+    <path d="M50 5 L92 88 L8 88 Z" fill="none" stroke="#C8A030" stroke-width="3"/>
+    <path d="M50 20 L89 87 L11 87 Z" fill="rgba(200,160,48,.3)"/>
+    <path d="M50 30 L86 86 L14 86 Z" fill="rgba(200,160,48,.22)"/>
+    <path d="M50 40 L83 85 L17 85 Z" fill="rgba(200,160,48,.15)"/>
+    <ellipse cx="50" cy="70" rx="13" ry="7" fill="white" opacity=".6"/>
+    <ellipse cx="50" cy="70" rx="8" ry="4" fill="#FAF0DC"/>
+    <circle cx="40" cy="40" r="2.5" fill="#C8A030" opacity=".45"/>
+    <circle cx="50" cy="30" r="2.5" fill="#C8A030" opacity=".45"/>
+    <circle cx="60" cy="40" r="2.5" fill="#C8A030" opacity=".45"/>
+    <path d="M36 14 Q44 7 50 11" stroke="white" stroke-width="2.5" opacity=".3" stroke-linecap="round"/>
+  </svg>`;
+}
+function svgGiantRugelach(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" fill="none">
+    <path d="M8 65 Q14 18 50 12 Q86 6 92 65 Q72 52 50 55 Q28 52 8 65Z" fill="#E8C870"/>
+    <path d="M8 65 Q14 20 50 14 Q86 8 92 65" fill="none" stroke="#C09030" stroke-width="2.5"/>
+    <path d="M14 62 Q20 22 50 16 Q80 10 86 62" fill="none" stroke="#B89028" stroke-width="1.5" opacity=".5"/>
+    <path d="M20 60 Q26 26 50 20 Q74 14 80 60" fill="none" stroke="#B89028" stroke-width="1.2" opacity=".4"/>
+    <path d="M32 56 Q42 42 50 45 Q58 48 55 58" fill="#5C3010" opacity=".6"/>
+    <ellipse cx="10" cy="62" rx="8" ry="7" fill="#C8832A"/>
+    <ellipse cx="90" cy="62" rx="8" ry="7" fill="#C8832A"/>
+    <ellipse cx="44" cy="26" rx="14" ry="5" fill="white" opacity=".18" transform="rotate(-5 44 26)"/>
+  </svg>`;
+}
+function svgGiantCroissant(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" fill="none">
+    <path d="M8 70 Q16 26 50 18 Q84 10 92 70 Q72 57 50 61 Q28 57 8 70Z" fill="#D4A843"/>
+    <path d="M8 70 Q16 28 50 20 Q84 12 92 70" fill="none" stroke="#B8903A" stroke-width="2.5"/>
+    <path d="M14 67 Q20 30 50 22 Q80 14 86 67" fill="none" stroke="#C8973A" stroke-width="1.8" opacity=".6"/>
+    <path d="M20 65 Q26 34 50 26 Q74 18 80 65" fill="none" stroke="#C8973A" stroke-width="1.4" opacity=".45"/>
+    <path d="M7 67 Q2 57 7 48 Q15 38 12 56Z" fill="#B87020"/>
+    <path d="M93 67 Q98 57 93 48 Q85 38 88 56Z" fill="#B87020"/>
+    <ellipse cx="40" cy="30" rx="14" ry="5" fill="white" opacity=".22" transform="rotate(-14 40 30)"/>
+  </svg>`;
+}
+
+const PASTRIES = [
+  {weeks:[1,2,3],   svg:svgMiniRugelach,  he:"עוד קטנטן",              size:"<1 ס״מ", weight:"~1 גר׳",  cat:"mini"},
+  {weeks:[4,5],     svg:svgMiniRugelach,  he:"מיני רוגעלך קטנטן",     size:"3 ס״מ",  weight:"~20 גר׳", cat:"mini"},
+  {weeks:[6,7],     svg:svgMiniBurekas,   he:"מיני בורקס גבינה",      size:"4 ס״מ",  weight:"~30 גר׳", cat:"mini"},
+  {weeks:[8,9],     svg:svgMiniCroissant, he:"מיני קרואסון חמאה",     size:"5 ס״מ",  weight:"~35 גר׳", cat:"mini"},
+  {weeks:[10,11],   svg:svgMiniRugelach,  he:"רוגעלך שוקולד",         size:"6 ס״מ",  weight:"~45 גר׳", cat:"mini"},
+  {weeks:[12],      svg:svgMiniBurekas,   he:"בורקס תפוח אדמה",       size:"7 ס״מ",  weight:"~55 גר׳", cat:"mini"},
+  {weeks:[13,14],   svg:svgBurekas,       he:"בורקס גבינה חם",        size:"8.7 ס״מ",weight:"~93 גר׳", cat:"regular"},
+  {weeks:[15,16],   svg:svgRugelach,      he:"רוגעלך שוקולד",         size:"10 ס״מ", weight:"~150 גר׳",cat:"regular"},
+  {weeks:[17,18],   svg:svgCroissant,     he:"קרואסון חמאה",          size:"12 ס״מ", weight:"~200 גר׳",cat:"regular"},
+  {weeks:[19,20],   svg:svgBurekas,       he:"בורקס גדול פטריות",     size:"14 ס״מ", weight:"~270 גר׳",cat:"regular"},
+  {weeks:[21,22],   svg:svgRugelach,      he:"רוגעלך עם אגוזים",      size:"16 ס״מ", weight:"~350 גר׳",cat:"regular"},
+  {weeks:[23,24],   svg:svgCroissant,     he:"קרואסון שקדים",         size:"17 ס״מ", weight:"~400 גר׳",cat:"regular"},
+  {weeks:[25,26],   svg:svgBurekas,       he:"בורקס ענק גבינה",       size:"19 ס״מ", weight:"~500 גר׳",cat:"regular"},
+  {weeks:[27,28],   svg:svgRugelach,      he:"רוגעלך ענק קינמון",     size:"22 ס״מ", weight:"~630 גר׳",cat:"regular"},
+  {weeks:[29,30],   svg:svgGiantCroissant,he:"קרואסון ענק חמאה",      size:"24 ס״מ", weight:"~700 גר׳",cat:"large"},
+  {weeks:[31,32],   svg:svgGiantBurekas,  he:"בורקס ענק גבינה",       size:"26 ס״מ", weight:"~820 גר׳",cat:"large"},
+  {weeks:[33,34],   svg:svgGiantRugelach, he:"רוגעלך ענק שוקולד",     size:"28 ס״מ", weight:"~900 גר׳",cat:"large"},
+  {weeks:[35,36],   svg:svgGiantCroissant,he:"קרואסון ענק שקדים",     size:"30 ס״מ", weight:"~1.1 ק״ג",cat:"large"},
+  {weeks:[37,38],   svg:svgGiantBurekas,  he:"בורקס מלכותי ענק",      size:"33 ס״מ", weight:"~1.3 ק״ג",cat:"large"},
+  {weeks:[39,40],   svg:svgGiantRugelach, he:"רוגעלך מלכותי ענק",     size:"35 ס״מ", weight:"~1.5 ק״ג",cat:"large"},
+];
+const CAT_BADGE={
+  mini:   {label:"🤏 מיני מאפה",bg:"#FDF3E0",col:"#E8A23A"},
+  regular:{label:"🥐 מאפה רגיל",bg:"#FCEEE9",col:"#C0714F"},
+  large:  {label:"🏆 מאפה גדול",bg:"#EAF4EA",col:"#7BAE7F"},
+};
+function getPastry(w){return PASTRIES.find(p=>p.weeks.includes(w))||PASTRIES[6];}
+
+// ═══════════════════════════════════════════════
+// PREGNANCY CALC (מדויק לפי מקורות רפואיים)
+// ═══════════════════════════════════════════════
+function getTrimester(w){return w<=13?'שליש ראשון':w<=26?'שליש שני':'שליש שלישי';}
+function getMonth(w){
+  if(w<=4)return'חודש ראשון';if(w<=8)return'חודש שני';if(w<=13)return'חודש שלישי';
+  if(w<=17)return'חודש רביעי';if(w<=21)return'חודש חמישי';if(w<=26)return'חודש שישי';
+  if(w<=30)return'חודש שביעי';if(w<=35)return'חודש שמיני';return'חודש תשיעי';
+}
+function getProgPct(w){return Math.round(((w-1)/40)*100);}
+function getDaysLeft(w){return(40-w)*7;}
+
+// ═══════════════════════════════════════════════
+// SCREEN ROUTER
+// ═══════════════════════════════════════════════
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='scr-login') initLogin();
+}
+
+// ═══════════════════════════════════════════════
+// REGISTER
+// ═══════════════════════════════════════════════
+let _rem=true;
+function toggleRemember(){
+  _rem=!_rem;
+  const t=document.getElementById('rem-toggle');
+  t.classList.toggle('on',_rem);
+  document.getElementById('rem-label').textContent=_rem?'✅ הפרטים ישמרו — לא תצטרכי להתחבר שוב':'הפרטים לא יישמרו';
+}
+function togglePw(inpId){
+  const inp=document.getElementById(inpId);
+  if(!inp)return;
+  inp.type=inp.type==='password'?'text':'password';
+}
+function updatePwBar(){
+  const pw=document.getElementById('reg-pw').value;
+  const wrap=document.getElementById('pw-bar-wrap');
+  if(!pw){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  let s=0;
+  if(pw.length>=8)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;
+  const cols=['#EDE0CE','#C0544F','#E8A23A','#7BAE7F','#7BAE7F'];
+  const lbls=['','חלשה','בינונית','טובה','חזקה 💪'];
+  for(let i=1;i<=4;i++){
+    const bar=document.getElementById('pb'+i);
+    bar.style.background=i<=s?cols[s]:'#EDE0CE';
+  }
+  const lbl=document.getElementById('pw-bar-label');
+  lbl.textContent='חוזק: '+lbls[s];
+  lbl.style.color=cols[s];
+}
+function regValidate(){
+  const pw=document.getElementById('reg-pw').value;
+  const pw2=document.getElementById('reg-pw2').value;
+  const match=document.getElementById('pw-match');
+  if(pw&&pw2&&pw===pw2){match.style.display='block';}
+  else{match.style.display='none';}
+}
+function doRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const pw=document.getElementById('reg-pw').value;
+  const pw2=document.getElementById('reg-pw2').value;
+  let ok=true;
+  const showErr=(id,msg)=>{const el=document.getElementById(id);el.textContent=msg;el.style.display=msg?'block':'none';};
+  showErr('reg-name-err',!name?'נא להזין שם מלא':'');
+  showErr('reg-email-err',!email.includes('@')?'אימייל לא תקין':'');
+  showErr('reg-pw-err',pw.length<6?'לפחות 6 תווים':'');
+  showErr('reg-pw2-err',pw!==pw2?'הסיסמאות אינן תואמות':'');
+  if(!name||!email.includes('@')||pw.length<6||pw!==pw2)return;
+  ST.user={fullName:name,email,remember:_rem,pw};
+  startOnboarding();
+}
+
+// ═══════════════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════════════
+function initLogin(){
+  const saved=lsGet('shneynu_user');
+  const parsed=saved?JSON.parse(saved):null;
+  const savedInfo=document.getElementById('login-saved-info');
+  const noSaved=document.getElementById('login-no-saved');
+  const emailWrap=document.getElementById('login-email-wrap');
+  if(parsed&&parsed.fullName){
+    savedInfo.style.display='block'; noSaved.style.display='none'; emailWrap.style.display='none';
+    document.getElementById('login-avatar').textContent=parsed.fullName[0];
+    document.getElementById('login-saved-name').textContent='שלום, '+parsed.fullName+' 👋';
+    document.getElementById('login-saved-email').textContent=parsed.email;
+    ST.user=parsed;
+  } else {
+    savedInfo.style.display='none'; noSaved.style.display='block'; emailWrap.style.display='block';
+  }
+}
+function doLogin(){
+  const pw=document.getElementById('login-pw').value;
+  const err=document.getElementById('login-err');
+  if(!pw){err.style.display='block';return;}
+  err.style.display='none';
+  if(!ST.user){
+    const email=document.getElementById('login-email')?.value;
+    ST.user={fullName:email?.split('@')[0]||'משתמשת',email};
+  }
+  launchApp();
+}
+
+// ═══════════════════════════════════════════════
+// ONBOARDING
+// ═══════════════════════════════════════════════
+const OB_TITLES=['ברוכה הבאה','קופת חולים','בריאות','שותף/ה','העדפות','מדדי בסיס'];
+const OB_TOTAL=6;
+const FUNDS=['כללית','מכבי','מאוחדת','לאומית'];
+const CONDS=['סוכרת הריון','יתר לחץ דם','תירואיד','אפילפסיה','הריון בסיכון גבוה','הכל תקין'];
+const DIET_OPTS=['טבעונית','צמחונית','ללא גלוטן','כשר','ללא הגבלה'];
+
+function startOnboarding(){
+  ST.obStep=0;ST.obData={dueDate:'',babies:'',firstPreg:'',fund:'',doctor:'',clinic:'',conds:[],meds:'',partner:'',pName:'',pContact:'',diet:[],reminder:'08:00',weight:'',height:''};
+  showScreen('scr-onboarding');renderObStep();
+}
+function renderObStep(){
+  const s=ST.obStep;
+  document.getElementById('ob-title').textContent=OB_TITLES[s];
+  document.getElementById('ob-step-label').textContent=(s+1)+'/'+OB_TOTAL;
+  document.getElementById('ob-fill').style.width=(((s+1)/OB_TOTAL)*100)+'%';
+  // dots
+  let dots='';
+  for(let i=0;i<OB_TOTAL;i++) dots+=`<div class="dot${i===s?' cur':i<s?' on':''}"></div>`;
+  document.getElementById('ob-dots').innerHTML=dots;
+  // content
+  const nm=ST.user?.fullName?.split(' ')[0]||'';
+  let html='';
+  if(s===0){
+    html=`<div class="text-center mb20"><div style="font-size:40px;">🌸</div><h2 class="fs20 fw7 txt-brown mt8 mb4">נתחיל להכיר?</h2><p class="fs12 txt-gray">שלום ${nm}! כמה פרטים אחרונים</p></div>
+    ${mkInp('ob-dueDate','תאריך לידה משוערת','DD/MM/YYYY','🗓️',ST.obData.dueDate)}
+    <div class="mb12"><div class="fs12 fw6 txt-brown mb8">כמה תינוקות?</div>
+    <div class="chips">${['אחד 👶','תאומים 👶👶','שלישייה+'].map(o=>mkChip(o,ST.obData.babies===o,'ob-babies',false)).join('')}</div></div>
+    <div class="mb16"><div class="fs12 fw6 txt-brown mb8">ההריון הראשון שלך?</div>
+    <div class="chips">${['כן, ראשון 🌸','לא, כבר אמא 💪'].map(o=>mkChip(o,ST.obData.firstPreg===o,'ob-first',false)).join('')}</div></div>`;
+  } else if(s===1){
+    html=`<div class="text-center mb20"><div style="font-size:40px;">🏥</div><h2 class="fs20 fw7 txt-brown mt8 mb4">קופת החולים שלך</h2></div>
+    <div class="mb12"><div class="fs12 fw6 txt-brown mb8">קופת חולים</div><div class="chips">${FUNDS.map(o=>mkChip(o,ST.obData.fund===o,'ob-fund',false)).join('')}</div></div>
+    ${mkInp('ob-doctor','גינקולוגית / מיילדת','ד״ר... (אופציונלי)','👩‍⚕️',ST.obData.doctor)}
+    ${mkInp('ob-clinic','סניף / מרפאה','מכבי חיפה מרכז...','📍',ST.obData.clinic)}`;
+  } else if(s===2){
+    html=`<div class="text-center mb20"><div style="font-size:40px;">🧂</div><h2 class="fs20 fw7 txt-brown mt8 mb4">הרכיבים הייחודיים</h2><p class="fs11 txt-gray">מוצפן ומוגן ב-Face ID 🔒</p></div>
+    <div class="mb12"><div class="fs12 fw6 txt-brown mb8">מצבים רפואיים</div><div class="chips">${CONDS.map(o=>mkChip(o,ST.obData.conds.includes(o),'ob-cond',true)).join('')}</div></div>
+    ${mkInp('ob-meds','תרופות קבועות 🔒','שם ומינון (אופציונלי)','💊',ST.obData.meds)}
+    <div class="card" style="background:var(--plumLt);border-color:rgba(196,168,212,.55);margin-bottom:14px;">
+      <div class="row gap8"><span>🔒</span><div class="fs11 txt-plum" style="line-height:1.5;">המידע הרפואי מוצפן — גם השותף לא יוכל לראות ללא אישורך.</div></div>
+    </div>`;
+  } else if(s===3){
+    html=`<div class="text-center mb20"><div style="font-size:40px;">👨‍👩‍👧</div><h2 class="fs20 fw7 txt-brown mt8 mb4">הקן שלנו</h2></div>
+    <div class="mb16"><div class="chips">${['כן, נעקוב יחד 💚','לא עכשיו'].map(o=>mkChip(o,ST.obData.partner===o,'ob-partner',false)).join('')}</div></div>
+    ${ST.obData.partner==='כן, נעקוב יחד 💚'?mkInp('ob-pname','שם השותף/ה','שם...','💛',ST.obData.pName)+mkInp('ob-pcontact','טלפון / אימייל','לשליחת הזמנה...','📱',ST.obData.pContact):''}`;
+  } else if(s===4){
+    html=`<div class="text-center mb20"><div style="font-size:40px;">🍽️</div><h2 class="fs20 fw7 txt-brown mt8 mb4">העדפות אישיות</h2></div>
+    <div class="mb12"><div class="fs12 fw6 txt-brown mb8">העדפות תזונה</div><div class="chips">${DIET_OPTS.map(o=>mkChip(o,ST.obData.diet.includes(o),'ob-diet',false)).join('')}</div></div>
+    ${mkInp('ob-reminder','שעת תזכורת יומית ☀️','08:00','⏰',ST.obData.reminder,'time')}`;
+  } else if(s===5){
+    html=`<div class="text-center mb20"><div style="font-size:40px;">📊</div><h2 class="fs20 fw7 txt-brown mt8 mb4">מדדי בסיס</h2><p class="fs12 txt-gray">אופציונלי</p></div>
+    <div class="grid2">${mkInp('ob-weight','','משקל (ק"ג)','⚖️',ST.obData.weight,'number')}${mkInp('ob-height','','גובה (ס"מ)','📏',ST.obData.height,'number')}</div>`;
+  }
+  // nav buttons
+  html+=`<div class="row gap10" style="margin-top:8px;">
+    ${s>0?`<button class="btn btn-ghost" style="flex:1" onclick="obBack()">→ חזרה</button>`:''}
+    ${s<5?`<button class="btn btn-pri" style="flex:2" onclick="obNext()">המשך ←</button>`
+         :`<button class="btn btn-pri btn-full" onclick="obFinish()">🎉 בואי נתחיל!</button>`}
+  </div>`;
+  document.getElementById('ob-content').innerHTML=html;
+  // bind inputs
+  bindObInput('ob-dueDate','dueDate');bindObInput('ob-doctor','doctor');bindObInput('ob-clinic','clinic');
+  bindObInput('ob-meds','meds');bindObInput('ob-pname','pName');bindObInput('ob-pcontact','pContact');
+  bindObInput('ob-reminder','reminder');bindObInput('ob-weight','weight');bindObInput('ob-height','height');
+}
+function mkInp(id,label,ph,icon,val,type='text'){
+  return `<div class="inp-wrap">${label?`<div class="inp-label">${label}</div>`:''}<div class="inp-row"><span class="inp-icon">${icon}</span><input id="${id}" class="inp" type="${type}" placeholder="${ph}" value="${val||''}"/></div></div>`;
+}
+function mkChip(label,active,group,isLock){
+  return `<div class="chip${active?' on':''}${isLock&&(label==='אפילפסיה'||label==='הריון בסיכון גבוה')?' lock-chip':''}" onclick="obChip('${group}','${label}',${isLock})">${active?'✓ ':''}${label}</div>`;
+}
+function obChip(group,val,multi){
+  if(group==='ob-babies'||group==='ob-first'||group==='ob-fund'||group==='ob-partner'){
+    const keys={ob_babies:'babies','ob-babies':'babies','ob-first':'firstPreg','ob-fund':'fund','ob-partner':'partner'};
+    ST.obData[keys[group]||group.replace('ob-','').replace('-','')]=val;
+    // special case
+    if(group==='ob-babies') ST.obData.babies=val;
+    if(group==='ob-first') ST.obData.firstPreg=val;
+    if(group==='ob-fund') ST.obData.fund=val;
+    if(group==='ob-partner') ST.obData.partner=val;
+  } else if(group==='ob-cond'){
+    const arr=ST.obData.conds;
+    const idx=arr.indexOf(val);
+    if(idx>=0)arr.splice(idx,1);else arr.push(val);
+  } else if(group==='ob-diet'){
+    const arr=ST.obData.diet;
+    const idx=arr.indexOf(val);
+    if(idx>=0)arr.splice(idx,1);else arr.push(val);
+  }
+  renderObStep();
+}
+function bindObInput(id,key){
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('input',e=>ST.obData[key]=e.target.value);
+}
+function saveObInputs(){
+  const ids=[['ob-dueDate','dueDate'],['ob-doctor','doctor'],['ob-clinic','clinic'],['ob-meds','meds'],['ob-pname','pName'],['ob-pcontact','pContact'],['ob-reminder','reminder'],['ob-weight','weight'],['ob-height','height']];
+  ids.forEach(([id,key])=>{const el=document.getElementById(id);if(el)ST.obData[key]=el.value;});
+}
+function obNext(){saveObInputs();ST.obStep++;renderObStep();}
+function obBack(){saveObInputs();ST.obStep--;renderObStep();}
+function obFinish(){
+  saveObInputs();
+  Object.assign(ST.user,ST.obData);
+  if(ST.user.remember) lsSet('shneynu_user',JSON.stringify(ST.user));
+  launchApp();
+}
+
+// ═══════════════════════════════════════════════
+// LAUNCH APP
+// ═══════════════════════════════════════════════
+function launchApp(){
+  const u=ST.user;
+  const nm=u.fullName?.split(' ')[0]||'מאיה';
+  document.getElementById('app-avatar').textContent=nm[0];
+  if(u.fund){const b=document.getElementById('app-fund-badge');b.textContent=u.fund;b.style.display='block';}
+  ST.demoWeek=ST.user?.currentWeek||parseInt(lsGet('shneynu_week')||'14');
+  showScreen('scr-app');
+  switchTab(0);
+}
+
+// ═══════════════════════════════════════════════
+// TAB SWITCHER
+// ═══════════════════════════════════════════════
+const TAB_LABELS=['המטבח','סורק','יומן','הקן','פרופיל'];
+function switchTab(n){
+  ST.currentTab=n;
+  for(let i=0;i<5;i++){
+    const ind=document.getElementById('tab-ind-'+i);
+    const lbl=document.getElementById('tab-lbl-'+i);
+    if(ind) ind.style.display=i===n?'block':'none';
+    if(lbl){lbl.className='fs9'+(i===n?' fw7 txt-cin':' txt-taupe');}
+  }
+  document.getElementById('app-tab-label').textContent=TAB_LABELS[n];
+  const page=document.getElementById('app-page');
+  if(n===0) renderTab1();
+  else if(n===1) renderTab2();
+  else if(n===2) renderTab3();
+  else if(n===3) renderTabNest();
+  else if(n===4) renderTab4();
+}
+
+// ═══════════════════════════════════════════════
+// TAB 1 — DASHBOARD
+// ═══════════════════════════════════════════════
+function renderTab1(){
+  const u=ST.user||{};
+  const nm=u.fullName?.split(' ')[0]||'מאיה';
+  const hr=new Date().getHours();
+  const gr=hr<12?'בוקר טוב':hr<17?'צהריים טובים':'ערב טוב';
+  const w=ST.demoWeek;
+  const p=getPastry(w);
+  const badge=CAT_BADGE[p.cat];
+  const pct=getProgPct(w);
+  const days=getDaysLeft(w);
+  const page=document.getElementById('app-page');
+  page.innerHTML=`
+  <div class="card-hero fin">
+    <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px;">
+      <div class="badge-pill" style="background:${badge.bg};color:${badge.col};">${badge.label}</div>
+      <div class="badge-pill" style="background:var(--vanilla);border:1px solid var(--dough);color:var(--brown);">שבוע ${w} · ${getMonth(w)}</div>
+    </div>
+    <div style="background:var(--vanilla);border-radius:12px;padding:6px 10px;margin-bottom:10px;border:1px solid var(--dough);display:flex;align-items:center;gap:8px;">
+      <span class="fs10 txt-taupe" style="flex-shrink:0;">שבוע:</span>
+      <input type="range" min="1" max="40" value="${w}" oninput="updateWeek(this.value)" style="flex:1;accent-color:var(--cin);"/>
+      <span id="week-num" class="fs11 fw7 txt-cin" style="width:22px;text-align:center;">${w}</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:13px;margin-bottom:13px;">
+      <div class="pastry-circle"><div id="pastry-svg">${p.svg(72)}</div><div class="pastry-check">✓</div></div>
+      <div style="flex:1;">
+        <div class="fs16 fw7 txt-brown mb4">${gr}, ${nm} ✨</div>
+        <div class="fs12 txt-gray" style="line-height:1.5;">העובר שלך בגודל של <strong style="color:var(--cin);">${p.he}</strong></div>
+        <div class="fs10 txt-taupe mt4">${p.size} · ${p.weight}</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+      <span class="fs10 txt-gray">שבוע 1</span>
+      <span id="days-left" class="fs10 fw7 txt-cin">עוד ${days} ימים 🎀</span>
+      <span class="fs10 txt-gray">שבוע 40</span>
+    </div>
+    <div style="height:7px;border-radius:999px;background:var(--dough);overflow:hidden;">
+      <div id="prog-bar" style="height:100%;width:${pct}%;border-radius:999px;background:linear-gradient(90deg,var(--rose),var(--cin));transition:width .8s cubic-bezier(.4,0,.2,1);"></div>
+    </div>
+    <div id="prog-pct" class="fs9 txt-taupe" style="text-align:center;margin-top:3px;">${pct}% מהדרך עברה · שבוע ${w} מתוך 40 ✨</div>
+  </div>
+
+  <div id="med-card" class="fin" style="background:${ST.medDone?'linear-gradient(135deg,var(--greenLt),#f0f8f1)':'linear-gradient(135deg,var(--saffronLt),#fefaf0)'};border-radius:16px;padding:13px 15px;margin-bottom:12px;border:1.5px solid ${ST.medDone?'rgba(123,174,127,.4)':'rgba(232,162,58,.35)'};position:relative;overflow:hidden;transition:all .3s;">
+    <div style="position:absolute;left:-7px;bottom:-7px;font-size:48px;opacity:.06;">🧂</div>
+    <div style="display:flex;align-items:center;gap:9px;">
+      <div style="width:36px;height:36px;border-radius:11px;background:${ST.medDone?'var(--green)':'var(--saffron)'};display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transition:all .3s;">${ST.medDone?'✅':'🧂'}</div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:1px;"><span class="fs13 fw7 txt-brown">הרכיב הסודי של היום</span><span style="font-size:10px;">🔒</span></div>
+        <div id="med-sub" class="fs11 txt-gray">${ST.medDone?'✨ מנת הבוקר הושלמה':'תזכורת לשעה 08:00 · מנת בוקר'}</div>
+      </div>
+      <button onclick="toggleMed()" style="width:26px;height:26px;border-radius:50%;border:2px solid ${ST.medDone?'var(--green)':'var(--saffron)'};background:${ST.medDone?'var(--green)':'transparent'};color:white;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;">${ST.medDone?'✓':''}</button>
+    </div>
+  </div>
+
+  <div class="card fin" style="padding:13px 11px;">
+    <div class="fs11 txt-taupe fw6 mb8">מדדים יומיים — לחצי לעדכון</div>
+    <div class="metric-grid" id="metrics-grid"></div>
+  </div>
+
+  <div id="vip-card" class="fin" style="background:linear-gradient(145deg,#f5edf8,#faf0fa);border-radius:18px;padding:13px;margin-bottom:12px;box-shadow:0 5px 20px rgba(107,76,122,.1);border:1.5px solid rgba(196,168,212,.35);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:${ST.vipUnlocked?11:0}px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--plum),var(--plumDk));display:flex;align-items:center;justify-content:center;font-size:15px;">👑</div>
+        <div>
+          <div class="fs12 fw7 txt-brown" style="display:flex;align-items:center;gap:4px;">המתכון המיוחד שלי <span class="fs10">${ST.vipUnlocked?'🔓':'🔒'}</span></div>
+          <div class="fs10 txt-taupe">תכנית הטיפוח האישית 🌸</div>
+        </div>
+      </div>
+      <button onclick="openFaceModal('vip')" style="display:flex;align-items:center;gap:4px;padding:6px 11px;border-radius:999px;border:1.5px solid ${ST.vipUnlocked?'var(--green)':'var(--plum)'};background:${ST.vipUnlocked?'var(--greenLt)':'var(--plumLt)'};color:${ST.vipUnlocked?'var(--green)':'var(--plumDk)'};font-family:Heebo,sans-serif;font-size:10px;font-weight:700;cursor:pointer;">
+        ${ST.vipUnlocked?'🔓 נעילה':'😐 Face ID'}
+      </button>
+    </div>
+    <div id="vip-content">${renderVipContent()}</div>
+  </div>`;
+  renderMetrics();
+}
+
+function updateWeek(v){
+  v=parseInt(v);ST.demoWeek=v;lsSet('shneynu_week',String(v));
+  const p=getPastry(v);const badge=CAT_BADGE[p.cat];
+  const pct=getProgPct(v);const days=getDaysLeft(v);
+  document.getElementById('week-num').textContent=v;
+  document.getElementById('pastry-svg').innerHTML=p.svg(72);
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'% מהדרך עברה · שבוע '+v+' מתוך 40 ✨';
+  document.getElementById('days-left').textContent='עוד '+days+' ימים 🎀';
+}
+
+function toggleMed(){
+  ST.medDone=!ST.medDone;
+  renderTab1();
+}
+
+function renderMetrics(){
+  const grid=document.getElementById('metrics-grid');
+  if(!grid)return;
+  grid.innerHTML=ST.metrics.map(m=>`
+    <div class="metric-card${m.on?' on':''}" onclick="tapMetric('${m.k}')" style="${m.on?`border-color:${m.col};background:${m.col}14;box-shadow:0 4px 16px ${m.col}28`:''}" >
+      ${m.on?`<div class="metric-bar" style="background:linear-gradient(90deg,transparent,${m.col},transparent)"></div>`:''}
+      <div style="font-size:21px;">${m.icon}</div>
+      <div class="fs15 fw7" style="color:${m.on?m.col:'var(--brown)'};line-height:1;">${m.val}<span class="fs9 txt-taupe" style="margin-right:1px;">${m.unit}</span></div>
+      <div class="fs10 txt-gray">${m.label}</div>
+    </div>`).join('');
+}
+
+function tapMetric(k){
+  const m=ST.metrics.find(x=>x.k===k);if(!m)return;
+  m.on=!m.on;
+  if(m.on&&(k==='k'||k==='d'))m.val=String(parseInt(m.val)+1);
+  renderMetrics();
+}
+
+function renderVipContent(){
+  if(!ST.vipUnlocked) return `<div style="margin-top:9px;padding:9px;background:rgba(255,255,255,.5);border-radius:9px;display:flex;align-items:center;justify-content:center;gap:7px;border:1px dashed rgba(196,168,212,.88);"><span>🔒</span><span class="fs11 fw6 txt-plum">לחצי Face ID לצפייה בתכנית</span></div>`;
+  const vip=[
+    {icon:'🫀',label:'איזון מדד התבלינים',val:'תקין ✅',streak:4,col:'#7BAE7F',bg:'#EAF4EA'},
+    {icon:'🩸',label:'רמת הסוכר',val:'4.8 mmol',streak:3,col:'#E8A598',bg:'#FCEEE9'},
+    {icon:'💜',label:'לחץ עורקי',val:'112/74',streak:7,col:'#C4A8D4',bg:'#F3EDF8'},
+    {icon:'⚡',label:'עמידות הכוח',val:'טובה מאוד',streak:2,col:'#E8A23A',bg:'#FDF3E0'},
+  ];
+  return `<div style="background:linear-gradient(135deg,rgba(196,168,212,.33),rgba(232,165,152,.22));border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:7px;margin-bottom:9px;border:1px solid rgba(196,168,212,.44);">
+    <span style="font-size:15px;">🏆</span><span class="fs11 fw7 txt-plum">שבוע 3 ברצף — את מדהימה! ✨</span>
+  </div>
+  <div class="vip-grid">${vip.map(p=>`
+    <div class="vip-card" style="background:${p.bg};border-color:${p.col}33;">
+      <div style="font-size:17px;margin-bottom:2px;">${p.icon}</div>
+      <div class="fs10 fw7 txt-brown mb4" style="line-height:1.3;">${p.label}</div>
+      <div class="fs11 fw7 mb4" style="color:${p.col};">${p.val}</div>
+      <div class="streak-dots">${[...Array(5)].map((_,j)=>`<div class="streak-dot" style="background:${j<p.streak?p.col:'#EDE0CE'};"></div>`).join('')}</div>
+    </div>`).join('')}</div>`;
+}
+
+// ═══════════════════════════════════════════════
+// TAB 2 — SCANNER
+// ═══════════════════════════════════════════════
+const SCAN_ROWS=[
+  {label:'המוגלובין',val:'11.2 g/dL',range:'11–16',ok:true,icon:'🩸'},
+  {label:'פריטין',val:'18 µg/L',range:'15–200',ok:false,icon:'⚠️'},
+  {label:'מדד התבלינים',val:'תקין 100%',range:'תקין',ok:true,icon:'🧂'},
+  {label:'ויטמין D',val:'32 ng/mL',range:'30–100',ok:true,icon:'☀️'},
+  {label:'גלוקוז',val:'4.6 mmol/L',range:'3.9–5.5',ok:true,icon:'💙'},
+];
+function renderTab2(){
+  const page=document.getElementById('app-page');
+  const ph=ST.scanPhase;
+  const bl=ST.scanBlur;
+  let html=`<div class="row-sb mb12">
+    <div><div class="fs16 fw7 txt-brown">סורק מסמכים 📄</div><div class="fs11 txt-taupe">הוספת רכיב לספר המתכונים</div></div>
+    <button onclick="scanToggleBlur()" style="display:flex;align-items:center;gap:4px;padding:6px 11px;border-radius:999px;border:1.5px solid ${bl?'var(--plum)':'var(--green)'};background:${bl?'var(--plumLt)':'var(--greenLt)'};color:${bl?'var(--plumDk)':'var(--green)'};font-family:Heebo,sans-serif;font-size:10px;font-weight:700;cursor:pointer;">
+      ${bl?'😐 גלה':'🔒 הסתר'}
+    </button>
+  </div>`;
+  if(ph==='idle'){
+    html+=`
+    <input type="file" id="scan-file-cam" accept="image/*" capture="environment" style="display:none" onchange="handleScanFile(this)"/>
+    <input type="file" id="scan-file-up" accept="image/*,.pdf,.doc,.docx" style="display:none" onchange="handleScanFile(this)"/>
+    <div style="background:linear-gradient(145deg,var(--brioche),#FDF3E8);border-radius:20px;padding:26px 18px;text-align:center;border:2px dashed var(--dough);margin-bottom:11px;">
+      <div style="width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--rose));display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 5px 16px rgba(192,113,79,.44);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="5" height="5" rx="1" stroke="white" stroke-width="2"/><rect x="16" y="3" width="5" height="5" rx="1" stroke="white" stroke-width="2"/><rect x="3" y="16" width="5" height="5" rx="1" stroke="white" stroke-width="2"/><path d="M16 16h5v5M8 12h8M12 8v8" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="fs15 fw7 txt-brown mb8">הוספת מסמך רפואי חדש</div>
+      <div class="fs12 txt-gray" style="line-height:1.6;margin-bottom:14px;">תוצאות דם, אולטרסאונד, מרשמים</div>
+      <div style="display:flex;gap:9px;justify-content:center;">
+        <button class="btn btn-pri btn-sm" onclick="document.getElementById('scan-file-cam').click()">📷 סריקה</button>
+        <button class="btn btn-sec btn-sm" onclick="document.getElementById('scan-file-up').click()">📁 העלאה</button>
+      </div>
+    </div>`;
+  } else if(ph==='uploading'){
+    html+=`<div class="card" style="text-align:center;padding:22px;"><div class="fs28 spin" style="display:inline-block;margin-bottom:8px;">⟳</div><div class="fs13 fw7 txt-brown">מעלה את המסמך...</div></div>`;
+  } else if(ph==='analyzing'){
+    html+=`<div class="card" style="text-align:center;padding:22px;"><div style="font-size:28px;margin-bottom:7px;">🔬</div><div class="fs13 fw7 txt-brown mb8">השף מנתח את הרכיבים...</div><div style="height:4px;background:var(--dough);border-radius:999px;overflow:hidden;"><div class="shimmer" style="height:100%;background:linear-gradient(90deg,var(--rose),var(--cin));border-radius:999px;width:70%;"></div></div></div>`;
+  } else if(ph==='done'){
+    html+=`<div class="fin">
+      <div style="background:var(--greenLt);border-radius:14px;padding:11px 14px;margin-bottom:10px;border:1px solid rgba(123,174,127,.55);display:flex;align-items:center;gap:9px;">
+        <span style="color:var(--green);font-size:18px;">✅</span>
+        <div><div class="fs13 fw7 txt-green">הניתוח הושלם ✅</div><div class="fs10 txt-gray">${ST.scanFileName||'בדיקת דם'} · שבוע ${ST.demoWeek} · ${ST.user?.fund||'מכבי'}</div></div>
+      </div>
+      <div class="card mb12">
+        <div class="fs12 fw7 txt-brown mb8">📋 סיכום בשפה פשוטה</div>
+        ${(ST.scanSummary&&ST.scanSummary.length?ST.scanSummary:['רוב הערכים תקינים ומאוזנים 🌟','מדד התבלינים מצוין לשלב ההריון']).map((t,i,arr)=>`
+        <div style="display:flex;gap:7px;margin-bottom:6px;align-items:flex-start;"><div style="width:6px;height:6px;border-radius:50%;background:${i>0&&i<arr.length-1?'var(--saffron)':'var(--green)'};margin-top:4px;flex-shrink:0;"></div><div class="fs12 txt-gray" style="line-height:1.5;">${t}</div></div>`).join('')}
+      </div>
+      <div class="card mb12" style="padding:0;overflow:hidden;">
+        <div style="padding:11px 14px;border-bottom:1px solid var(--dough);display:flex;justify-content:space-between;align-items:center;">
+          <div class="fs12 fw7 txt-brown">ערכי הבדיקה</div>
+          ${bl?'<div class="fs9 txt-taupe">🔒 מוסתר</div>':''}
+        </div>
+        ${(ST.scanResults||SCAN_ROWS).map((r,i)=>`
+        <div class="scan-row" style="${i%2?'background:var(--vanilla)':''}">
+          <span style="font-size:14px;width:20px;text-align:center;">${r.icon}</span>
+          <div style="flex:1;"><div class="fs11 fw6 txt-brown">${r.label}</div><div class="fs9 txt-taupe">${r.range}</div></div>
+          <div style="text-align:left;"><div class="fs12 fw7 ${bl?'blurred':''}" style="color:${r.ok?'var(--green)':'var(--saffron)'};">${r.val}</div><div class="fs9" style="color:${r.ok?'var(--green)':'var(--saffron)'};">${r.ok?'✅ תקין':'⚠️ גבול'}</div></div>
+        </div>`).join('')}
+      </div>
+      <div style="background:var(--redLt);border-radius:10px;padding:9px 12px;margin-bottom:10px;border:1px solid rgba(192,84,79,.44);font-size:10px;color:var(--red);line-height:1.5;">⚕️ הניתוח אינו תחליף לאבחון רפואי. יש להתייעץ עם הרופאה.</div>
+      <div style="display:flex;gap:7px;">
+        <button class="btn btn-sec btn-sm">💾 שמירה</button>
+        <button class="btn btn-pri btn-sm">📤 שיתוף עם רופאה</button>
+      </div>
+    </div>`;
+  }
+  if(ph!=='idle') html+=`<button onclick="ST.scanPhase='idle';renderTab2()" style="background:none;border:none;color:var(--taupe);font-size:11px;cursor:pointer;font-family:Heebo,sans-serif;margin-top:5px;">← סריקה חדשה</button>`;
+  page.innerHTML=html;
+}
+async function scanStart(){
+  ST.scanPhase='uploading';renderTab2();
+  await new Promise(r=>setTimeout(r,900));
+  ST.scanPhase='analyzing';renderTab2();
+  if(_token){
+    try{
+      const res=await api('POST','/scan',{filename:ST.scanFileName||'בדיקת דם',week:ST.demoWeek});
+      ST.scanResults=res.rows;ST.scanSummary=res.summary;ST.scanWarnings=res.warnings||[];
+    }catch{
+      ST.scanResults=null;ST.scanSummary=[];ST.scanWarnings=[];
+    }
+  }
+  await new Promise(r=>setTimeout(r,900));
+  ST.scanPhase='done';renderTab2();
+}
+function scanToggleBlur(){
+  if(ST.scanBlur){openFaceModal('scan');}else{ST.scanBlur=true;renderTab2();}
+}
+
+// ═══════════════════════════════════════════════
+// TAB 3 — JOURNAL + AI CHAT
+// ═══════════════════════════════════════════════
+const ENTRY_TEXT="הבוקר הרגשתי מעט בחילה, אבל לקחתי את הרכיב הסודי שלי בזמן עם חצי כוס מים קרים וזה עבר... התינוקת שלי בעטה פעמיים בבוקר 🥰";
+const AI_ANS={
+  "איך לשמור על מדד התבלינים מאוזן עם בחילות?":"כשיש בחילות, הכי חשוב לקחת את הרכיב הסודי עם אוכל קל — פיסת לחם, קרקר, או בורקס קטן 🥐. שתי כוס מים קרים לפני הנטילה עוזרת לספיגה. אם הבחילה חזקה — שוחחי עם הרופאה על שינוי שעת הנטילה 💛",
+  "תרגיל נשימות להרגעה":"תרגיל 4-7-8: שאפי 4 שניות 🌬️, החזיקי 7, נשפי לאט 8 שניות. חזרי 4 פעמים. זה מרגיע את מערכת העצבים ועוזר גם לתינוקת/ון להרגיש את השלווה שלך 💛",
+  "מה מותר לאכול בשליש שני?":"שליש שני הוא הזמן הכי טוב ✨ מומלץ: אגוזים, טחינה (ברזל ❤️), סלמון (אומגה 3), ירקות כתומים, לחם מחיטה מלאה. הגוף צריך עכשיו ברזל, סידן וחומצה פולית.",
+};
+const PROMPTS=Object.keys(AI_ANS);
+
+function renderTab3(){
+  const page=document.getElementById('app-page');
+  const bl=ST.journalBlur;
+  let entriesHtml='';
+  if(ST.journalEntries.length===0&&!ST.processing){
+    entriesHtml=`<div style="text-align:center;padding:16px 0;color:var(--taupe);font-size:12px;">📖 היומן ריק — הקליטי את הזיכרון הראשון 🌸</div>`;
+  } else {
+    entriesHtml=ST.journalEntries.map(e=>`
+    <div class="card fin" style="padding:13px 14px;margin-bottom:7px;">
+      <div class="row-sb mb8">
+        <div class="row gap6">
+          <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--rose));display:flex;align-items:center;justify-content:center;font-size:11px;">🎙️</div>
+          <div class="fs10 fw7 txt-cin">שבוע ${e.week}</div>
+        </div>
+        <div class="row gap5"><span class="fs9" style="color:${bl?'var(--plumDk)':'var(--green)'};">${bl?'🔒':'🔓'}</span><span class="fs9 txt-taupe">${e.time}</span></div>
+      </div>
+      <div class="${bl?'blurred':''} fs12 txt-gray" style="line-height:1.7;" onclick="${bl?'openFaceModal(\'journal\')':''}">${bl?'לחצי להצגת הזיכרון...':e.text}</div>
+      ${bl?`<div class="row gap4 mt8" style="cursor:pointer;" onclick="openFaceModal('journal')"><span class="fs10" style="color:var(--plumDk);">😐 גלי את הזיכרון</span></div>`:''}
+    </div>`).join('');
+  }
+
+  let chatHtml='<div class="chat-msgs" id="chat-msgs">';
+  chatHtml+=ST.chatMessages.map(m=>`<div class="chat-msg ${m.role}">${m.text}</div>`).join('');
+  if(ST.chatTyping) chatHtml+=`<div style="display:flex;justify-content:flex-end;"><div class="chat-msg ai"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>`;
+  if(ST.chatMessages.length===0&&!ST.chatTyping) chatHtml+=`<div style="text-align:center;padding:8px 0;font-size:10px;color:var(--taupe);">בחרי שאלה למעלה 💬</div>`;
+  chatHtml+='</div>';
+
+  const waveClasses=['a1','a2','a3','a4','a5','a6','a7','a8','a9'];
+  const waves=waveClasses.map(a=>`<div class="wave-bar${ST.recording?' active '+a:''}"></div>`).join('');
+
+  page.innerHTML=`
+  <div class="row-sb mb12">
+    <div><div class="fs16 fw7 txt-brown">היומן הקולי 🎙️</div><div class="fs11 txt-taupe">ספר המתכונים והזיכרונות שלי</div></div>
+    <div class="row gap8">
+      <button onclick="journalToggleBlur()" style="display:flex;align-items:center;gap:3px;padding:5px 9px;border-radius:999px;border:1.5px solid ${bl?'var(--plum)':'var(--green)'};background:${bl?'var(--plumLt)':'var(--greenLt)'};color:${bl?'var(--plumDk)':'var(--green)'};font-family:Heebo,sans-serif;font-size:10px;font-weight:700;cursor:pointer;">${bl?'😐 גלי':'🔒 טשטש'}</button>
+      <button onclick="panicClear()" style="display:flex;align-items:center;gap:3px;padding:5px 9px;border-radius:999px;border:1.5px solid rgba(192,84,79,.35);background:var(--redLt);color:var(--red);font-family:Heebo,sans-serif;font-size:10px;font-weight:700;cursor:pointer;">🧹 ניקוי שולחן</button>
+    </div>
+  </div>
+  <div id="panic-msg" style="display:none;"></div>
+
+  <div style="background:linear-gradient(145deg,var(--brioche),#FDF3E8);border-radius:20px;padding:18px;margin-bottom:11px;box-shadow:0 5px 20px rgba(61,43,31,.09);border:1px solid var(--dough);text-align:center;">
+    <div class="fs11 txt-taupe mb11" id="rec-label">${ST.recording?'🔴 מקליטה — לחצי שוב לעצירה':ST.processing?'✍️ השף מתמלל את הזיכרונות שלך...':'לחצי להקלטת יומן קולי חדש'}</div>
+    <div class="waves mb12">${waves}</div>
+    <div style="position:relative;display:inline-block;margin-bottom:10px;">
+      ${ST.recording?'<div class="pulse-ring"></div><div class="pulse-ring2"></div>':''}
+      <button id="mic-btn" class="mic-btn${ST.recording?' recording':''}${ST.processing?' processing':''}" onclick="toggleRecord()" ${ST.processing?'disabled':''}>
+        ${ST.processing?'<span class="fs22 spin">⟳</span>':'<svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="9" y="2" width="6" height="12" rx="3" fill="white" opacity=".95"/><path d="M5 10a7 7 0 0 0 14 0" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M12 19v3M8 22h8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>'}
+      </button>
+    </div>
+    ${ST.recording?'<div><button class="btn btn-pri btn-sm" onclick="stopRecord()">⏹ עצור והקלט</button></div>':''}
+    ${!ST.recording&&!ST.processing?'<div class="fs10 txt-taupe">לחצי על המיקרופון</div>':''}
+  </div>
+
+  <div id="entries-wrap" class="mb12">${entriesHtml}</div>
+
+  <div style="background:linear-gradient(145deg,#f5edf8,#faf0fa);border-radius:20px;padding:14px;box-shadow:0 3px 16px rgba(107,76,122,.09);border:1.5px solid rgba(196,168,212,.44);">
+    <div class="row gap8 mb10">
+      <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--plum),var(--plumDk));display:flex;align-items:center;justify-content:center;font-size:13px;">🤝</div>
+      <div><div class="fs12 fw7 txt-brown">השף האישי שלי</div><div class="fs9 txt-taupe">ייעוץ חכם בשפה שלנו 🌿</div></div>
+    </div>
+    <div class="chips mb10">${PROMPTS.map(p=>`<div class="chip" style="background:var(--plumLt);border-color:rgba(196,168,212,.55);color:var(--plumDk);" onclick="askAI('${p}')">${p}</div>`).join('')}</div>
+    ${chatHtml}
+    <div class="row gap8 mt10" style="align-items:center;">
+      <input id="chat-input" class="inp" style="flex:1;padding:10px 13px;font-size:13px;" placeholder="שאלי כל שאלה בחופשיות... 💬" onkeydown="if(event.key==='Enter')sendChat()"/>
+      <button onclick="sendChat()" style="width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--plum),var(--plumDk));color:white;border:none;cursor:pointer;font-size:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">→</button>
+    </div>
+  </div>`;
+}
+
+let _recog=null,_recInt=null;
+function _fmt(s){return Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');}
+function _startRecog(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SR){
+    _recog=new SR();_recog.continuous=true;_recog.interimResults=true;_recog.lang='he-IL';
+    let fin='';
+    _recog.onresult=e=>{fin='';for(let i=0;i<e.results.length;i++){if(e.results[i].isFinal)fin+=e.results[i][0].transcript;}ST.liveTranscript=fin;};
+    _recog.onerror=()=>{};
+    _recog.onend=()=>{if(ST.recording)try{_recog.start();}catch(ex){}};
+    try{_recog.start();}catch(ex){}
+  }
+  ST.recSeconds=0;ST.liveTranscript='';
+  _recInt=setInterval(()=>{
+    ST.recSeconds++;
+    const l=document.getElementById('rec-label');
+    if(l&&ST.recording)l.textContent='🔴 '+_fmt(ST.recSeconds)+' — מקליטה... לחצי לעצירה';
+  },1000);
+}
+function _stopRecog(){
+  clearInterval(_recInt);_recInt=null;
+  if(_recog){try{_recog.stop();}catch(ex){}  _recog=null;}
+  return ST.liveTranscript||'';
+}
+function toggleRecord(){
+  if(ST.processing)return;
+  if(!ST.recording){ST.recording=true;_startRecog();renderTab3();}
+  else stopRecord();
+}
+function stopRecord(){
+  const tx=_stopRecog();
+  ST.recording=false;ST.processing=true;renderTab3();
+  setTimeout(()=>{
+    ST.processing=false;
+    const t=new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+    ST.journalEntries.unshift({id:Date.now(),text:tx||ENTRY_TEXT,time:t,week:ST.demoWeek});
+    renderTab3();
+  },1200);
+}
+function journalToggleBlur(){
+  if(ST.journalBlur){openFaceModal('journal');}else{ST.journalBlur=true;renderTab3();}
+}
+function panicClear(){
+  ST.journalEntries=[];ST.chatMessages=[];renderTab3();
+  const msg=document.getElementById('panic-msg');
+  if(msg){msg.innerHTML='<div class="fin" style="background:var(--greenLt);border-radius:10px;padding:9px 13px;margin-bottom:10px;font-size:11px;color:var(--green);text-align:center;border:1px solid rgba(123,174,127,.44);">✅ השולחן נוקה — הפרטיות שלך מוגנת</div>';
+  setTimeout(()=>{if(msg)msg.innerHTML='';},2500);}
+}
+const AI_KW={
+  'בחילה':'כשיש בחילות — קחי את הרכיב הסודי עם אוכל קל 🥐 שתי כוס מים קרים לפני הנטילה עוזרת לספיגה. בבחילה חזקה — שוחחי עם הרופאה על שינוי שעת הנטילה 💛',
+  'אכ':'שליש שני הוא הזמן הכי טוב ✨ מומלץ: אגוזים, טחינה (ברזל ❤️), סלמון (אומגה 3), ירקות כתומים, לחם מחיטה מלאה. הגוף צריך ברזל, סידן וחומצה פולית.',
+  'אוכ':'שליש שני הוא הזמן הכי טוב ✨ מומלץ: אגוזים, טחינה (ברזל ❤️), סלמון (אומגה 3), ירקות כתומים, לחם מחיטה מלאה.',
+  'ויטמין':'ויטמינים חשובים: חומצה פולית (עלים ירוקים), ברזל (עדשים, בשר), סידן (מוצרי חלב), ויטמין D (שמש וסלמון), אומגה 3 (דגי ים) 💊',
+  'נשימ':'תרגיל 4-7-8: שאפי 4 שניות 🌬️, החזיקי 7, נשפי לאט 8 שניות. חזרי 4 פעמים. זה מרגיע את מערכת העצבים ועוזר גם לתינוקת/ון 💛',
+  'הרגע':'תרגיל 4-7-8: שאפי 4 שניות 🌬️, החזיקי 7, נשפי לאט 8 שניות. חזרי 4 פעמים. מרגיע את מערכת העצבים 💛',
+  'חרד':'חרדה בהריון היא נורמלית 💛 נסי: נשימות עמוקות, הליכה קצרה, שיחה עם מישהי קרובה, יוגה להריון. אם מרגישה מוצפת — שוחחי עם הרופאה.',
+  'שינה':'שינה טובה חיונית 🌙 ישני על הצד השמאלי, השתמשי בכרית הריון, שמרי על שגרת שינה קבועה. הימנעי מקפאין אחרי 14:00.',
+  'כאב':'כאבים קלים הם לרוב נורמליים ✨ לכאבים חזקים, חדים, מלווים בדימום, או כאב ראש עז — פני לרופאה מיד ⚕️',
+  'משקל':'עלייה במשקל היא תהליך טבעי 💛 בשליש שני-שלישי: 0.4-0.5 ק"ג לשבוע. שוחחי עם הרופאה על היעד האישי שלך.',
+  'ברזל':'ברזל חשוב מאוד בהריון 🩸 מזונות עשירים: עדשים, תרד, בשר בקר, טחינה. לספיגה טובה — אכלי עם ויטמין C (לימון, תפוז). הימנעי מקפה/תה בסמוך.',
+  'פעיל':'פעילות מתונה מומלצת 🏃‍♀️ הליכה, שחייה, יוגה להריון — מצוינות. הימנעי מפעילות עצימה לאחר שבוע 20. הקשיבי לגוף שלך.',
+  'בעיט':'בעיטות התינוק הן סימן מצוין 🥰 מרגישים אותן משבוע 18-25. מומלץ לספור 10 תנועות תוך שעתיים. פחות בעיטות מהרגיל — ספרי לרופאה.',
+};
+function _aiAnswer(q){
+  if(AI_ANS[q])return AI_ANS[q];
+  const low=q;
+  for(const kw of Object.keys(AI_KW)){if(low.includes(kw))return AI_KW[kw];}
+  return 'שאלה מצוינת 💛 כדי לתת תשובה מדויקת — שוחחי עם הרופאה המטפלת שלך, שמכירה את הפרטים האישיים שלך.';
+}
+function sendChat(){
+  const inp=document.getElementById('chat-input');
+  if(!inp)return;
+  const q=inp.value.trim();
+  if(!q)return;
+  inp.value='';
+  askAI(q);
+}
+async function askAI(q){
+  if(ST.chatTyping)return;
+  ST.chatMessages.push({role:'user',text:q});
+  ST.chatTyping=true;renderTab3();
+  const cm0=document.getElementById('chat-msgs');if(cm0)cm0.scrollTop=cm0.scrollHeight;
+  let answer;
+  if(_token){
+    try{
+      const res=await api('POST','/chat',{question:q});
+      answer=res.answer;
+    }catch{answer=_aiAnswer(q);}
+  } else {
+    await new Promise(r=>setTimeout(r,1200));
+    answer=_aiAnswer(q);
+  }
+  ST.chatTyping=false;
+  ST.chatMessages.push({role:'ai',text:answer});
+  renderTab3();
+  const cm=document.getElementById('chat-msgs');
+  if(cm)cm.scrollTop=cm.scrollHeight;
+}
+
+// ═══════════════════════════════════════════════
+// TAB 4 — PROFILE
+// ═══════════════════════════════════════════════
+function renderTab4(){
+  const u=ST.user||{};
+  const nm=u.fullName?.split(' ')[0]||'מאיה';
+  const page=document.getElementById('app-page');
+  page.innerHTML=`<div style="padding:8px 0;">
+    <div class="text-center mb16">
+      <div style="width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--rose));display:flex;align-items:center;justify-content:center;font-size:26px;color:white;font-weight:700;margin:0 auto 9px;font-family:Heebo,sans-serif;">${nm[0]}</div>
+      <div class="fs17 fw7 txt-brown">${u.fullName||nm}</div>
+      <div class="fs11 txt-taupe">${u.email||''}</div>
+      ${u.fund?`<div style="display:inline-block;margin-top:5px;background:var(--roseLt);border-radius:999px;padding:3px 11px;font-size:10px;color:var(--cin);font-weight:700;">${u.fund}</div>`:''}
+    </div>
+    <button class="btn btn-danger btn-full" onclick="doLogout()">יציאה מהחשבון</button>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// FACE ID MODAL
+// ═══════════════════════════════════════════════
+function openFaceModal(cb){
+  ST.faceCallback=cb;
+  clearTimeout(ST.faceTimer);
+  document.getElementById('face-modal').style.display='flex';
+  const circle=document.getElementById('face-circle');
+  const ring=document.getElementById('face-ring');
+  const title=document.getElementById('face-title');
+  const sub=document.getElementById('face-sub');
+  const barWrap=document.getElementById('face-bar-wrap');
+  const bar=document.getElementById('face-bar');
+  circle.textContent='😐';circle.style.background='var(--plumLt)';circle.style.borderColor='var(--plum)';
+  ring.style.display='none';ring.classList.remove('active');
+  title.textContent='ממתינה לאימות...';sub.textContent='הביטי למצלמה לאישור';
+  barWrap.style.display='none';bar.style.width='0%';
+  ST.faceTimer=setTimeout(()=>{ring.style.display='block';ring.classList.add('active');title.textContent='סורקת פנים...';barWrap.style.display='block';setTimeout(()=>{bar.style.width='85%';},50);},600);
+  ST.faceTimer=setTimeout(()=>{title.textContent='מאמתת זהות...';},1500);
+  ST.faceTimer=setTimeout(()=>{
+    circle.textContent='✅';circle.style.background='var(--greenLt)';circle.style.borderColor='var(--green)';
+    ring.style.display='none';title.textContent='אושר ✓';sub.textContent='הגישה אושרה 🔓';
+    setTimeout(()=>{closeFaceModal();faceSuccess(cb);},400);
+  },2200);
+}
+function closeFaceModal(){
+  clearTimeout(ST.faceTimer);
+  document.getElementById('face-modal').style.display='none';
+}
+function faceSuccess(cb){
+  if(cb==='vip'){ST.vipUnlocked=!ST.vipUnlocked;document.getElementById('vip-content').innerHTML=renderVipContent();const btn=document.querySelector('#vip-card button');if(btn)btn.innerHTML=ST.vipUnlocked?'🔓 נעילה':'😐 Face ID';}
+  else if(cb==='scan'){ST.scanBlur=false;renderTab2();}
+  else if(cb==='journal'){ST.journalBlur=false;renderTab3();}
+}
+
+// ═══════════════════════════════════════════════
+// API CLIENT
+// ═══════════════════════════════════════════════
+let _token=null;
+function _loadToken(){_token=lsGet('shneynu_token');}
+function _saveToken(t){_token=t;if(t)lsSet('shneynu_token',t);else lsDel('shneynu_token');}
+
+async function api(method,path,body){
+  const headers={'Content-Type':'application/json'};
+  if(_token)headers['Authorization']='Bearer '+_token;
+  const opts={method,headers};
+  if(body!==undefined)opts.body=JSON.stringify(body);
+  const res=await fetch('/api'+path,opts);
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok)throw new Error(data.error||'שגיאת שרת');
+  return data;
+}
+
+// ── TOAST ──────────────────────────────────────
+function toast(msg,type='info'){
+  const t=document.createElement('div');
+  const bg=type==='error'?'var(--redLt)':type==='success'?'var(--greenLt)':'var(--brioche)';
+  const col=type==='error'?'var(--red)':type==='success'?'var(--green)':'var(--brown)';
+  t.style.cssText=`position:fixed;top:70px;left:50%;transform:translateX(-50%);background:${bg};color:${col};border:1px solid ${col}44;border-radius:12px;padding:10px 18px;font-size:13px;font-weight:600;font-family:Heebo,sans-serif;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.15);text-align:center;max-width:280px;direction:rtl;animation:fin .3s ease;`;
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
+}
+
+// ── REGISTER ───────────────────────────────────
+async function doRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  const pw=document.getElementById('reg-pw').value;
+  const pw2=document.getElementById('reg-pw2').value;
+  const showErr=(id,msg)=>{const el=document.getElementById(id);el.textContent=msg;el.style.display=msg?'block':'none';};
+  showErr('reg-name-err',!name?'נא להזין שם מלא':'');
+  showErr('reg-email-err',!email.includes('@')?'אימייל לא תקין':'');
+  showErr('reg-pw-err',pw.length<6?'לפחות 6 תווים':'');
+  showErr('reg-pw2-err',pw!==pw2?'הסיסמאות אינן תואמות':'');
+  if(!name||!email.includes('@')||pw.length<6||pw!==pw2)return;
+  const btn=document.querySelector('#scr-register .btn-pri');
+  const orig=btn.textContent;
+  btn.textContent='⟳ יוצרת חשבון...';btn.disabled=true;
+  try{
+    const res=await api('POST','/auth/register',{name,email,password:pw});
+    _saveToken(res.token);
+    ST.user={fullName:res.fullName,email:res.email,uid:res.uid,remember:_rem};
+    if(_rem)lsSet('shneynu_user',JSON.stringify(ST.user));
+    startOnboarding();
+  }catch(e){showErr('reg-email-err',e.message);btn.textContent=orig;btn.disabled=false;}
+}
+
+// ── LOGIN ──────────────────────────────────────
+async function doLogin(){
+  const pw=document.getElementById('login-pw').value;
+  const emailEl=document.getElementById('login-email');
+  const email=emailEl?.value||ST.user?.email||'';
+  const err=document.getElementById('login-err');
+  if(!pw){err.textContent='נא להזין סיסמה';err.style.display='block';return;}
+  err.style.display='none';
+  const btn=document.querySelector('#scr-login .btn-pri');
+  btn.textContent='⟳ מתחברת...';btn.disabled=true;
+  try{
+    const res=await api('POST','/auth/login',{email,password:pw});
+    _saveToken(res.token);
+    ST.user={...res};
+    const entries=await loadJournalEntries();
+    if(entries.length)ST.journalEntries=entries;
+    await checkPartnerInvite();
+    launchApp();
+  }catch(e){
+    err.textContent=e.message;err.style.display='block';
+    btn.textContent='כניסה לשנינו →';btn.disabled=false;
+  }
+}
+
+// ── ONBOARDING FINISH ──────────────────────────
+async function obFinish(){
+  saveObInputs();Object.assign(ST.user,ST.obData);
+  if(ST.user.remember)lsSet('shneynu_user',JSON.stringify(ST.user));
+  try{await api('PUT','/profile',ST.user);toast('✅ הפרופיל נשמר בענן 🎉','success');}catch{}
+  launchApp();
+}
+
+// ── LOGOUT ─────────────────────────────────────
+async function doLogout(){
+  _saveToken(null);lsDel('shneynu_user');
+  ST.user=null;ST.medDone=false;ST.vipUnlocked=false;ST.scanPhase='idle';ST.scanBlur=true;
+  ST.journalEntries=[];ST.chatMessages=[];ST.recording=false;ST.processing=false;ST.partnerData=null;
+  showScreen('scr-splash');toast('התנתקת בהצלחה 👋');
+}
+
+// ── DATA HELPERS ───────────────────────────────
+async function saveUserProfile(data){
+  try{await api('PUT','/profile',data);toast('✅ הנתונים נשמרו בענן','success');}
+  catch(e){toast('שגיאה בשמירה: '+e.message,'error');}
+}
+async function loadUserProfile(){try{return await api('GET','/profile');}catch{return null;}}
+async function saveMetrics(){
+  const obj={};ST.metrics.forEach(m=>{obj[m.k]=m.val;});obj.medDone=ST.medDone;obj.week=ST.demoWeek;
+  try{await api('PUT','/metrics',obj);}catch{}
+}
+async function saveJournalEntry(entry){try{await api('POST','/journal',entry);}catch(e){console.error(e);}}
+async function loadJournalEntries(){try{return await api('GET','/journal');}catch{return[];}}
+async function checkPartnerInvite(){
+  if(!_token)return;
+  try{
+    const res=await api('GET','/partner/check');
+    if(res.partner){
+      ST.partnerData=res.partner;
+      toast('💛 '+res.partner.fullName+' — מחוברים עכשיו יחד!','success');
+      // Load live partner data (week, fund)
+      try{
+        const pd=await api('GET','/partner/data');
+        if(pd.partner)Object.assign(ST.partnerData,pd.partner);
+      }catch{}
+    }
+  }catch{}
+}
+
+// ── STOP RECORD OVERRIDE ───────────────────────
+stopRecord=function(){
+  const tx=_stopRecog();
+  ST.recording=false;ST.processing=true;renderTab3();
+  setTimeout(async()=>{
+    ST.processing=false;
+    const t=new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+    const entry={id:Date.now(),text:tx||ENTRY_TEXT,time:t,week:ST.demoWeek};
+    ST.journalEntries.unshift(entry);
+    await saveJournalEntry(entry);
+    renderTab3();toast('✅ הזיכרון נשמר ביומן','success');
+  },1200);
+};
+
+// ── TAP METRIC OVERRIDE ────────────────────────
+tapMetric=function(k){
+  const m=ST.metrics.find(x=>x.k===k);if(!m)return;
+  m.on=!m.on;
+  if(m.on&&(k==='k'||k==='d'))m.val=String(parseInt(m.val)+1);
+  renderMetrics();
+  clearTimeout(tapMetric._t);tapMetric._t=setTimeout(saveMetrics,2000);
+};
+
+// ── TOGGLE MED OVERRIDE ────────────────────────
+toggleMed=function(){
+  ST.medDone=!ST.medDone;renderTab1();
+  clearTimeout(toggleMed._t);toggleMed._t=setTimeout(saveMetrics,1500);
+};
+
+// ═══════════════════════════════════════════════
+// AUTO LOGIN
+// ═══════════════════════════════════════════════
+(async function init(){
+  _loadToken();showScreen('scr-splash');
+  if(_token){
+    try{
+      const profile=await loadUserProfile();
+      if(profile&&profile.fullName){
+        ST.user=profile;
+        const entries=await loadJournalEntries();
+        if(entries.length)ST.journalEntries=entries;
+        await checkPartnerInvite();
+        launchApp();return;
+      }
+    }catch{}
+    _saveToken(null);
+  }
+  const saved=lsGet('shneynu_user');
+  if(saved){try{const p=JSON.parse(saved);if(p?.fullName){ST.user=p;launchApp();return;}}catch{}}
+})();
+
+// ═══════════════════════════════════════════════
+// SCANNER HELPERS
+// ═══════════════════════════════════════════════
+function handleScanFile(input){
+  if(!input||!input.files||!input.files[0])return;
+  ST.scanFileName=input.files[0].name;
+  input.value='';
+  scanStart();
+}
+
+// ═══════════════════════════════════════════════
+// TAB 3 — הקן (NEST) + PARTNER SYNCING
+// ═══════════════════════════════════════════════
+function renderTabNest(){
+  const page=document.getElementById('app-page');
+  const u=ST.user||{};
+  const pName=u.pName||u.partnerName||'';
+  const pContact=u.pContact||u.partnerEmail||'';
+  const pLinked=ST.partnerData;
+
+  let partnerHtml='';
+  if(pLinked){
+    const pw=pLinked.currentWeek||'?';
+    partnerHtml=`
+    <div class="card fin" style="background:linear-gradient(145deg,var(--greenLt),#f0f8f4);border-color:rgba(123,174,127,.4);">
+      <div class="row gap10 mb10">
+        <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--green),#5a9e5e);display:flex;align-items:center;justify-content:center;font-size:18px;color:white;font-weight:700;">${(pLinked.fullName||pName||'?')[0]}</div>
+        <div>
+          <div class="fs14 fw7 txt-brown">${pLinked.fullName||pName} 💛</div>
+          <div class="fs11 txt-green">✅ מחוברים יחד</div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div style="background:var(--vanilla);border-radius:11px;padding:10px;text-align:center;border:1px solid var(--dough);">
+          <div style="font-size:18px;">📊</div>
+          <div class="fs20 fw7 txt-green">${pw}</div>
+          <div class="fs10 txt-taupe">שבוע הריון שלה</div>
+        </div>
+        <div style="background:var(--vanilla);border-radius:11px;padding:10px;text-align:center;border:1px solid var(--dough);">
+          <div style="font-size:18px;">📊</div>
+          <div class="fs20 fw7 txt-cin">${ST.demoWeek}</div>
+          <div class="fs10 txt-taupe">שבוע שלי</div>
+        </div>
+      </div>
+      ${pLinked.fund?`<div class="fs10 txt-taupe mt8" style="text-align:center;">קופת חולים: ${pLinked.fund}</div>`:''}
+    </div>`;
+  } else if(pName||pContact){
+    partnerHtml=`
+    <div class="card fin" style="background:var(--saffronLt);border-color:rgba(232,162,58,.35);">
+      <div class="row gap9 mb6">
+        <div style="font-size:24px;">📨</div>
+        <div><div class="fs13 fw7 txt-brown">הזמנה נשלחה ל${pName||pContact}</div><div class="fs10 txt-gray">ממתינה לאישור השותף/ה...</div></div>
+      </div>
+      <div class="fs10 txt-taupe">השותף/ה יקבל הודעה עם קישור לאפליקציה</div>
+    </div>`;
+  } else {
+    partnerHtml=`
+    <div class="card fin" style="border:2px dashed var(--dough);">
+      <div class="text-center" style="padding:8px 0;">
+        <div style="font-size:32px;margin-bottom:8px;">👨‍👩‍👧</div>
+        <div class="fs13 fw7 txt-brown mb4">הזמיני את השותף/ה שלך</div>
+        <div class="fs11 txt-gray mb12">עקבו יחד על ההריון בזמן אמת</div>
+        <div class="inp-wrap" style="text-align:right;margin-bottom:10px;">
+          <div class="inp-label">שם השותף/ה</div>
+          <div class="inp-row"><span class="inp-icon">💛</span><input id="partner-name-inp" class="inp" type="text" placeholder="שם..."/></div>
+        </div>
+        <div class="inp-wrap" style="text-align:right;margin-bottom:14px;">
+          <div class="inp-label">אימייל או טלפון</div>
+          <div class="inp-row"><span class="inp-icon">📱</span><input id="partner-contact-inp" class="inp" type="text" placeholder="לשליחת הזמנה..."/></div>
+        </div>
+        <button class="btn btn-pri btn-full" onclick="invitePartner()">💌 שליחת הזמנה</button>
+      </div>
+    </div>`;
+  }
+
+  page.innerHTML=`
+  <div class="row-sb mb12">
+    <div><div class="fs16 fw7 txt-brown">הקן שלנו 👨‍👩‍👧</div><div class="fs11 txt-taupe">ביחד בכל צעד בדרך</div></div>
+  </div>
+
+  <div class="card-hero fin mb12" style="background:linear-gradient(145deg,#fff5f8,#ffeef5);">
+    <div class="row gap10 mb10">
+      <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--rose));display:flex;align-items:center;justify-content:center;font-size:20px;color:white;font-weight:700;">${(u.fullName||'מ')[0]}</div>
+      <div>
+        <div class="fs14 fw7 txt-brown">${u.fullName||'את'} 🌸</div>
+        <div class="fs11 txt-taupe">שבוע ${ST.demoWeek} · ${getTrimester(ST.demoWeek)}</div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div style="background:rgba(255,255,255,.6);border-radius:11px;padding:10px;text-align:center;">
+        <div style="font-size:18px;">📊</div>
+        <div class="fs20 fw7 txt-cin">${ST.demoWeek}</div>
+        <div class="fs10 txt-taupe">שבוע הריון</div>
+      </div>
+      <div style="background:rgba(255,255,255,.6);border-radius:11px;padding:10px;text-align:center;">
+        <div style="font-size:18px;">📖</div>
+        <div class="fs20 fw7 txt-cin">${ST.journalEntries.length}</div>
+        <div class="fs10 txt-taupe">זיכרונות ביומן</div>
+      </div>
+    </div>
+  </div>
+
+  ${partnerHtml}
+
+  <div class="card fin mt12">
+    <div class="fs12 fw7 txt-brown mb10">📅 מאורעות קרובים</div>
+    ${[
+      {icon:'🏥',title:'ביקורת גינקולוגית',date:'שבוע '+(ST.demoWeek+2),sub:'זכרי לשאול על תוצאות הברזל'},
+      {icon:'🩸',title:'בדיקת דם חודשית',date:'עוד 8 ימים',sub:'צום 8 שעות לפני'},
+      {icon:'📷',title:'אולטרסאונד מורפולוגי',date:'שבוע '+(ST.demoWeek+4),sub:'מביאים את השותף/ה 💛'},
+    ].map(ev=>`
+    <div class="row gap9 mb10" style="align-items:flex-start;">
+      <div style="width:34px;height:34px;border-radius:10px;background:var(--brioche);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;border:1px solid var(--dough);">${ev.icon}</div>
+      <div><div class="fs12 fw6 txt-brown">${ev.title}</div><div class="fs10 txt-cin fw7">${ev.date}</div><div class="fs10 txt-taupe">${ev.sub}</div></div>
+    </div>`).join('')}
+  </div>`;
+}
+
+async function invitePartner(){
+  const contact=document.getElementById('partner-contact-inp')?.value?.trim();
+  const name=document.getElementById('partner-name-inp')?.value?.trim();
+  if(!contact){toast('נא להזין אימייל או טלפון של השותף/ה','error');return;}
+  ST.user.pContact=contact;ST.user.pName=name||contact;
+  if(_token){
+    try{
+      await api('POST','/partner/invite',{toContact:contact,toName:name||'',week:ST.demoWeek});
+      toast('💌 ההזמנה נשלחה בהצלחה!','success');
+    }catch(e){toast('שגיאה בשליחה: '+e.message,'error');return;}
+  } else {
+    lsSet('shneynu_partner',JSON.stringify({pContact:contact,pName:name||contact}));
+    toast('💌 ההזמנה נשמרה (התחברי לחשבון לשליחה)','info');
+  }
+  renderTabNest();
+}
+</script>
+</body>
+</html>
