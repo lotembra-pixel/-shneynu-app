@@ -1317,12 +1317,59 @@ function renderTab4(){
         <div class="inp-label">גינקולוגית / מיילדת</div>
         <div class="inp-row"><span class="inp-icon">👩‍⚕️</span><input id="edit-doctor" class="inp" type="text" placeholder="ד״ר... (אופציונלי)" value="${u.doctor||''}"/></div>
       </div>
+      <div class="inp-wrap">
+        <div class="inp-label">סניף / מרפאה</div>
+        <div class="inp-row"><span class="inp-icon">📍</span><input id="edit-clinic" class="inp" type="text" placeholder="מכבי חיפה מרכז..." value="${u.clinic||''}"/></div>
+      </div>
+
+      <div style="height:1px;background:var(--dough);margin:14px 0;"></div>
+      <div class="fs12 fw7 txt-brown mb10">🏥 פרטים לבית חולים</div>
+
+      <div class="inp-wrap">
+        <div class="inp-label">תעודת זהות</div>
+        <div class="inp-row"><span class="inp-icon">🪪</span><input id="edit-idnum" class="inp" type="text" placeholder="מספר ת.ז." value="${u.idnum||''}"/></div>
+      </div>
+      <div class="inp-wrap">
+        <div class="inp-label">טלפון נייד</div>
+        <div class="inp-row"><span class="inp-icon">📱</span><input id="edit-phone" class="inp" type="tel" placeholder="050..." value="${u.phone||''}"/></div>
+      </div>
+      <div class="inp-wrap">
+        <div class="inp-label">סוג דם</div>
+        <div class="inp-row"><span class="inp-icon">🩸</span><input id="edit-bloodtype" class="inp" type="text" placeholder="A+, B-, O+..." value="${u.bloodtype||''}"/></div>
+      </div>
+      <div class="inp-wrap">
+        <div class="inp-label">אלרגיות לתרופות / מזון</div>
+        <div class="inp-row"><span class="inp-icon">⚠️</span><input id="edit-allergies" class="inp" type="text" placeholder="פניצילין, אגוזים... (אם אין — ׳אין׳)" value="${u.allergies||''}"/></div>
+      </div>
+      <div class="inp-wrap">
+        <div class="inp-label">הריונות / לידות קודמות</div>
+        <div class="inp-row"><span class="inp-icon">📋</span><input id="edit-prevpreg" class="inp" type="text" placeholder="הריון ראשון / 2 לידות קודמות..." value="${u.prevpreg||''}"/></div>
+      </div>
+
+      <div style="height:1px;background:var(--dough);margin:14px 0;"></div>
+      <div class="fs12 fw7 txt-brown mb10">🆘 איש קשר לחירום</div>
+
+      <div class="inp-wrap">
+        <div class="inp-label">שם</div>
+        <div class="inp-row"><span class="inp-icon">👤</span><input id="edit-ecname" class="inp" type="text" placeholder="שם הבעל / בן משפחה" value="${u.ecname||u.pName||''}"/></div>
+      </div>
+      <div class="inp-wrap">
+        <div class="inp-label">טלפון</div>
+        <div class="inp-row"><span class="inp-icon">📞</span><input id="edit-ecphone" class="inp" type="tel" placeholder="050..." value="${u.ecphone||u.pContact||''}"/></div>
+      </div>
+
+      <div style="height:1px;background:var(--dough);margin:14px 0;"></div>
+      <div class="fs12 fw7 txt-brown mb10">🌸 העדפות לידה</div>
+
+      <div class="inp-wrap">
+        <div class="inp-label">העדפות (אפידורל, לידה טבעית, מוזיקה...)</div>
+        <div class="inp-row"><span class="inp-icon">💭</span><input id="edit-birthpref" class="inp" type="text" placeholder="העדפות ורצונות לחדר הלידה..." value="${u.birthpref||''}"/></div>
+      </div>
 
       <div class="inp-wrap">
         <div class="inp-label">משקל (ק״ג)</div>
         <div class="inp-row"><span class="inp-icon">⚖️</span><input id="edit-weight" class="inp" type="number" placeholder="משקל..." value="${u.weight||''}"/></div>
       </div>
-
       <div class="inp-wrap">
         <div class="inp-label">גובה (ס״מ)</div>
         <div class="inp-row"><span class="inp-icon">📏</span><input id="edit-height" class="inp" type="number" placeholder="גובה..." value="${u.height||''}"/></div>
@@ -1352,6 +1399,8 @@ async function saveProfileEdits(){
   if(doctor!==undefined) ST.user.doctor=doctor;
   if(weight) ST.user.weight=weight;
   if(height) ST.user.height=height;
+  const extras=['clinic','idnum','phone','bloodtype','allergies','prevpreg','ecname','ecphone','birthpref'];
+  extras.forEach(k=>{const el=document.getElementById('edit-'+k);if(el)ST.user[k]=el.value.trim();});
   const msg=document.getElementById('edit-save-msg');
   try{
     await api('PUT','/profile',ST.user);
@@ -1636,33 +1685,51 @@ function printMedCard(){
     .logo{font-size:18px;font-weight:800;color:#C0714F;}
     @media print{body{padding:16px;} button{display:none;}}
   </style></head><body>
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;border-bottom:3px solid #C0714F;padding-bottom:14px;">
     <div>
-      <h1>כרטיס מידע רפואי 🌸</h1>
-      <div class="sub">הופק מאפליקציית שנינו · ${new Date().toLocaleDateString('he-IL')}</div>
+      <h1>כרטיס מידע רפואי להריון 🌸</h1>
+      <div class="sub">מיועד לקבלה במיון נשים יולדות · הופק ${new Date().toLocaleDateString('he-IL')}</div>
     </div>
     <div class="logo">שנינו 👶💛</div>
   </div>
 
   <div class="section">
-    <div class="section-title">פרטים אישיים</div>
+    <div class="section-title">👤 פרטים אישיים</div>
     ${u.fullName?`<div class="row"><span class="label">שם מלא</span><span class="val">${u.fullName}</span></div>`:''}
+    ${u.idnum?`<div class="row"><span class="label">תעודת זהות</span><span class="val">${u.idnum}</span></div>`:''}
+    ${u.phone?`<div class="row"><span class="label">טלפון נייד</span><span class="val">${u.phone}</span></div>`:''}
+    ${u.fund?`<div class="row"><span class="label">קופת חולים</span><span class="val">${u.fund}</span></div>`:''}
+  </div>
+
+  <div class="section">
+    <div class="section-title">🤰 פרטי ההריון</div>
     ${u.dueDate?`<div class="row"><span class="label">תאריך לידה משוערת</span><span class="val">${u.dueDate}</span></div>`:''}
     ${w?`<div class="row"><span class="label">שבוע הריון נוכחי</span><span class="val">שבוע ${w} מתוך 40</span></div>`:''}
     ${u.babies?`<div class="row"><span class="label">מספר עוברים</span><span class="val">${u.babies}</span></div>`:''}
-    ${u.fund?`<div class="row"><span class="label">קופת חולים</span><span class="val">${u.fund}</span></div>`:''}
+    ${u.prevpreg?`<div class="row"><span class="label">הריונות / לידות קודמות</span><span class="val">${u.prevpreg}</span></div>`:''}
     ${u.doctor?`<div class="row"><span class="label">רופאה/ה מטפל/ת</span><span class="val">${u.doctor}</span></div>`:''}
     ${u.clinic?`<div class="row"><span class="label">סניף / מרפאה</span><span class="val">${u.clinic}</span></div>`:''}
+    ${u.weight?`<div class="row"><span class="label">משקל</span><span class="val">${u.weight} ק״ג</span></div>`:''}
+    ${u.height?`<div class="row"><span class="label">גובה</span><span class="val">${u.height} ס״מ</span></div>`:''}
   </div>
 
-  ${u.meds?`<div class="section">
-    <div class="section-title">💊 תרופות קבועות</div>
-    <div style="font-size:13px;line-height:1.8;padding:6px 0;">${u.meds}</div>
-  </div>`:''}
+  <div class="section">
+    <div class="section-title">🩺 מידע רפואי חשוב</div>
+    ${u.bloodtype?`<div class="row"><span class="label">סוג דם</span><span class="val">${u.bloodtype}</span></div>`:''}
+    ${u.allergies?`<div class="row"><span class="label">⚠️ אלרגיות</span><span class="val" style="color:#C05050;">${u.allergies}</span></div>`:''}
+    ${u.meds?`<div class="row"><span class="label">💊 תרופות קבועות</span><span class="val">${u.meds}</span></div>`:''}
+    ${u.conds&&u.conds.length?`<div class="row"><span class="label">מצבים רפואיים</span><span class="val">${Array.isArray(u.conds)?u.conds.join(', '):u.conds}</span></div>`:''}
+  </div>
 
-  ${u.conds&&u.conds.length?`<div class="section">
-    <div class="section-title">🏥 מצבים רפואיים</div>
-    <div style="font-size:13px;line-height:1.8;padding:6px 0;">${Array.isArray(u.conds)?u.conds.join(' · '):u.conds}</div>
+  <div class="section">
+    <div class="section-title">🆘 איש קשר לחירום</div>
+    ${u.ecname?`<div class="row"><span class="label">שם</span><span class="val">${u.ecname}</span></div>`:''}
+    ${u.ecphone?`<div class="row"><span class="label">טלפון</span><span class="val">${u.ecphone}</span></div>`:''}
+  </div>
+
+  ${u.birthpref?`<div class="section">
+    <div class="section-title">🌸 העדפות לידה</div>
+    <div style="font-size:13px;line-height:1.8;padding:6px 0;">${u.birthpref}</div>
   </div>`:''}
 
   ${scan&&scan.length?`<div class="section">
@@ -1676,7 +1743,8 @@ function printMedCard(){
   </div>
 
   <div class="footer">
-    ⚕️ מסמך זה אינו תחליף לאבחון רפואי. הופק מאפליקציית שנינו | shneynu-app.vercel.app
+    ⚕️ מסמך זה אינו תחליף לאבחון רפואי — יש להציגו לצוות הרפואי לצד מסמכים רשמיים.<br/>
+    הופק מאפליקציית שנינו | shneynu-app.vercel.app
   </div>
   <script>window.onload=()=>window.print();<\/script>
   </body></html>`;

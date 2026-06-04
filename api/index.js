@@ -152,7 +152,9 @@ app.post('/api/auth/login', async (req, res) => {
 const ALLOWED_PROFILE_FIELDS = [
   'fullName','fund','doctor','clinic','dueDate','babies','firstPreg',
   'partner','pName','pContact','diet','reminder','weight','height',
-  'partnerEmail','partnerName','partnerUid',
+  'partnerEmail','partnerName','partnerUid','currentWeek',
+  'idnum','phone','bloodtype','allergies','prevpreg',
+  'ecname','ecphone','birthpref',
 ];
 
 app.get('/api/profile', authenticate, async (req, res) => {
