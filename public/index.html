@@ -1332,6 +1332,7 @@ function renderTab4(){
       <button class="btn btn-pri btn-full" onclick="saveProfileEdits()">💾 שמירת שינויים</button>
     </div>
 
+    <button class="btn btn-full mb12" onclick="printMedCard()" style="background:linear-gradient(135deg,#2563EB,#3B82F6);color:white;border:none;">🖨️ כרטיס רפואי להדפסה / שמירה</button>
     <button class="btn btn-danger btn-full" onclick="doLogout()">יציאה מהחשבון</button>
   </div>`;
 }
@@ -1608,6 +1609,80 @@ function stopCamera(){
 // ═══════════════════════════════════════════════
 // TAB 3 — הקן (NEST) + PARTNER SYNCING
 // ═══════════════════════════════════════════════
+function printMedCard(){
+  const u=ST.user||{};
+  const w=ST.demoWeek;
+  const appts=buildAppointments(w);
+  const scan=ST.scanResults;
+  const html=`<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"/>
+  <title>כרטיס רפואי — ${u.fullName||''}</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Arial',sans-serif;direction:rtl;background:#fff;color:#1a1a1a;padding:28px 32px;max-width:680px;margin:0 auto;}
+    h1{font-size:22px;font-weight:800;color:#C0714F;margin-bottom:2px;}
+    .sub{font-size:12px;color:#888;margin-bottom:20px;}
+    .section{margin-bottom:18px;}
+    .section-title{font-size:13px;font-weight:700;color:#C0714F;border-bottom:2px solid #FAD9C8;padding-bottom:4px;margin-bottom:10px;}
+    .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f0e8e0;font-size:13px;}
+    .row .label{color:#666;}
+    .row .val{font-weight:700;color:#1a1a1a;}
+    .badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:700;margin-left:4px;}
+    .ok{background:#EAF4EA;color:#5a9e5e;}
+    .warn{background:#FDF3E0;color:#E8A23A;}
+    .appt{padding:6px 0;border-bottom:1px solid #f0e8e0;font-size:12px;}
+    .appt-title{font-weight:700;color:#1a1a1a;}
+    .appt-sub{color:#888;font-size:11px;}
+    .footer{margin-top:24px;font-size:10px;color:#aaa;text-align:center;border-top:1px solid #eee;padding-top:12px;}
+    .logo{font-size:18px;font-weight:800;color:#C0714F;}
+    @media print{body{padding:16px;} button{display:none;}}
+  </style></head><body>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+    <div>
+      <h1>כרטיס מידע רפואי 🌸</h1>
+      <div class="sub">הופק מאפליקציית שנינו · ${new Date().toLocaleDateString('he-IL')}</div>
+    </div>
+    <div class="logo">שנינו 👶💛</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">פרטים אישיים</div>
+    ${u.fullName?`<div class="row"><span class="label">שם מלא</span><span class="val">${u.fullName}</span></div>`:''}
+    ${u.dueDate?`<div class="row"><span class="label">תאריך לידה משוערת</span><span class="val">${u.dueDate}</span></div>`:''}
+    ${w?`<div class="row"><span class="label">שבוע הריון נוכחי</span><span class="val">שבוע ${w} מתוך 40</span></div>`:''}
+    ${u.babies?`<div class="row"><span class="label">מספר עוברים</span><span class="val">${u.babies}</span></div>`:''}
+    ${u.fund?`<div class="row"><span class="label">קופת חולים</span><span class="val">${u.fund}</span></div>`:''}
+    ${u.doctor?`<div class="row"><span class="label">רופאה/ה מטפל/ת</span><span class="val">${u.doctor}</span></div>`:''}
+    ${u.clinic?`<div class="row"><span class="label">סניף / מרפאה</span><span class="val">${u.clinic}</span></div>`:''}
+  </div>
+
+  ${u.meds?`<div class="section">
+    <div class="section-title">💊 תרופות קבועות</div>
+    <div style="font-size:13px;line-height:1.8;padding:6px 0;">${u.meds}</div>
+  </div>`:''}
+
+  ${u.conds&&u.conds.length?`<div class="section">
+    <div class="section-title">🏥 מצבים רפואיים</div>
+    <div style="font-size:13px;line-height:1.8;padding:6px 0;">${Array.isArray(u.conds)?u.conds.join(' · '):u.conds}</div>
+  </div>`:''}
+
+  ${scan&&scan.length?`<div class="section">
+    <div class="section-title">🩸 תוצאות בדיקת דם אחרונה</div>
+    ${scan.map(r=>`<div class="row"><span class="label">${r.icon||''} ${r.label}</span><span class="val">${r.val} <span class="badge ${r.ok?'ok':'warn'}">${r.ok?'תקין':'גבול'}</span></span></div>`).join('')}
+  </div>`:''}
+
+  <div class="section">
+    <div class="section-title">📅 בדיקות ופגישות קרובות</div>
+    ${appts.map(a=>`<div class="appt"><div class="appt-title">${a.icon} ${a.title} <span style="color:#C0714F;font-size:11px;">${a.date||''}</span></div><div class="appt-sub">${a.sub}</div></div>`).join('')}
+  </div>
+
+  <div class="footer">
+    ⚕️ מסמך זה אינו תחליף לאבחון רפואי. הופק מאפליקציית שנינו | shneynu-app.vercel.app
+  </div>
+  <script>window.onload=()=>window.print();<\/script>
+  </body></html>`;
+  const w2=window.open('','_blank');
+  if(w2){w2.document.write(html);w2.document.close();}
+}
 function buildAppointments(w){
   const all=[
     {from:6,  to:10, icon:'🩸', title:'בדיקות דם ראשונות',       sub:'המוגלובין, ברזל, סוג דם'},
