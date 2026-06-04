@@ -1299,8 +1299,14 @@ function renderTab4(){
       <div class="fs13 fw7 txt-brown mb12">✏️ עריכת פרטי הריון</div>
 
       <div class="inp-wrap">
+        <div class="inp-label">שבוע הריון נוכחי</div>
+        <div class="inp-row"><span class="inp-icon">📊</span><input id="edit-week" class="inp" type="number" min="1" max="42" placeholder="7" value="${ST.demoWeek||u.currentWeek||''}"/></div>
+        <div class="inp-hint">הכניסי ידנית — האפליקציה תתעדכן מיד</div>
+      </div>
+      <div class="inp-wrap">
         <div class="inp-label">תאריך לידה משוערת</div>
         <div class="inp-row"><span class="inp-icon">🗓️</span><input id="edit-dueDate" class="inp" type="text" placeholder="DD/MM/YYYY" value="${u.dueDate||''}"/></div>
+        <div class="inp-hint">אם תמלאי תאריך — השבוע יחושב אוטומטית</div>
       </div>
 
       <div class="mb12">
@@ -1395,6 +1401,8 @@ async function saveProfileEdits(){
   const doctor=document.getElementById('edit-doctor')?.value?.trim();
   const weight=document.getElementById('edit-weight')?.value?.trim();
   const height=document.getElementById('edit-height')?.value?.trim();
+  const manualWeek=parseInt(document.getElementById('edit-week')?.value||'0');
+  if(manualWeek>=1&&manualWeek<=42){ST.user.currentWeek=manualWeek;ST.demoWeek=manualWeek;lsSet('shneynu_week',String(manualWeek));}
   if(dueDate){ST.user.dueDate=dueDate;const w=calcWeekFromDueDate(dueDate);if(w){ST.user.currentWeek=w;ST.demoWeek=w;lsSet('shneynu_week',String(w));}}
   if(doctor!==undefined) ST.user.doctor=doctor;
   if(weight) ST.user.weight=weight;
@@ -1492,6 +1500,7 @@ async function doRegister(){
   try{
     const res=await api('POST','/auth/register',{name,email,password:pw});
     _saveToken(res.token);
+    lsDel('shneynu_week');
     ST.user={fullName:res.fullName,email:res.email,uid:res.uid,remember:_rem};
     if(_rem)lsSet('shneynu_user',JSON.stringify(ST.user));
     startOnboarding();
