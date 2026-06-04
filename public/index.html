@@ -1608,6 +1608,21 @@ function stopCamera(){
 // ═══════════════════════════════════════════════
 // TAB 3 — הקן (NEST) + PARTNER SYNCING
 // ═══════════════════════════════════════════════
+function buildAppointments(w){
+  const all=[
+    {from:6,  to:10, icon:'🩸', title:'בדיקות דם ראשונות',       sub:'המוגלובין, ברזל, סוג דם'},
+    {from:11, to:14, icon:'📷', title:'אולטרסאונד שקיפות עורפית', sub:'שבוע 12-14 — בדיקה חשובה!'},
+    {from:14, to:17, icon:'🏥', title:'ביקורת גינקולוגית',        sub:'ביקורת שגרתית שליש שני'},
+    {from:18, to:22, icon:'📷', title:'אולטרסאונד מורפולוגי',     sub:'בדיקת מומים — מביאים את השותף 💛'},
+    {from:24, to:28, icon:'🩸', title:'בדיקת סוכרת הריון',        sub:'צום 8 שעות לפני הבדיקה'},
+    {from:28, to:32, icon:'🏥', title:'ביקורת שגרתית',            sub:'מדידת לחץ דם ומשקל'},
+    {from:32, to:36, icon:'📷', title:'אולטרסאונד שליש שלישי',    sub:'בדיקת מיקום השליה'},
+    {from:36, to:40, icon:'🏥', title:'ביקורות שבועיות',          sub:'מתכוננים ללידה 🌸'},
+  ];
+  const upcoming=all.filter(a=>a.from>=w||a.to>=w).slice(0,3);
+  if(!upcoming.length) return [{icon:'🌸',title:'עוד מעט מגיעות בדיקות',date:'',sub:'תעדכני תאריך לידה משוערת'}];
+  return upcoming.map(a=>({...a,date:`שבוע ${Math.max(a.from,w+1)}–${a.to}`}));
+}
 function renderTabNest(){
   const page=document.getElementById('app-page');
   const u=ST.user||{};
@@ -1618,28 +1633,36 @@ function renderTabNest(){
   let partnerHtml='';
   if(pLinked){
     const pw=pLinked.currentWeek||'?';
+    const rows=[
+      pLinked.dueDate  && {icon:'🗓️', label:'תאריך לידה משוערת', val:pLinked.dueDate},
+      pLinked.babies   && {icon:'👶', label:'מספר עוברים',        val:pLinked.babies},
+      pLinked.fund     && {icon:'🏥', label:'קופת חולים',          val:pLinked.fund},
+      pLinked.doctor   && {icon:'👩‍⚕️', label:'רופאה מטפלת',       val:pLinked.doctor},
+    ].filter(Boolean);
     partnerHtml=`
     <div class="card fin" style="background:linear-gradient(145deg,var(--greenLt),#f0f8f4);border-color:rgba(123,174,127,.4);">
-      <div class="row gap10 mb10">
+      <div class="row gap10 mb12">
         <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--green),#5a9e5e);display:flex;align-items:center;justify-content:center;font-size:18px;color:white;font-weight:700;">${(pLinked.fullName||pName||'?')[0]}</div>
         <div>
           <div class="fs14 fw7 txt-brown">${pLinked.fullName||pName} 💛</div>
           <div class="fs11 txt-green">✅ מחוברים יחד</div>
         </div>
       </div>
-      <div class="grid2">
+      <div class="grid2 mb12">
         <div style="background:var(--vanilla);border-radius:11px;padding:10px;text-align:center;border:1px solid var(--dough);">
-          <div style="font-size:18px;">📊</div>
+          <div style="font-size:18px;">🤰</div>
           <div class="fs20 fw7 txt-green">${pw}</div>
-          <div class="fs10 txt-taupe">שבוע הריון שלה</div>
+          <div class="fs10 txt-taupe">שבוע הריון</div>
         </div>
         <div style="background:var(--vanilla);border-radius:11px;padding:10px;text-align:center;border:1px solid var(--dough);">
-          <div style="font-size:18px;">📊</div>
-          <div class="fs20 fw7 txt-cin">${ST.demoWeek}</div>
-          <div class="fs10 txt-taupe">שבוע שלי</div>
+          <div style="font-size:18px;">⏳</div>
+          <div class="fs20 fw7 txt-cin">${pw!=='?'?40-pw:'?'}</div>
+          <div class="fs10 txt-taupe">שבועות נותרו</div>
         </div>
       </div>
-      ${pLinked.fund?`<div class="fs10 txt-taupe mt8" style="text-align:center;">קופת חולים: ${pLinked.fund}</div>`:''}
+      ${rows.length?`<div style="background:var(--vanilla);border-radius:12px;padding:10px 13px;border:1px solid var(--dough);">
+        ${rows.map(r=>`<div class="row-sb" style="padding:5px 0;border-bottom:1px solid var(--dough);"><span class="fs12 txt-gray">${r.icon} ${r.label}</span><span class="fs12 fw7 txt-brown">${r.val}</span></div>`).join('')}
+      </div>`:''}
     </div>`;
   } else if(pName||pContact){
     partnerHtml=`
@@ -1705,12 +1728,8 @@ function renderTabNest(){
   ${partnerHtml}
 
   <div class="card fin mt12">
-    <div class="fs12 fw7 txt-brown mb10">📅 מאורעות קרובים</div>
-    ${[
-      {icon:'🏥',title:'ביקורת גינקולוגית',date:'שבוע '+(ST.demoWeek+2),sub:'זכרי לשאול על תוצאות הברזל'},
-      {icon:'🩸',title:'בדיקת דם חודשית',date:'עוד 8 ימים',sub:'צום 8 שעות לפני'},
-      {icon:'📷',title:'אולטרסאונד מורפולוגי',date:'שבוע '+(ST.demoWeek+4),sub:'מביאים את השותף/ה 💛'},
-    ].map(ev=>`
+    <div class="fs12 fw7 txt-brown mb10">📅 בדיקות ופגישות קרובות</div>
+    ${buildAppointments(pLinked?.currentWeek||ST.demoWeek).map(ev=>`
     <div class="row gap9 mb10" style="align-items:flex-start;">
       <div style="width:34px;height:34px;border-radius:10px;background:var(--brioche);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;border:1px solid var(--dough);">${ev.icon}</div>
       <div><div class="fs12 fw6 txt-brown">${ev.title}</div><div class="fs10 txt-cin fw7">${ev.date}</div><div class="fs10 txt-taupe">${ev.sub}</div></div>

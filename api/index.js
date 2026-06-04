@@ -478,13 +478,14 @@ app.get('/api/partner/data', authenticate, async (req, res) => {
     if (!partnerDoc.exists) return res.json({ partner: null });
     const d = partnerDoc.data();
 
-    // Only expose safe public fields
     res.json({
       partner: {
-        fullName:     d.fullName || '',
-        currentWeek:  d.currentWeek || 14,
-        journalCount: 0, // privacy: don't expose count here
-        fund:         d.fund || '',
+        fullName:    d.fullName    || '',
+        currentWeek: d.currentWeek || 14,
+        fund:        d.fund        || '',
+        doctor:      d.doctor      || '',
+        dueDate:     d.dueDate     || '',
+        babies:      d.babies      || '',
       },
     });
   } catch {
