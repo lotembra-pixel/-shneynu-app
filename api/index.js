@@ -478,14 +478,32 @@ app.get('/api/partner/data', authenticate, async (req, res) => {
     if (!partnerDoc.exists) return res.json({ partner: null });
     const d = partnerDoc.data();
 
+    // Load medications
+    let meds = '';
+    try {
+      const medDoc = await db.collection('users').doc(partnerUid)
+        .collection('medical').doc('private').get();
+      if (medDoc.exists) meds = medDoc.data().meds || '';
+    } catch {}
+
+    // Load latest scan results
+    let latestScan = null;
+    try {
+      const scanSnap = await db.collection('users').doc(partnerUid)
+        .collection('scans').orderBy('id', 'desc').limit(1).get();
+      if (!scanSnap.empty) latestScan = scanSnap.docs[0].data();
+    } catch {}
+
     res.json({
       partner: {
-        fullName:    d.fullName    || '',
+        fullName:    d.fullName     || '',
         currentWeek: d.currentWeek || 14,
-        fund:        d.fund        || '',
-        doctor:      d.doctor      || '',
-        dueDate:     d.dueDate     || '',
-        babies:      d.babies      || '',
+        fund:        d.fund         || '',
+        doctor:      d.doctor       || '',
+        dueDate:     d.dueDate      || '',
+        babies:      d.babies       || '',
+        meds:        meds,
+        latestScan:  latestScan,
       },
     });
   } catch {

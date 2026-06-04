@@ -1660,8 +1660,20 @@ function renderTabNest(){
           <div class="fs10 txt-taupe">שבועות נותרו</div>
         </div>
       </div>
-      ${rows.length?`<div style="background:var(--vanilla);border-radius:12px;padding:10px 13px;border:1px solid var(--dough);">
+      ${rows.length?`<div style="background:var(--vanilla);border-radius:12px;padding:10px 13px;border:1px solid var(--dough);margin-bottom:10px;">
         ${rows.map(r=>`<div class="row-sb" style="padding:5px 0;border-bottom:1px solid var(--dough);"><span class="fs12 txt-gray">${r.icon} ${r.label}</span><span class="fs12 fw7 txt-brown">${r.val}</span></div>`).join('')}
+      </div>`:''}
+      ${pLinked.meds?`<div style="background:var(--plumLt);border-radius:12px;padding:11px 13px;border:1px solid rgba(196,168,212,.4);margin-bottom:10px;">
+        <div class="fs11 fw7 txt-plum mb4">💊 תרופות קבועות</div>
+        <div class="fs12 txt-brown" style="line-height:1.6;">${pLinked.meds}</div>
+      </div>`:''}
+      ${pLinked.latestScan?`<div style="background:var(--greenLt);border-radius:12px;padding:11px 13px;border:1px solid rgba(123,174,127,.4);">
+        <div class="fs11 fw7 txt-green mb8">🩸 בדיקת דם אחרונה — שבוע ${pLinked.latestScan.week||''}</div>
+        ${(pLinked.latestScan.rows||[]).map(r=>`
+        <div class="row-sb" style="padding:4px 0;border-bottom:1px solid rgba(123,174,127,.2);">
+          <span class="fs11 txt-gray">${r.icon||''} ${r.label}</span>
+          <span class="fs11 fw7" style="color:${r.ok?'var(--green)':'var(--saffron)'};">${r.val} ${r.ok?'✅':'⚠️'}</span>
+        </div>`).join('')}
       </div>`:''}
     </div>`;
   } else if(pName||pContact){
