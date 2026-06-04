@@ -1265,6 +1265,9 @@ function renderTab4(){
   const u=ST.user||{};
   const nm=u.fullName?.split(' ')[0]||'מאיה';
   const page=document.getElementById('app-page');
+  const FUNDS=['כללית','מכבי','מאוחדת','לאומית'];
+  const BABIES=['אחד 👶','תאומים 👶👶','שלישייה+'];
+  const DIET_OPTS=['טבעונית','צמחונית','ללא גלוטן','כשר','ללא הגבלה'];
   page.innerHTML=`<div style="padding:8px 0;">
     <div class="text-center mb16">
       <div style="width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--rose));display:flex;align-items:center;justify-content:center;font-size:26px;color:white;font-weight:700;margin:0 auto 9px;font-family:Heebo,sans-serif;">${nm[0]}</div>
@@ -1272,8 +1275,71 @@ function renderTab4(){
       <div class="fs11 txt-taupe">${u.email||''}</div>
       ${u.fund?`<div style="display:inline-block;margin-top:5px;background:var(--roseLt);border-radius:999px;padding:3px 11px;font-size:10px;color:var(--cin);font-weight:700;">${u.fund}</div>`:''}
     </div>
+
+    <div class="card mb12">
+      <div class="fs13 fw7 txt-brown mb12">✏️ עריכת פרטי הריון</div>
+
+      <div class="inp-wrap">
+        <div class="inp-label">תאריך לידה משוערת</div>
+        <div class="inp-row"><span class="inp-icon">🗓️</span><input id="edit-dueDate" class="inp" type="text" placeholder="DD/MM/YYYY" value="${u.dueDate||''}"/></div>
+      </div>
+
+      <div class="mb12">
+        <div class="inp-label mb8">כמה תינוקות?</div>
+        <div class="chips">${BABIES.map(o=>`<div class="chip${(u.babies||''===o)||u.babies===o?' on':''}" onclick="editChip('babies','${o}')">${u.babies===o?'✓ ':''}${o}</div>`).join('')}</div>
+      </div>
+
+      <div class="mb12">
+        <div class="inp-label mb8">קופת חולים</div>
+        <div class="chips">${FUNDS.map(o=>`<div class="chip${u.fund===o?' on':''}" onclick="editChip('fund','${o}')">${u.fund===o?'✓ ':''}${o}</div>`).join('')}</div>
+      </div>
+
+      <div class="inp-wrap">
+        <div class="inp-label">גינקולוגית / מיילדת</div>
+        <div class="inp-row"><span class="inp-icon">👩‍⚕️</span><input id="edit-doctor" class="inp" type="text" placeholder="ד״ר... (אופציונלי)" value="${u.doctor||''}"/></div>
+      </div>
+
+      <div class="inp-wrap">
+        <div class="inp-label">משקל (ק״ג)</div>
+        <div class="inp-row"><span class="inp-icon">⚖️</span><input id="edit-weight" class="inp" type="number" placeholder="משקל..." value="${u.weight||''}"/></div>
+      </div>
+
+      <div class="inp-wrap">
+        <div class="inp-label">גובה (ס״מ)</div>
+        <div class="inp-row"><span class="inp-icon">📏</span><input id="edit-height" class="inp" type="number" placeholder="גובה..." value="${u.height||''}"/></div>
+      </div>
+
+      <div id="edit-save-msg" style="display:none;"></div>
+      <button class="btn btn-pri btn-full" onclick="saveProfileEdits()">💾 שמירת שינויים</button>
+    </div>
+
     <button class="btn btn-danger btn-full" onclick="doLogout()">יציאה מהחשבון</button>
   </div>`;
+}
+
+function editChip(field, val){
+  if(!ST.user)return;
+  ST.user[field]=val;
+  renderTab4();
+}
+
+async function saveProfileEdits(){
+  const dueDate=document.getElementById('edit-dueDate')?.value?.trim();
+  const doctor=document.getElementById('edit-doctor')?.value?.trim();
+  const weight=document.getElementById('edit-weight')?.value?.trim();
+  const height=document.getElementById('edit-height')?.value?.trim();
+  if(dueDate) ST.user.dueDate=dueDate;
+  if(doctor!==undefined) ST.user.doctor=doctor;
+  if(weight) ST.user.weight=weight;
+  if(height) ST.user.height=height;
+  const msg=document.getElementById('edit-save-msg');
+  try{
+    await api('PUT','/profile',ST.user);
+    lsSet('shneynu_user',JSON.stringify(ST.user));
+    if(msg){msg.innerHTML='<div class="fin" style="background:var(--greenLt);border-radius:10px;padding:9px 13px;margin-bottom:10px;font-size:12px;color:var(--green);text-align:center;border:1px solid rgba(123,174,127,.44);">✅ הפרטים עודכנו בהצלחה!</div>';msg.style.display='block';setTimeout(()=>{msg.style.display='none';},3000);}
+  }catch(e){
+    if(msg){msg.innerHTML=`<div class="fin" style="background:var(--redLt);border-radius:10px;padding:9px 13px;margin-bottom:10px;font-size:12px;color:var(--red);text-align:center;">שגיאה: ${e.message}</div>`;msg.style.display='block';}
+  }
 }
 
 // ═══════════════════════════════════════════════
