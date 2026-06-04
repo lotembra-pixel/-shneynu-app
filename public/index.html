@@ -1665,7 +1665,12 @@ function renderTabNest(){
           <div class="inp-label">אימייל או טלפון</div>
           <div class="inp-row"><span class="inp-icon">📱</span><input id="partner-contact-inp" class="inp" type="text" placeholder="לשליחת הזמנה..."/></div>
         </div>
-        <button class="btn btn-pri btn-full" onclick="invitePartner()">💌 שליחת הזמנה</button>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <button class="btn btn-pri btn-full" onclick="invitePartner()">💌 שמירת ההזמנה</button>
+          <button class="btn btn-sec btn-full" onclick="sendWhatsAppInvite()" style="background:#25D366;color:white;border-color:#25D366;">
+            <span style="font-size:16px;">📲</span> שליחה ב-WhatsApp
+          </button>
+        </div>
       </div>
     </div>`;
   }
@@ -1713,6 +1718,17 @@ function renderTabNest(){
   </div>`;
 }
 
+function sendWhatsAppInvite(){
+  const contact=document.getElementById('partner-contact-inp')?.value?.trim();
+  const name=document.getElementById('partner-name-inp')?.value?.trim()||'';
+  const myName=ST.user?.fullName?.split(' ')[0]||'';
+  const msg=`היי ${name} 💛\n${myName} מזמינה אותך להצטרף לאפליקציית ההריון שלנו — שנינו 👶\n\nמשם נוכל לעקוב יחד על כל שלב בדרך ✨\n\nלחץ/י כאן להצטרפות:\nhttps://shneynu-app.vercel.app\n\nתירשם/י עם המייל: ${contact||''}`;
+  const phone=contact?.replace(/[^0-9]/g,'');
+  const url=phone&&phone.length>5
+    ?`https://wa.me/${phone.startsWith('0')?'972'+phone.slice(1):phone}?text=${encodeURIComponent(msg)}`
+    :`https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url,'_blank');
+}
 async function invitePartner(){
   const contact=document.getElementById('partner-contact-inp')?.value?.trim();
   const name=document.getElementById('partner-name-inp')?.value?.trim();
