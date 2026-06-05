@@ -485,8 +485,8 @@ async function chatAnswerGemini(question) {
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
   const body = {
-    system_instruction: { parts: [{ text: systemPrompt }] },
-    contents: [{ parts: [{ text: question }] }],
+    systemInstruction: { parts: [{ text: systemPrompt }] },
+    contents: [{ role: 'user', parts: [{ text: question }] }],
     generationConfig: { temperature: 0.7, maxOutputTokens: 400 },
   };
 
@@ -495,7 +495,11 @@ async function chatAnswerGemini(question) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-  if (!r.ok) return null;
+  if (!r.ok) {
+    const errData = await r.json().catch(() => ({}));
+    console.error('Gemini error:', r.status, JSON.stringify(errData));
+    return null;
+  }
   const data = await r.json();
   return data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
 }
