@@ -462,14 +462,41 @@ const CHAT_KB = [
   { kw:['אומגה','DHA','אומגה 3'],   ans:'אומגה 3 / DHA חיוני להתפתחות מוח ועיניים התינוק 🧠 מקורות: סלמון, פורל, אגוזי מלך, זרעי פשתן. תוסף DHA מומלץ אם לא אוכלת דגים באופן קבוע.' },
 ];
 
-function chatAnswer(question) {
-
-function chatAnswer(question) {
+function chatAnswerLocal(question) {
   const q = question.toLowerCase();
   for (const { kw, ans } of CHAT_KB) {
     if (kw.some(k => q.includes(k))) return ans;
   }
   return 'שאלה טובה 💛 בהריון הגוף עובר שינויים מדהימים! הבסיס לתחושה טובה: מנוחה, תזונה מאוזנת (ירקות, חלבונים, ברזל, סידן), שתיית מים מרובה (8+ כוסות), ותוספי הריון. אם תפרטי את שאלתך — אוכל לעזור יותר 🌸';
+}
+
+async function chatAnswerGemini(question) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return null;
+
+  const systemPrompt = `את "שפית ההריון" — עוזרת חכמה ואמפתית לנשים בהריון.
+ענִי תמיד בעברית בלבד, בשפה חמה, תומכת ומקצועית.
+תני תשובות מועילות ומבוססות על מידע רפואי מוכר.
+לשאלות על תסמינים חמורים (דימום חזק, כאב חד מאוד, חום גבוה מאוד, אובדן הכרה) — ציינִי שיש לפנות לרופאה או לחדר מיון.
+אל תגידי "התייעצי עם הרופאה" כתשובה יחידה — תמיד תני מידע מועיל תחילה.
+השתמשי באמוג'ים בצורה מתונה (2-3 לכל תשובה).
+תשובות קצרות וברורות — עד 5 משפטים.`;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const body = {
+    system_instruction: { parts: [{ text: systemPrompt }] },
+    contents: [{ parts: [{ text: question }] }],
+    generationConfig: { temperature: 0.7, maxOutputTokens: 400 },
+  };
+
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) return null;
+  const data = await r.json();
+  return data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
 }
 
 app.post('/api/chat', authenticate, async (req, res) => {
@@ -478,7 +505,11 @@ app.post('/api/chat', authenticate, async (req, res) => {
   });
   if (err) return res.status(400).json({ error: err });
 
-  const answer = chatAnswer(req.body.question);
+  let answer;
+  try {
+    answer = await chatAnswerGemini(req.body.question);
+  } catch {}
+  if (!answer) answer = chatAnswerLocal(req.body.question);
 
   // Save to chat history (fire-and-forget)
   db.collection('users').doc(req.user.uid).collection('chat').add({
