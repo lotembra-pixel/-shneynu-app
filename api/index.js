@@ -134,9 +134,10 @@ app.post('/api/auth/login', async (req, res) => {
     const docSnap   = await db.collection('users').doc(tokenData.localId).get();
     const profile   = docSnap.exists ? docSnap.data() : {};
     res.json({
-      token:    tokenData.idToken,
-      uid:      tokenData.localId,
-      fullName: profile.fullName || tokenData.displayName || email.split('@')[0],
+      token:        tokenData.idToken,
+      refreshToken: tokenData.refreshToken,
+      uid:          tokenData.localId,
+      fullName:     profile.fullName || tokenData.displayName || email.split('@')[0],
       email,
       ...profile,
     });

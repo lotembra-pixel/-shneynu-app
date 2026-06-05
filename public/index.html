@@ -1498,6 +1498,12 @@ async function api(method,path,body){
   if(body!==undefined)opts.body=JSON.stringify(body);
   const res=await fetch('/api'+path,opts);
   const data=await res.json().catch(()=>({}));
+  if(res.status===401&&path!=='/auth/login'&&path!=='/auth/register'){
+    _saveToken(null);
+    toast('פג תוקף החיבור — נא להתחבר מחדש 🔑','info');
+    setTimeout(()=>showScreen('scr-login'),1200);
+    throw new Error('פג תוקף החיבור');
+  }
   if(!res.ok)throw new Error(data.error||'שגיאת שרת');
   return data;
 }
@@ -1551,6 +1557,7 @@ async function doLogin(){
     const res=await api('POST','/auth/login',{email,password:pw});
     _saveToken(res.token);
     ST.user={...res};
+    lsSet('shneynu_user',JSON.stringify({fullName:res.fullName,email:res.email,uid:res.uid}));
     const entries=await loadJournalEntries();
     if(entries.length)ST.journalEntries=entries;
     await checkPartnerInvite();
