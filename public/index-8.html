@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#FAF0DC"/>
+<title>שנינו 👶💛</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cream:#FDF6EE;--brioche:#FAF0DC;--vanilla:#FDF9F4;
+  --cin:#C0714F;--cinLt:#D4896A;--rose:#E8A598;--roseLt:#FCEEE9;
+  --brown:#3D2B1F;--gray:#6E5B4E;--taupe:#8F7C67;
+  --dough:#EDE0CE;
+  --green:#5E9A63;--greenLt:#EAF4EA;
+  --saffron:#E8A23A;--saffronLt:#FDF3E0;
+  --red:#B5473F;--redLt:#FCEAEA;
+  --plum:#C4A8D4;--plumLt:#F3EDF8;--plumDk:#6B4C7A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--cream);font-family:'Heebo',sans-serif;direction:rtl;color:var(--brown);-webkit-tap-highlight-color:transparent;}
+button{font-family:inherit;}
+.screen{display:none;min-height:100vh;}
+.screen.active{display:block;}
+@keyframes fin{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+@keyframes pulse{0%{transform:scale(1);opacity:.6;}100%{transform:scale(1.8);opacity:0;}}
+@keyframes spin{to{transform:rotate(360deg);}}
+.fin{animation:fin .3s ease both;}
+
+/* layout */
+.page{padding:14px 14px 96px;max-width:560px;margin:0 auto;}
+.topbar{background:var(--brioche);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--dough);position:sticky;top:0;z-index:50;}
+.tabbar{position:fixed;bottom:0;left:0;right:0;height:66px;background:var(--brioche);border-top:1px solid var(--dough);display:flex;align-items:center;justify-content:space-around;box-shadow:0 -3px 14px rgba(61,43,31,.07);z-index:50;padding-bottom:env(safe-area-inset-bottom);}
+.tab-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;position:relative;background:none;border:none;cursor:pointer;color:var(--taupe);font-size:12px;min-width:56px;}
+.tab-btn .ic{font-size:21px;line-height:1;}
+.tab-btn.on{color:var(--cin);font-weight:700;}
+.tab-btn.on::before{content:'';position:absolute;top:-5px;width:22px;height:3px;border-radius:9px;background:var(--cin);}
+.tab-btn .dotbadge{position:absolute;top:0;left:12px;width:9px;height:9px;border-radius:50%;background:var(--red);}
+
+/* cards */
+.card{background:var(--brioche);border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:0 4px 18px rgba(61,43,31,.07);border:1px solid var(--dough);}
+.card-hero{background:linear-gradient(145deg,var(--brioche),#FDF3E8);border-radius:22px;padding:18px 16px 14px;margin-bottom:12px;box-shadow:0 6px 24px rgba(61,43,31,.1);border:1px solid var(--dough);}
+.card-title{font-size:16px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.sub{font-size:13px;color:var(--gray);line-height:1.6;}
+.small{font-size:12px;color:var(--taupe);line-height:1.5;}
+.note{background:var(--vanilla);border:1px dashed var(--dough);border-radius:12px;padding:9px 12px;font-size:12px;color:var(--taupe);line-height:1.5;}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:13px 20px;border-radius:999px;cursor:pointer;font-weight:700;font-size:15px;border:none;transition:transform .1s, opacity .2s;text-decoration:none;}
+.btn:active{transform:scale(.97);}
+.btn:disabled{opacity:.6;cursor:default;}
+.btn-pri{background:linear-gradient(135deg,var(--cin),var(--cinLt));color:#fff;box-shadow:0 4px 14px rgba(192,113,79,.35);}
+.btn-sec{background:transparent;color:var(--cin);border:1.5px solid var(--cin);}
+.btn-ghost{background:var(--vanilla);color:var(--gray);border:1.5px solid var(--dough);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-wa{background:#25D366;color:#fff;}
+.btn-danger{background:var(--redLt);color:var(--red);border:1.5px solid rgba(181,71,63,.3);}
+.btn-sm{padding:8px 14px;font-size:13px;}
+.btn-full{width:100%;}
+.link{background:none;border:none;color:var(--cin);font-weight:700;font-size:13px;cursor:pointer;text-decoration:underline;}
+
+/* inputs */
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:14px;font-weight:600;margin-bottom:5px;}
+.inp{width:100%;background:var(--vanilla);border-radius:13px;border:1.5px solid var(--dough);padding:12px 13px;font-size:16px;color:var(--brown);outline:none;font-family:inherit;}
+.inp:focus{border-color:var(--cin);box-shadow:0 0 0 3px rgba(192,113,79,.12);}
+textarea.inp{resize:vertical;min-height:90px;line-height:1.6;}
+.err{font-size:13px;color:var(--red);margin-top:4px;min-height:0;}
+.hint{font-size:12px;color:var(--taupe);margin-top:4px;}
+.pw-wrap{position:relative;}
+.pw-wrap .inp{padding-left:46px;}
+.pw-eye{position:absolute;left:8px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:18px;cursor:pointer;padding:6px;}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+.chip{padding:8px 14px;border-radius:999px;cursor:pointer;font-size:14px;border:1.5px solid var(--dough);background:var(--vanilla);color:var(--gray);}
+.chip.on{border-color:var(--cin);background:var(--roseLt);color:var(--cin);font-weight:700;}
+
+/* toggle */
+.toggle{width:48px;height:28px;border-radius:999px;background:var(--dough);position:relative;cursor:pointer;flex-shrink:0;border:none;transition:background .2s;}
+.toggle::after{content:'';width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:3px;right:3px;transition:right .2s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.toggle.on{background:var(--cin);}
+.toggle.on::after{right:23px;}
+
+/* counters */
+.counters{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.counter{background:var(--vanilla);border:1.5px solid var(--dough);border-radius:16px;padding:12px 8px;text-align:center;}
+.counter .num{font-size:30px;font-weight:800;line-height:1.1;}
+.counter .lbl{font-size:13px;color:var(--gray);}
+.counter .ctl{display:flex;justify-content:center;gap:10px;margin-top:8px;}
+.cbtn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--dough);background:#fff;font-size:20px;font-weight:700;cursor:pointer;color:var(--brown);}
+.cbtn.plus{background:var(--cin);border-color:var(--cin);color:#fff;}
+
+/* meds */
+.med{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--vanilla);border:1.5px solid var(--dough);margin-bottom:8px;cursor:pointer;}
+.med.done{background:var(--greenLt);border-color:rgba(94,154,99,.45);}
+.med .chk{width:28px;height:28px;border-radius:50%;border:2px solid var(--saffron);display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;flex-shrink:0;}
+.med.done .chk{background:var(--green);border-color:var(--green);}
+
+/* list rows */
+.lrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--dough);}
+.lrow:last-child{border-bottom:none;}
+.lrow .ic{font-size:20px;width:28px;text-align:center;flex-shrink:0;}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;background:var(--vanilla);border:1px solid var(--dough);}
+.badge.now{background:var(--saffronLt);border-color:rgba(232,162,58,.5);color:#9a6412;}
+
+/* pastry */
+.pastry-circle{width:92px;height:92px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FAE8CC,#F0D890);display:flex;align-items:center;justify-content:center;box-shadow:0 5px 22px rgba(212,168,67,.35);flex-shrink:0;}
+.prog{height:8px;border-radius:999px;background:var(--dough);overflow:hidden;}
+.prog > div{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--rose),var(--cin));transition:width .6s;}
+
+/* splash */
+.splash{min-height:100vh;background:linear-gradient(155deg,var(--cream),var(--brioche) 55%,var(--roseLt));display:flex;align-items:center;justify-content:center;padding:28px;}
+.splash-in{text-align:center;width:100%;max-width:380px;}
+
+/* subpage header */
+.subhead{background:var(--brioche);padding:12px 16px;border-bottom:1px solid var(--dough);display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;}
+.back{background:none;border:none;font-size:22px;cursor:pointer;color:var(--cin);padding:4px 8px;}
+
+/* chat */
+.chat{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;margin:10px 0;}
+.msg{max-width:88%;border-radius:14px;padding:10px 12px;font-size:14px;line-height:1.6;white-space:pre-wrap;}
+.msg.user{background:var(--vanilla);border:1px solid var(--dough);align-self:flex-start;}
+.msg.ai{background:var(--plumLt);border:1px solid rgba(196,168,212,.5);align-self:flex-end;}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(61,43,31,.6);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal-box{background:var(--vanilla);border-radius:20px;padding:16px;max-width:520px;width:100%;max-height:90vh;overflow:auto;}
+.modal-box img{width:100%;border-radius:12px;}
+
+/* mic */
+.mic{width:54px;height:54px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--cin),var(--cinLt));color:#fff;font-size:22px;cursor:pointer;position:relative;flex-shrink:0;}
+.mic.rec{background:linear-gradient(135deg,#B5473F,#d96b63);}
+.mic.rec::after{content:'';position:absolute;inset:-6px;border-radius:50%;background:rgba(181,71,63,.25);animation:pulse 1s ease-out infinite;}
+
+/* toast */
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:300;border-radius:12px;padding:11px 18px;font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.12);max-width:90vw;text-align:center;animation:fin .25s ease;}
+
+/* utils */
+.row{display:flex;align-items:center;gap:8px;}
+.row-sb{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.grow{flex:1;}
+.center{text-align:center;}
+.mt8{margin-top:8px;}.mt12{margin-top:12px;}.mb8{margin-bottom:8px;}.mb12{margin-bottom:12px;}
+.hide{display:none!important;}
+.spinner{display:inline-block;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.5);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
+.loading{display:flex;align-items:center;justify-content:center;min-height:100vh;font-size:40px;}
+</style>
+</head>
+<body>
+
+<!-- טעינה -->
+<div id="scr-loading" class="screen active"><div class="loading">👶💛</div></div>
+
+<!-- פתיחה -->
+<div id="scr-splash" class="screen">
+  <div class="splash"><div class="splash-in">
+    <div style="font-size:70px;line-height:1;">👶</div>
+    <div style="color:var(--cin);font-weight:700;letter-spacing:2px;font-size:13px;margin-top:6px;">אפליקציית ההריון של שניכם</div>
+    <h1 style="font-size:52px;font-weight:800;line-height:1.1;">שנינו 💛</h1>
+    <p class="sub" style="margin:10px auto 26px;max-width:290px;">מלווה אתכם שבוע אחרי שבוע — מותאמת לישראל, ובנויה לשניכם.</p>
+    <div id="join-banner" class="note hide" style="margin-bottom:14px;background:var(--greenLt);border-color:rgba(94,154,99,.4);color:var(--green);font-weight:600;">קיבלת הזמנה להצטרף 💛 הירשם/י כשותף/ה או היכנס/י לחשבון</div>
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <button class="btn btn-pri btn-full" onclick="openAuth('register','mom')">🤰 אני בהריון — יצירת חשבון</button>
+      <button class="btn btn-sec btn-full" onclick="openAuth('register','partner')">💛 אני השותף/ה — יצירת חשבון</button>
+      <button class="btn btn-ghost btn-full" onclick="openAuth('login')">כבר יש לי חשבון — כניסה</button>
+    </div>
+    <p class="small" style="margin-top:18px;">🔒 המידע נשמר בחשבון שלך, ונחשף לשותף/ה רק אחרי אישור שלך.</p>
+  </div></div>
+</div>
+
+<!-- הרשמה / כניסה -->
+<div id="scr-auth" class="screen">
+  <div class="subhead"><button class="back" onclick="showScreen('scr-splash')" aria-label="חזרה">→</button><div id="auth-title" class="fw7" style="font-size:17px;font-weight:700;"></div></div>
+  <div class="page" style="padding-top:22px;">
+    <div class="center mb12" style="font-size:44px;" id="auth-emoji">👶💛</div>
+    <div id="auth-name-wrap" class="field"><label for="auth-name">שם מלא</label><input id="auth-name" class="inp" autocomplete="name" placeholder="השם שלך"/></div>
+    <div class="field"><label for="auth-email">אימייל</label><input id="auth-email" class="inp" type="email" autocomplete="email" inputmode="email" placeholder="your@email.com" dir="ltr" style="text-align:right;"/></div>
+    <div class="field"><label for="auth-pw">סיסמה</label>
+      <div class="pw-wrap"><input id="auth-pw" class="inp" type="password" autocomplete="current-password" placeholder="לפחות 6 תווים"/><button class="pw-eye" type="button" onclick="togglePw('auth-pw')" aria-label="הצגת סיסמה">👁️</button></div>
+    </div>
+    <div id="auth-err" class="err mb12"></div>
+    <button id="auth-btn" class="btn btn-pri btn-full" onclick="submitAuth()"></button>
+    <div class="center mt12"><button id="auth-switch" class="link" onclick="switchAuth()"></button></div>
+  </div>
+</div>
+
+<!-- היכרות (אמא) -->
+<div id="scr-onboard" class="screen">
+  <div class="subhead"><div style="font-size:17px;font-weight:700;">כמה פרטים ונתחיל 🌸</div></div>
+  <div class="page" id="onboard-body"></div>
+</div>
+
+<!-- הצטרפות שותף -->
+<div id="scr-join" class="screen">
+  <div class="subhead"><div style="font-size:17px;font-weight:700;">הצטרפות כשותף/ה 💛</div></div>
+  <div class="page" id="join-body"></div>
+</div>
+
+<!-- האפליקציה -->
+<div id="scr-app" class="screen">
+  <div class="topbar">
+    <div class="row">
+      <div id="app-avatar" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--rose));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;"></div>
+      <div><div style="font-size:15px;font-weight:700;line-height:1.2;">שנינו 👶💛</div><div id="app-tab-label" class="small"></div></div>
+    </div>
+    <div id="app-week-badge" class="badge"></div>
+  </div>
+  <div id="app-page" class="page"></div>
+  <nav id="tabbar" class="tabbar"></nav>
+</div>
+
+<div id="modal-root"></div>
+<input id="doc-file" type="file" accept="image/*" class="hide" onchange="onDocFile(this)"/>
+
+<script>
+// ═══════════════════════════════════════════════
+// PASTRY SYSTEM
+// ═══════════════════════════════════════════════
+function svgMiniRugelach(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 80 80" fill="none">
+    <ellipse cx="40" cy="48" rx="30" ry="14" fill="#E8C98A"/>
+    <path d="M14 42 Q20 20 40 18 Q60 16 66 42" fill="#D4A843" opacity=".7"/>
+    <path d="M28 40 Q32 34 38 36 Q44 38 42 44" stroke="#8B5E1A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M36 38 Q40 32 46 34 Q52 36 50 42" stroke="#8B5E1A" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <circle cx="16" cy="44" r="4" fill="#C8832A"/>
+    <circle cx="64" cy="44" r="4" fill="#C8832A"/>
+    <ellipse cx="38" cy="36" rx="8" ry="3" fill="white" opacity=".25"/>
+  </svg>`;
+}
+function svgMiniBurekas(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 80 80" fill="none">
+    <path d="M40 12 L68 62 L12 62 Z" fill="#E8D08A"/>
+    <path d="M40 12 L68 62 L12 62 Z" fill="none" stroke="#C8A030" stroke-width="2"/>
+    <path d="M40 22 L62 58 L18 58 Z" fill="#D4B850" opacity=".6"/>
+    <path d="M40 32 L56 54 L24 54 Z" fill="#C8A030" opacity=".4"/>
+    <circle cx="40" cy="46" r="6" fill="white" opacity=".5"/>
+    <circle cx="40" cy="46" r="3" fill="#FAF0DC" opacity=".8"/>
+    <circle cx="40" cy="30" r="2" fill="#C8A030" opacity=".6"/>
+    <path d="M32 20 Q36 16 40 18" stroke="white" stroke-width="1.5" opacity=".4" stroke-linecap="round"/>
+  </svg>`;
+}
+function svgMiniCroissant(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 80 80" fill="none">
+    <path d="M15 50 Q20 25 40 20 Q60 25 65 50 Q55 45 40 47 Q25 45 15 50Z" fill="#D4A843"/>
+    <path d="M15 50 Q20 30 40 26 Q60 30 65 50" fill="none" stroke="#B8903A" stroke-width="1.5"/>
+    <path d="M20 47 Q25 32 40 29 Q55 32 60 47" fill="none" stroke="#C8973A" stroke-width="1" opacity=".6"/>
+    <path d="M13 48 Q10 44 14 42 Q18 40 17 45Z" fill="#C8832A"/>
+    <path d="M67 48 Q70 44 66 42 Q62 40 63 45Z" fill="#C8832A"/>
+    <ellipse cx="35" cy="32" rx="7" ry="3" fill="white" opacity=".2" transform="rotate(-15 35 32)"/>
+  </svg>`;
+}
+function svgBurekas(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 90 90" fill="none">
+    <path d="M45 8 L80 75 L10 75 Z" fill="#EDD080"/>
+    <path d="M45 8 L80 75 L10 75 Z" fill="none" stroke="#C8A030" stroke-width="2.5"/>
+    <path d="M45 18 L74 71 L16 71 Z" fill="#D4B850" opacity=".5"/>
+    <path d="M45 28 L68 67 L22 67 Z" fill="#C8A030" opacity=".35"/>
+    <ellipse cx="45" cy="58" rx="9" ry="5" fill="white" opacity=".55"/>
+    <ellipse cx="45" cy="58" rx="5" ry="3" fill="#FAF0DC" opacity=".9"/>
+    <circle cx="38" cy="38" r="2.5" fill="#C8A030" opacity=".5"/>
+    <circle cx="52" cy="38" r="2.5" fill="#C8A030" opacity=".5"/>
+    <path d="M34 16 Q40 10 45 13" stroke="white" stroke-width="2" opacity=".35" stroke-linecap="round"/>
+  </svg>`;
+}
+function svgRugelach(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 90 90" fill="none">
+    <path d="M10 55 Q15 20 45 16 Q75 12 80 55 Q65 46 45 48 Q25 46 10 55Z" fill="#E8C870"/>
+    <path d="M10 55 Q15 22 45 18 Q75 14 80 55" fill="none" stroke="#C09030" stroke-width="2"/>
+    <path d="M16 52 Q20 26 45 22 Q70 18 74 52" fill="none" stroke="#C8A030" stroke-width="1.5" opacity=".6"/>
+    <path d="M22 50 Q26 30 45 27 Q64 24 68 50" fill="none" stroke="#B89028" stroke-width="1.2" opacity=".5"/>
+    <path d="M30 46 Q38 38 45 40 Q52 42 50 48" fill="#7B4A1A" opacity=".55"/>
+    <ellipse cx="12" cy="53" rx="6" ry="5" fill="#C8832A"/>
+    <ellipse cx="78" cy="53" rx="6" ry="5" fill="#C8832A"/>
+    <ellipse cx="40" cy="30" rx="10" ry="4" fill="white" opacity=".2" transform="rotate(-5 40 30)"/>
+  </svg>`;
+}
+function svgCroissant(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 90 90" fill="none">
+    <path d="M12 60 Q18 28 45 22 Q72 16 78 60 Q62 50 45 53 Q28 50 12 60Z" fill="#D4A843"/>
+    <path d="M12 60 Q18 30 45 24 Q72 18 78 60" fill="none" stroke="#B8903A" stroke-width="2"/>
+    <path d="M18 57 Q23 34 45 28 Q67 22 72 57" fill="none" stroke="#C8973A" stroke-width="1.5" opacity=".6"/>
+    <path d="M10 57 Q6 50 10 44 Q16 38 14 50Z" fill="#C07828"/>
+    <path d="M80 57 Q84 50 80 44 Q74 38 76 50Z" fill="#C07828"/>
+    <ellipse cx="38" cy="33" rx="10" ry="4" fill="white" opacity=".22" transform="rotate(-12 38 33)"/>
+  </svg>`;
+}
+function svgGiantBurekas(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" fill="none">
+    <path d="M50 5 L92 88 L8 88 Z" fill="#EDD080"/>
+    <path d="M50 5 L92 88 L8 88 Z" fill="none" stroke="#C8A030" stroke-width="3"/>
+    <path d="M50 20 L89 87 L11 87 Z" fill="rgba(200,160,48,.3)"/>
+    <path d="M50 30 L86 86 L14 86 Z" fill="rgba(200,160,48,.22)"/>
+    <path d="M50 40 L83 85 L17 85 Z" fill="rgba(200,160,48,.15)"/>
+    <ellipse cx="50" cy="70" rx="13" ry="7" fill="white" opacity=".6"/>
+    <ellipse cx="50" cy="70" rx="8" ry="4" fill="#FAF0DC"/>
+    <circle cx="40" cy="40" r="2.5" fill="#C8A030" opacity=".45"/>
+    <circle cx="50" cy="30" r="2.5" fill="#C8A030" opacity=".45"/>
+    <circle cx="60" cy="40" r="2.5" fill="#C8A030" opacity=".45"/>
+    <path d="M36 14 Q44 7 50 11" stroke="white" stroke-width="2.5" opacity=".3" stroke-linecap="round"/>
+  </svg>`;
+}
+function svgGiantRugelach(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" fill="none">
+    <path d="M8 65 Q14 18 50 12 Q86 6 92 65 Q72 52 50 55 Q28 52 8 65Z" fill="#E8C870"/>
+    <path d="M8 65 Q14 20 50 14 Q86 8 92 65" fill="none" stroke="#C09030" stroke-width="2.5"/>
+    <path d="M14 62 Q20 22 50 16 Q80 10 86 62" fill="none" stroke="#B89028" stroke-width="1.5" opacity=".5"/>
+    <path d="M20 60 Q26 26 50 20 Q74 14 80 60" fill="none" stroke="#B89028" stroke-width="1.2" opacity=".4"/>
+    <path d="M32 56 Q42 42 50 45 Q58 48 55 58" fill="#5C3010" opacity=".6"/>
+    <ellipse cx="10" cy="62" rx="8" ry="7" fill="#C8832A"/>
+    <ellipse cx="90" cy="62" rx="8" ry="7" fill="#C8832A"/>
+    <ellipse cx="44" cy="26" rx="14" ry="5" fill="white" opacity=".18" transform="rotate(-5 44 26)"/>
+  </svg>`;
+}
+function svgGiantCroissant(sz){
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" fill="none">
+    <path d="M8 70 Q16 26 50 18 Q84 10 92 70 Q72 57 50 61 Q28 57 8 70Z" fill="#D4A843"/>
+    <path d="M8 70 Q16 28 50 20 Q84 12 92 70" fill="none" stroke="#B8903A" stroke-width="2.5"/>
+    <path d="M14 67 Q20 30 50 22 Q80 14 86 67" fill="none" stroke="#C8973A" stroke-width="1.8" opacity=".6"/>
+    <path d="M20 65 Q26 34 50 26 Q74 18 80 65" fill="none" stroke="#C8973A" stroke-width="1.4" opacity=".45"/>
+    <path d="M7 67 Q2 57 7 48 Q15 38 12 56Z" fill="#B87020"/>
+    <path d="M93 67 Q98 57 93 48 Q85 38 88 56Z" fill="#B87020"/>
+    <ellipse cx="40" cy="30" rx="14" ry="5" fill="white" opacity=".22" transform="rotate(-14 40 30)"/>
+  </svg>`;
+}
+
+
+// ════════════════════════════════════════════════════════════════════════════
+// שנינו — לטם מחוליה, 2026
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── מאפים לפי שבוע (גודל ומשקל ממוצעים; עד שבוע 19 מראש לעכוז, משבוע 20 מראש לעקב) ──
+const PASTRIES = [
+  {w:[1,2,3],  svg:svgMiniRugelach,  he:'עוד קטנטן',          size:'זעיר',          weight:''},
+  {w:[4,5],    svg:svgMiniRugelach,  he:'פירור של רוגעלך',    size:'~0.2 ס״מ',      weight:''},
+  {w:[6,7],    svg:svgMiniBurekas,   he:'מיני בורקס',         size:'~1 ס״מ',        weight:'פחות מגרם'},
+  {w:[8,9],    svg:svgMiniCroissant, he:'מיני קרואסון',       size:'~2 ס״מ',        weight:'~2 גר׳'},
+  {w:[10,11],  svg:svgMiniRugelach,  he:'רוגעלך שוקולד',      size:'~3.5 ס״מ',      weight:'~6 גר׳'},
+  {w:[12],     svg:svgMiniBurekas,   he:'בורקס תפוח אדמה',    size:'~5.5 ס״מ',      weight:'~14 גר׳'},
+  {w:[13,14],  svg:svgBurekas,       he:'בורקס גבינה חם',     size:'~8 ס״מ',        weight:'~40 גר׳'},
+  {w:[15,16],  svg:svgRugelach,      he:'רוגעלך גדול',        size:'~11 ס״מ',       weight:'~90 גר׳'},
+  {w:[17,18],  svg:svgCroissant,     he:'קרואסון חמאה',       size:'~13.5 ס״מ',     weight:'~170 גר׳'},
+  {w:[19,20],  svg:svgBurekas,       he:'בורקס פטריות',       size:'~25 ס״מ',       weight:'~300 גר׳'},
+  {w:[21,22],  svg:svgRugelach,      he:'רוגעלך אגוזים',      size:'~27 ס״מ',       weight:'~400 גר׳'},
+  {w:[23,24],  svg:svgCroissant,     he:'קרואסון שקדים',      size:'~30 ס״מ',       weight:'~550 גר׳'},
+  {w:[25,26],  svg:svgBurekas,       he:'בורקס ענק',          size:'~35 ס״מ',       weight:'~750 גר׳'},
+  {w:[27,28],  svg:svgRugelach,      he:'רוגעלך קינמון ענק',  size:'~37 ס״מ',       weight:'~1 ק״ג'},
+  {w:[29,30],  svg:svgGiantCroissant,he:'קרואסון ענק',        size:'~40 ס״מ',       weight:'~1.3 ק״ג'},
+  {w:[31,32],  svg:svgGiantBurekas,  he:'מגש בורקס',          size:'~42 ס״מ',       weight:'~1.7 ק״ג'},
+  {w:[33,34],  svg:svgGiantRugelach, he:'מגש רוגעלך',         size:'~45 ס״מ',       weight:'~2.1 ק״ג'},
+  {w:[35,36],  svg:svgGiantCroissant,he:'סלסלת קרואסונים',    size:'~47 ס״מ',       weight:'~2.6 ק״ג'},
+  {w:[37,38],  svg:svgGiantBurekas,  he:'מגש בורקס לשבת',     size:'~49 ס״מ',       weight:'~3 ק״ג'},
+  {w:[39,40],  svg:svgGiantRugelach, he:'עוגת שמרים חגיגית',  size:'~50 ס״מ',       weight:'~3.4 ק״ג'},
+];
+const pastryFor = w => PASTRIES.find(p => p.w.includes(Math.min(Math.max(w,1),40))) || PASTRIES[0];
+
+// ── בדיקות מקובלות בישראל לפי שבוע (מדריך כללי) ──
+const TESTS = [
+  {from:6,  to:10, ic:'🩺', t:'פתיחת תיק הריון', s:'בדיקות דם ושתן ראשונות ואולטרסאונד לאישור דופק'},
+  {from:11, to:14, ic:'📷', t:'סקר שליש ראשון', s:'שקיפות עורפית ובדיקת דם'},
+  {from:14, to:17, ic:'🔎', t:'סקירת מערכות מוקדמת', s:'אולטרסאונד מפורט'},
+  {from:16, to:20, ic:'🩸', t:'חלבון עוברי (שליש שני)', s:'בדיקת דם, לפי ההמלצה שקיבלת'},
+  {from:19, to:24, ic:'🔎', t:'סקירת מערכות מאוחרת', s:'אולטרסאונד מפורט — שווה להגיע יחד 💛'},
+  {from:24, to:28, ic:'🍬', t:'העמסת סוכר', s:'בדיקה לסוכרת הריון'},
+  {from:26, to:30, ic:'🩸', t:'בדיקות דם שליש שלישי', s:'ספירת דם; לבעלות Rh שלילי — נוגדנים וזריקת אנטי-D'},
+  {from:30, to:34, ic:'📷', t:'אולטרסאונד שליש שלישי', s:'הערכת גדילה, לפי המלצת הרופא/ה'},
+  {from:35, to:40, ic:'🏥', t:'הכנה ללידה', s:'ביקורים תכופים יותר ובחירת בית חולים'},
+  {from:40, to:42, ic:'⏱️', t:'מעקב אחרי התאריך', s:'ניטור לפי הנחיית הרופא/ה'},
+];
+
+// ── משימה זוגית לכל שבוע ──
+const COUPLE = [
+  {to:5,  t:'חוגגים יחד 🥂', s:'דברו על מתי ולמי מספרים, ותתחילו לבחור רופא/ה ומרפאה.'},
+  {to:8,  t:'מצילים מבחילות', s:'שיהיו בבית קרקרים, ג׳ינג׳ר ובקבוק מים ליד המיטה. בוקר טוב מתחיל לפני הקימה.'},
+  {to:10, t:'הבדיקה הראשונה', s:'הולכים יחד לפתיחת התיק, עם רשימת שאלות שהכנתם מראש.'},
+  {to:13, t:'קובעים את הסקר', s:'קבעו יחד תור לשקיפות עורפית ותכניסו אותו ליומן של שניכם.'},
+  {to:16, t:'ערב זוגי', s:'השליש השני מגיע עם יותר אנרגיה — זה הזמן לחופשה קצרה או ערב בחוץ.'},
+  {to:19, t:'משחק השמות', s:'כל אחד כותב 5 שמות בסתר, ומשווים. מה שמופיע אצל שניכם — עולה לגמר.'},
+  {to:22, t:'סקירת מערכות יחד', s:'באים יחד לסקירה, ואחר כך גלידה 🍦'},
+  {to:25, t:'קורס הכנה ללידה', s:'בודקים מסלולים ונרשמים — המקומות נתפסים מהר.'},
+  {to:28, t:'יום העמסת הסוכר', s:'הסעה לבדיקה, ושאוכל טעים יחכה בסוף.'},
+  {to:31, t:'פינת התינוק', s:'מתחילים לסדר: מיטה, עגלה, כיסא בטיחות. רשימה משותפת עוזרת.'},
+  {to:34, t:'מכינים את הדרך', s:'עושים סיבוב לבית החולים ובודקים יחד את הזכויות של שניכם לחופשת לידה.'},
+  {to:36, t:'תיק לידה', s:'אורזים יחד ושמים ליד הדלת. לא לשכוח מטענים!'},
+  {to:38, t:'כיסא בטיחות', s:'מתקינים ברכב ומתרגלים חגירה — עדיף עכשיו ולא ביציאה מבית החולים.'},
+  {to:40, t:'מפנקים 💛', s:'עיסוי רגליים, אוכל מוכן במקפיא, והרבה סבלנות.'},
+  {to:99, t:'כל רגע עכשיו', s:'טלפונים חשובים בהישג יד, ומעקב לפי הנחיות הרופא/ה.'},
+];
+const coupleFor = w => COUPLE.find(c => w <= c.to);
+
+// ── זכויות (ישראל) ──
+const KZ = q => 'https://www.kolzchut.org.il/w/index.php?search=' + encodeURIComponent(q);
+const RIGHTS_MOM = [
+  {t:'40 שעות היעדרות בתשלום לבדיקות הריון', s:'למי שעובדת יותר מ-4 שעות ביום (20 שעות למשרה קטנה יותר). שומרים אישורים ומגישים למעסיק.', q:'היעדרות מעבודה לבדיקות הריון'},
+  {t:'הגנה מפיטורים', s:'עובדת בהריון עם ותק של חצי שנה לפחות — אסור לפטר בלי היתר ממשרד העבודה.', q:'איסור פיטורי עובדת בהריון'},
+  {t:'חופשת לידה ודמי לידה', s:'26 שבועות חופשה, מתוכם עד 15 בתשלום מביטוח לאומי למי שעומדת בתנאי הוותק.', q:'דמי לידה'},
+  {t:'מענק לידה', s:'משולם מביטוח לאומי אחרי לידה בבית חולים.', q:'מענק לידה'},
+  {t:'שמירת הריון', s:'כשרופא/ה קובע/ת שצריך לשמור הריון — אפשר לקבל גמלה מביטוח לאומי.', q:'גמלת שמירת הריון'},
+];
+const RIGHTS_PARTNER = [
+  {t:'ימי היעדרות לבדיקות וללידה', s:'עד 7 ימים בשנה על חשבון ימי המחלה — לליווי לבדיקות מסוימות ולנוכחות בלידה.', q:'היעדרות בשל הריון ולידה של בת הזוג'},
+  {t:'חופשת לידה לבן/בת הזוג', s:'אפשר לקחת חלק מחופשת הלידה במקום האם, בתנאים מסוימים.', q:'חופשת לידה לבן הזוג'},
+];
+
+// ════════════════════════════════════════════════════════════════════════════
+// מצב + עזרים
+// ════════════════════════════════════════════════════════════════════════════
+const ST = { user:null, tab:0, daily:null, docs:null, journal:null, chat:[], chatBusy:false, mom:null, auth:{mode:'register',role:'mom'}, newDoc:null, rec:null };
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+const todayStr = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
+const fmtDate = iso => { if(!iso) return ''; const [y,m,d] = iso.split('-'); return `${+d}.${+m}.${y}`; };
+const ls = {
+  get:k => { try { return localStorage.getItem(k); } catch { return null; } },
+  set:(k,v) => { try { localStorage.setItem(k,v); } catch {} },
+  del:k => { try { localStorage.removeItem(k); } catch {} },
+};
+
+function toast(msg, type='info'){
+  const t = document.createElement('div');
+  const c = {error:['var(--redLt)','var(--red)'], success:['var(--greenLt)','var(--green)'], info:['var(--brioche)','var(--brown)']}[type];
+  t.className = 'toast'; t.style.background = c[0]; t.style.color = c[1]; t.style.border = '1px solid var(--dough)';
+  t.textContent = msg; document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  window.scrollTo(0,0);
+}
+function togglePw(id){ const i = $(id); i.type = i.type === 'password' ? 'text' : 'password'; }
+function closeModal(){ $('modal-root').innerHTML = ''; }
+function modal(html){ $('modal-root').innerHTML = `<div class="modal" onclick="if(event.target===this)closeModal()"><div class="modal-box fin">${html}</div></div>`; }
+
+// ── חישוב שבוע מתאריך לידה משוער (40 שבועות = 280 יום) ──
+function normDate(v){
+  if(!v) return '';
+  if(/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+  const m = String(v).match(/^(\d{1,2})[\/.](\d{1,2})[\/.](\d{4})$/);   // תמיכה בפורמט הישן DD/MM/YYYY
+  return m ? `${m[3]}-${pad(m[2])}-${pad(m[1])}` : '';
+}
+function preg(dueIso){
+  const iso = normDate(dueIso);
+  if(!iso) return null;
+  const [y,m,d] = iso.split('-').map(Number);
+  const due = new Date(y, m-1, d);
+  const now = new Date(); const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const daysLeft = Math.round((due - today) / 864e5);
+  const ga = 280 - daysLeft;                      // גיל הריון בימים
+  if(ga < 0 || ga > 300) return null;
+  const weeks = Math.floor(ga / 7), days = ga % 7;
+  const month = weeks < 5 ? 1 : weeks < 9 ? 2 : weeks < 14 ? 3 : weeks < 18 ? 4 : weeks < 23 ? 5 : weeks < 27 ? 6 : weeks < 32 ? 7 : weeks < 36 ? 8 : 9;
+  const tri = weeks < 14 ? 'שליש ראשון' : weeks < 27 ? 'שליש שני' : 'שליש שלישי';
+  return { weeks, days, daysLeft, ga, month, tri, pct: Math.min(100, Math.round(ga / 280 * 100)) };
+}
+const MONTHS = ['','ראשון','שני','שלישי','רביעי','חמישי','שישי','שביעי','שמיני','תשיעי'];
+
+// ════════════════════════════════════════════════════════════════════════════
+// API — עם חידוש חיבור אוטומטי (הטוקן של Firebase פג כל שעה)
+// ════════════════════════════════════════════════════════════════════════════
+let _refreshing = null;
+async function refreshToken(){
+  const rt = ls.get('shn_rt');
+  if(!rt) return false;
+  if(!_refreshing){
+    _refreshing = fetch('/api/auth/refresh', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({refreshToken:rt})})
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if(d?.token){ ls.set('shn_t', d.token); ls.set('shn_rt', d.refreshToken); return true; } return false; })
+      .catch(() => false)
+      .finally(() => setTimeout(() => _refreshing = null, 0));
+  }
+  return _refreshing;
+}
+async function api(method, path, body, retry=true){
+  const headers = {'Content-Type':'application/json'};
+  const t = ls.get('shn_t'); if(t) headers.Authorization = 'Bearer ' + t;
+  let res;
+  try { res = await fetch('/api' + path, {method, headers, body: body !== undefined ? JSON.stringify(body) : undefined}); }
+  catch { throw new Error('אין חיבור לאינטרנט'); }
+  if(res.status === 401 && retry && !path.startsWith('/auth/')){
+    if(await refreshToken()) return api(method, path, body, false);
+    logout(true);
+    throw new Error('החיבור פג — נא להתחבר שוב');
+  }
+  const data = await res.json().catch(() => ({}));
+  if(!res.ok) throw new Error(data.error || 'שגיאת שרת');
+  return data;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// הרשמה / כניסה
+// ════════════════════════════════════════════════════════════════════════════
+function openAuth(mode, role){
+  ST.auth = {mode, role: role || 'mom'};
+  renderAuth(); showScreen('scr-auth');
+}
+function switchAuth(){
+  ST.auth.mode = ST.auth.mode === 'login' ? 'register' : 'login';
+  renderAuth();
+}
+function renderAuth(){
+  const {mode, role} = ST.auth, reg = mode === 'register';
+  $('auth-title').textContent = reg ? (role === 'partner' ? 'הרשמה כשותף/ה' : 'יצירת חשבון') : 'כניסה לחשבון';
+  $('auth-emoji').textContent = reg && role === 'partner' ? '💛' : '👶💛';
+  $('auth-name-wrap').classList.toggle('hide', !reg);
+  $('auth-pw').autocomplete = reg ? 'new-password' : 'current-password';
+  $('auth-btn').textContent = reg ? '✨ יצירת החשבון' : 'כניסה →';
+  $('auth-switch').textContent = reg ? 'כבר יש לי חשבון — כניסה' : 'אין לי חשבון — הרשמה';
+  $('auth-err').textContent = '';
+}
+async function submitAuth(){
+  const {mode, role} = ST.auth, reg = mode === 'register';
+  const name = $('auth-name').value.trim(), email = $('auth-email').value.trim(), pw = $('auth-pw').value;
+  const err = $('auth-err'); err.textContent = '';
+  if(reg && !name) return err.textContent = 'נא להזין שם';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err.textContent = 'כתובת אימייל לא תקינה';
+  if(pw.length < 6) return err.textContent = 'הסיסמה צריכה להיות לפחות 6 תווים';
+  const btn = $('auth-btn'), orig = btn.textContent;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    const r = await api('POST', reg ? '/auth/register' : '/auth/login', reg ? {name, email, password:pw, role} : {email, password:pw});
+    ls.set('shn_t', r.token); ls.set('shn_rt', r.refreshToken);
+    $('auth-pw').value = '';
+    await boot();
+  } catch(e){ err.textContent = e.message; }
+  btn.disabled = false; btn.textContent = orig;
+}
+function logout(silent){
+  ['shn_t','shn_rt'].forEach(ls.del);
+  Object.assign(ST, {user:null, tab:0, daily:null, docs:null, journal:null, chat:[], mom:null});
+  showScreen('scr-splash');
+  if(!silent) toast('התנתקת 👋');
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// אתחול וניתוב
+// ════════════════════════════════════════════════════════════════════════════
+async function boot(){
+  const join = new URLSearchParams(location.search).get('join');
+  if(join){ sessionStorage.setItem('shn_join', join.toUpperCase()); history.replaceState(null, '', location.pathname); }
+  const pendingJoin = sessionStorage.getItem('shn_join');
+  $('join-banner').classList.toggle('hide', !pendingJoin);
+
+  if(!ls.get('shn_t')){ showScreen('scr-splash'); return; }
+  try {
+    ST.user = await api('GET', '/profile');
+  } catch { if(ls.get('shn_t')) { showScreen('scr-splash'); toast('בעיה בחיבור לשרת — נסי שוב', 'error'); } return; }
+
+  const u = ST.user;
+  // המרה חד-פעמית של תאריך בפורמט הישן
+  if(u.dueDate && !/^\d{4}-/.test(u.dueDate)){ u.dueDate = normDate(u.dueDate); api('PUT','/profile',{dueDate:u.dueDate}).catch(()=>{}); }
+
+  if(u.role === 'partner' || (pendingJoin && !u.dueDate && !u.partnerUid)){
+    if(u.partnerUid){ await loadPartner(); return launch(); }
+    return renderJoin(pendingJoin);
+  }
+  if(!u.dueDate && !u.onboarded) return renderOnboard();
+  launch();
+}
+
+function launch(){
+  sessionStorage.removeItem('shn_join');
+  const u = ST.user;
+  $('app-avatar').textContent = (u.fullName || '?').trim()[0] || '?';
+  ST.tab = 0;
+  showScreen('scr-app');
+  renderTabbar(); render();
+}
+
+const isPartner = () => ST.user?.role === 'partner';
+const TABS_MOM = [['🏠','בית'],['📁','תיק רפואי'],['📔','יומן'],['💛','שותף'],['👤','פרופיל']];
+const TABS_PARTNER = [['🏠','בית'],['📁','תיק רפואי'],['📔','יומן'],['👤','פרופיל']];
+function renderTabbar(){
+  const tabs = isPartner() ? TABS_PARTNER : TABS_MOM;
+  const alert = !isPartner() && ST.user.pendingPartner;
+  $('tabbar').innerHTML = tabs.map(([ic,l],i) =>
+    `<button class="tab-btn${i===ST.tab?' on':''}" onclick="go(${i})"><span class="ic">${ic}</span>${l}${alert && i===3 ? '<span class="dotbadge"></span>' : ''}</button>`).join('');
+}
+function go(i){ ST.tab = i; renderTabbar(); render(); window.scrollTo(0,0); }
+function render(){
+  const tabs = isPartner() ? TABS_PARTNER : TABS_MOM;
+  $('app-tab-label').textContent = tabs[ST.tab][1];
+  const p = preg(isPartner() ? ST.mom?.dueDate : ST.user.dueDate);
+  $('app-week-badge').textContent = p ? `שבוע ${p.weeks}+${p.days}` : '';
+  $('app-week-badge').classList.toggle('hide', !p);
+  const fns = isPartner() ? [tabHomePartner, tabDocsPartner, tabJournalPartner, tabProfilePartner] : [tabHome, tabDocs, tabJournal, tabPartner, tabProfile];
+  fns[ST.tab]();
+}
+const page = html => { $('app-page').innerHTML = html; };
+
+// ════════════════════════════════════════════════════════════════════════════
+// היכרות — אמא
+// ════════════════════════════════════════════════════════════════════════════
+const OB = { dueMode:'due', babies:'אחד', fund:'', date:'' };
+function renderOnboard(){
+  showScreen('scr-onboard');
+  const nm = (ST.user.fullName || '').split(' ')[0];
+  $('onboard-body').innerHTML = `
+    <div class="center mb12"><div style="font-size:40px;">🌸</div><h2 style="font-size:22px;">שלום ${esc(nm)}!</h2><p class="sub">מכאן האפליקציה תחשב לבד את השבוע שלך, כל יום.</p></div>
+    <div class="card">
+      <div class="chips">
+        <div class="chip${OB.dueMode==='due'?' on':''}" onclick="OB.dueMode='due';OB.date='';renderOnboard()">יש לי תאריך לידה משוער</div>
+        <div class="chip${OB.dueMode==='lmp'?' on':''}" onclick="OB.dueMode='lmp';OB.date='';renderOnboard()">אחשב לפי וסת אחרונה</div>
+      </div>
+      <div class="field"><label for="ob-date">${OB.dueMode==='due' ? 'תאריך לידה משוער' : 'היום הראשון של הווסת האחרונה'}</label><input id="ob-date" class="inp" type="date" value="${OB.date}" onchange="OB.date=this.value" oninput="OB.date=this.value"/></div>
+      <div class="field"><label>כמה תינוקות?</label><div class="chips">${['אחד','תאומים','שלישייה+'].map(o=>`<div class="chip${OB.babies===o?' on':''}" onclick="OB.babies='${o}';renderOnboard()">${o}</div>`).join('')}</div></div>
+      <div class="field"><label>קופת חולים</label><div class="chips">${['כללית','מכבי','מאוחדת','לאומית'].map(o=>`<div class="chip${OB.fund===o?' on':''}" onclick="OB.fund='${o}';renderOnboard()">${o}</div>`).join('')}</div></div>
+      <div id="ob-err" class="err mb8"></div>
+      <button class="btn btn-pri btn-full" onclick="finishOnboard()">🎉 בואי נתחיל</button>
+      <div class="center mt8"><button class="link" onclick="finishOnboard(true)">אמלא אחר כך</button></div>
+    </div>`;
+}
+async function finishOnboard(skip){
+  let dueDate = '';
+  if(!skip){
+    const v = $('ob-date').value || OB.date;
+    if(!v) return $('ob-err').textContent = 'נא לבחור תאריך';
+    if(OB.dueMode === 'lmp'){ const d = new Date(v); d.setDate(d.getDate() + 280); dueDate = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+    else dueDate = v;
+    if(!preg(dueDate)) return $('ob-err').textContent = 'התאריך לא נראה הגיוני — בדקי שוב';
+  }
+  const data = {dueDate, babies:OB.babies, fund:OB.fund, onboarded:true};
+  Object.assign(ST.user, data, {onboarded:true});
+  try { await api('PUT', '/profile', data); } catch(e){ toast(e.message, 'error'); }
+  launch();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// כרטיסים משותפים
+// ════════════════════════════════════════════════════════════════════════════
+function heroCard(dueDate, name, forPartner){
+  const p = preg(dueDate);
+  if(!p) return `<div class="card fin center"><div style="font-size:36px;">🗓️</div><div class="card-title" style="justify-content:center;">${forPartner ? 'עוד לא הוזן תאריך לידה משוער' : 'מה התאריך המשוער?'}</div>
+    <p class="sub mb12">${forPartner ? 'כשהיא תמלא אותו בפרופיל, השבוע יופיע כאן.' : 'מלאי אותו פעם אחת — והשבוע יתעדכן לבד כל יום.'}</p>
+    ${forPartner ? '' : `<button class="btn btn-pri" onclick="go(4)">למילוי בפרופיל</button>`}</div>`;
+  const pa = pastryFor(p.weeks);
+  const hr = new Date().getHours();
+  const gr = hr < 5 ? 'לילה טוב' : hr < 12 ? 'בוקר טוב' : hr < 17 ? 'צהריים טובים' : hr < 21 ? 'ערב טוב' : 'לילה טוב';
+  const over = p.daysLeft < 0;
+  return `<div class="card-hero fin">
+    <div class="row mb12" style="flex-wrap:wrap;gap:6px;">
+      <span class="badge">שבוע ${p.weeks}+${p.days}</span><span class="badge">חודש ${MONTHS[p.month]}</span><span class="badge">${p.tri}</span>
+    </div>
+    <div class="row" style="gap:14px;align-items:center;margin-bottom:14px;">
+      <div class="pastry-circle">${pa.svg(74)}</div>
+      <div class="grow">
+        <div style="font-size:18px;font-weight:700;margin-bottom:4px;">${gr}, ${esc((name||'').split(' ')[0])} ✨</div>
+        <div class="sub">${forPartner ? 'התינוק/ת שלכם' : 'התינוק/ת שלך'} בגודל של <b style="color:var(--cin);">${pa.he}</b></div>
+        <div class="small">${pa.size}${pa.weight ? ' · ' + pa.weight : ''} (ממוצע)</div>
+      </div>
+    </div>
+    <div class="row-sb small mb8"><span>שבוע 0</span><b style="color:var(--cin);">${over ? `${-p.daysLeft} ימים אחרי התאריך 🎀` : p.daysLeft === 0 ? 'היום התאריך המשוער! 🎀' : `עוד ${p.daysLeft} ימים 🎀`}</b><span>שבוע 40</span></div>
+    <div class="prog"><div style="width:${p.pct}%"></div></div>
+  </div>`;
+}
+
+function testsCard(dueDate){
+  const p = preg(dueDate); if(!p) return '';
+  const w = p.weeks;
+  const list = TESTS.filter(t => t.to >= w).slice(0, 3);
+  if(!list.length) return '';
+  return `<div class="card fin">
+    <div class="card-title">🗓️ בדיקות שמתקרבות</div>
+    ${list.map(t => { const now = w >= t.from; return `<div class="lrow"><div class="ic">${t.ic}</div><div class="grow"><div class="row-sb"><b style="font-size:15px;">${t.t}</b><span class="badge${now?' now':''}">${now ? `עכשיו · עד שבוע ${t.to}` : `שבועות ${t.from}–${t.to}`}</span></div><div class="small">${t.s}</div></div></div>`; }).join('')}
+    <div class="note mt8">המועדים הם מדריך כללי. את הבדיקות המדויקות קובעים מול הרופא/ה והקופה.</div>
+  </div>`;
+}
+
+function coupleCard(dueDate, forPartner){
+  const p = preg(dueDate); if(!p) return '';
+  const c = coupleFor(p.weeks);
+  const msg = `💛 המשימה הזוגית שלנו השבוע (שבוע ${p.weeks}): ${c.t} — ${c.s}`;
+  return `<div class="card fin" style="background:linear-gradient(135deg,var(--greenLt),#f6fbf6);border-color:rgba(94,154,99,.35);">
+    <div class="card-title">💛 ${forPartner ? 'המשימה שלך השבוע' : 'המשימה הזוגית של השבוע'}</div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:4px;">${c.t}</div>
+    <p class="sub">${c.s}</p>
+    ${forPartner ? '' : `<a class="btn btn-wa btn-sm mt12" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">שליחה לשותף בוואטסאפ</a>`}
+  </div>`;
+}
+
+function rightsCard(forPartner){
+  const list = forPartner ? RIGHTS_PARTNER.concat(RIGHTS_MOM.slice(2,3)) : RIGHTS_MOM;
+  return `<div class="card fin">
+    <div class="card-title">🇮🇱 הזכויות ${forPartner ? 'שלכם' : 'שלך'}</div>
+    ${list.map(r => `<div class="lrow"><div class="ic">✅</div><div class="grow"><b style="font-size:15px;">${r.t}</b><div class="small">${r.s} <a href="${KZ(r.q)}" target="_blank" rel="noopener" style="color:var(--cin);font-weight:700;">פרטים בכל זכות ←</a></div></div></div>`).join('')}
+    <div class="note mt8">מידע כללי בלבד. התנאים המדויקים — באתר כל זכות או בביטוח לאומי.</div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// בית — אמא
+// ════════════════════════════════════════════════════════════════════════════
+async function loadDaily(){
+  try { ST.daily = await api('GET', '/daily/' + todayStr()); ST.daily.date = todayStr(); }
+  catch { ST.daily = {kicks:0, water:0, medsTaken:[], date:todayStr()}; }
+}
+function tabHome(){
+  const u = ST.user;
+  if(!ST.daily || ST.daily.date !== todayStr()){ page(heroCard(u.dueDate, u.fullName)); loadDaily().then(() => ST.tab === 0 && !isPartner() && tabHome()); return; }
+  const d = ST.daily, meds = u.meds || [];
+  page(`
+    ${heroCard(u.dueDate, u.fullName)}
+    <div class="card fin">
+      <div class="card-title">📋 היום שלי</div>
+      <div class="counters mb12">
+        ${counter('kicks','👶','בעיטות',d.kicks)}
+        ${counter('water','💧','כוסות מים',d.water)}
+      </div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:8px;">💊 תרופות ותוספים</div>
+      ${meds.length ? meds.map((m,i) => { const done = (d.medsTaken||[]).includes(m.name); return `<div class="med${done?' done':''}" onclick="toggleMed(${i})"><div class="chk">${done?'✓':''}</div><div class="grow"><b>${esc(m.name)}</b><div class="small">${esc(m.time)}</div></div></div>`; }).join('')
+        : `<div class="note">עוד לא הוספת תרופות. <button class="link" onclick="go(4)">הוספה בפרופיל</button></div>`}
+    </div>
+    ${coupleCard(u.dueDate)}
+    ${testsCard(u.dueDate)}
+    ${rightsCard()}
+  `);
+}
+const counter = (k, ic, l, v) => `<div class="counter"><div style="font-size:22px;">${ic}</div><div class="num">${v||0}</div><div class="lbl">${l}</div><div class="ctl"><button class="cbtn" onclick="bump('${k}',-1)" aria-label="פחות">−</button><button class="cbtn plus" onclick="bump('${k}',1)" aria-label="עוד">+</button></div></div>`;
+let _dailyT = null;
+function saveDaily(){
+  clearTimeout(_dailyT);
+  const d = ST.daily;
+  _dailyT = setTimeout(() => api('PUT', '/daily/' + d.date, {kicks:d.kicks, water:d.water, medsTaken:d.medsTaken}).catch(e => toast(e.message,'error')), 700);
+}
+function bump(k, n){ ST.daily[k] = Math.max(0, (ST.daily[k]||0) + n); saveDaily(); tabHome(); }
+function toggleMed(i){
+  const name = ST.user.meds[i].name, arr = ST.daily.medsTaken = ST.daily.medsTaken || [];
+  const j = arr.indexOf(name); if(j >= 0) arr.splice(j,1); else arr.push(name);
+  saveDaily(); tabHome();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// תיק רפואי — אמא
+// ════════════════════════════════════════════════════════════════════════════
+const DOC_TYPES = ['בדיקת דם','בדיקת שתן','אולטרסאונד','העמסת סוכר','סקירת מערכות','מכתב רופא','אחר'];
+async function loadDocs(){ try { ST.docs = await api('GET','/docs'); } catch(e){ ST.docs = []; toast(e.message,'error'); } }
+function tabDocs(){
+  if(ST.newDoc) return docForm();
+  if(!ST.docs){ page('<div class="center small" style="padding:40px;">טוען...</div>'); loadDocs().then(() => ST.tab===1 && tabDocs()); return; }
+  page(`
+    <div class="row-sb mb12"><div><div style="font-size:19px;font-weight:700;">📁 התיק הרפואי</div><div class="small">כל הבדיקות במקום אחד</div></div>
+      <button class="btn btn-pri btn-sm" onclick="startDoc()">+ בדיקה חדשה</button></div>
+    ${ST.docs.length ? ST.docs.map(docCard).join('') : `<div class="card center"><div style="font-size:40px;">📄</div><p class="sub">עוד אין כאן בדיקות.<br>מצלמים את הדף מהמרפאה ושומרים — וזה תמיד איתך.</p></div>`}
+    <button class="btn btn-ghost btn-full mt8" onclick="printCard()">🖨️ כרטיס רפואי לבית החולים</button>
+  `);
+}
+function docCard(d, readOnly){
+  return `<div class="card fin" style="padding:14px;">
+    <div class="row-sb"><div><b style="font-size:16px;">${esc(d.title)}</b><div class="small">${fmtDate(d.date)}</div></div>
+      ${readOnly ? '' : `<button class="link" style="color:var(--red);" onclick="delDoc('${esc(d.id)}')">מחיקה</button>`}</div>
+    ${d.values?.length ? `<div class="mt8">${d.values.map(v => `<div class="row-sb" style="padding:6px 0;border-bottom:1px solid var(--dough);font-size:14px;"><span>${esc(v.label)}</span><b>${esc(v.val)}</b></div>`).join('')}</div>` : ''}
+    ${d.note ? `<p class="sub mt8">${esc(d.note)}</p>` : ''}
+    ${d.hasImage && !readOnly ? `<button class="btn btn-ghost btn-sm mt8" onclick="viewDoc('${esc(d.id)}')">🖼️ הצגת התמונה</button>` : ''}
+  </div>`;
+}
+function startDoc(){ ST.newDoc = {title:'בדיקת דם', date:todayStr(), values:[{label:'',val:''}], note:'', image:null}; tabDocs(); }
+function docForm(){
+  const n = ST.newDoc;
+  page(`
+    <div class="row mb12"><button class="back" onclick="ST.newDoc=null;tabDocs()">→</button><div style="font-size:19px;font-weight:700;">בדיקה חדשה</div></div>
+    <div class="card">
+      <div class="field"><label>סוג</label><div class="chips">${DOC_TYPES.map(t => `<div class="chip${n.title===t?' on':''}" onclick="docSet('title','${t}')">${t}</div>`).join('')}</div>
+        ${DOC_TYPES.includes(n.title) && n.title !== 'אחר' ? '' : `<input class="inp" placeholder="שם הבדיקה" value="${esc(n.title==='אחר'?'':n.title)}" oninput="ST.newDoc.title=this.value||'אחר'"/>`}</div>
+      <div class="field"><label for="doc-date">תאריך</label><input id="doc-date" class="inp" type="date" value="${n.date}" onchange="ST.newDoc.date=this.value"/></div>
+      <div class="field"><label>צילום</label>
+        ${n.image ? `<img src="${n.image}" style="width:100%;border-radius:12px;margin-bottom:8px;" alt="צילום הבדיקה"/><button class="link" onclick="ST.newDoc.image=null;docForm()">הסרת התמונה</button>`
+          : `<button class="btn btn-sec btn-full" onclick="$('doc-file').click()">📷 צילום / בחירת תמונה</button>`}
+      </div>
+      <div class="field"><label>ערכים חשובים (לא חובה)</label>
+        ${n.values.map((v,i) => `<div class="row mb8"><input class="inp grow" placeholder="למשל: המוגלובין" value="${esc(v.label)}" oninput="ST.newDoc.values[${i}].label=this.value"/><input class="inp" style="width:38%;" placeholder="ערך" value="${esc(v.val)}" oninput="ST.newDoc.values[${i}].val=this.value"/></div>`).join('')}
+        <button class="link" onclick="ST.newDoc.values.push({label:'',val:''});docForm()">+ עוד ערך</button>
+        <div class="hint">מעתיקים מהדף שקיבלת. את הפירוש עושים עם הרופא/ה.</div>
+      </div>
+      <div class="field"><label for="doc-note">הערה</label><textarea id="doc-note" class="inp" placeholder="מה אמרו לך, מה לבדוק בפעם הבאה..." oninput="ST.newDoc.note=this.value">${esc(n.note)}</textarea></div>
+      <button id="doc-save" class="btn btn-pri btn-full" onclick="saveDoc()">💾 שמירה בתיק</button>
+    </div>`);
+}
+function docSet(k, v){ ST.newDoc[k] = v; docForm(); }
+function onDocFile(input){
+  const f = input.files && input.files[0]; input.value = '';
+  if(!f) return;
+  const img = new Image(), url = URL.createObjectURL(f);
+  img.onload = () => {
+    let w = img.width, h = img.height, max = 1400;
+    if(Math.max(w,h) > max){ const r = max / Math.max(w,h); w = Math.round(w*r); h = Math.round(h*r); }
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    c.getContext('2d').drawImage(img, 0, 0, w, h);
+    let q = .75, data = c.toDataURL('image/jpeg', q);
+    while(data.length > 900000 && q > .3){ q -= .1; data = c.toDataURL('image/jpeg', q); }
+    URL.revokeObjectURL(url);
+    if(data.length > 950000) return toast('התמונה גדולה מדי', 'error');
+    ST.newDoc.image = data; docForm();
+  };
+  img.onerror = () => toast('לא הצלחתי לפתוח את התמונה', 'error');
+  img.src = url;
+}
+async function saveDoc(){
+  const n = ST.newDoc, btn = $('doc-save');
+  if(!n.title.trim()) return toast('נא לתת שם לבדיקה', 'error');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    await api('POST', '/docs', {...n, values:n.values.filter(v => v.label.trim() && v.val.trim())});
+    ST.newDoc = null; ST.docs = null; toast('✅ נשמר בתיק', 'success'); tabDocs();
+  } catch(e){ toast(e.message, 'error'); btn.disabled = false; btn.textContent = '💾 שמירה בתיק'; }
+}
+async function delDoc(id){
+  if(!confirm('למחוק את הבדיקה?')) return;
+  try { await api('DELETE', '/docs/' + id); ST.docs = ST.docs.filter(d => d.id !== id); tabDocs(); } catch(e){ toast(e.message,'error'); }
+}
+async function viewDoc(id){
+  modal('<div class="center small" style="padding:30px;">טוען תמונה...</div>');
+  try { const r = await api('GET', `/docs/${id}/image`); modal(r.image ? `<img src="${r.image}" alt="צילום הבדיקה"/><button class="btn btn-ghost btn-full mt8" onclick="closeModal()">סגירה</button>` : '<p class="sub">אין תמונה</p>'); }
+  catch(e){ closeModal(); toast(e.message,'error'); }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// יומן + צ׳אט
+// ════════════════════════════════════════════════════════════════════════════
+async function loadJournal(){ try { ST.journal = await api('GET','/journal'); } catch { ST.journal = []; } }
+function tabJournal(){
+  if(!ST.journal){ page('<div class="center small" style="padding:40px;">טוען...</div>'); loadJournal().then(() => ST.tab===2 && tabJournal()); return; }
+  const canSpeak = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+  page(`
+    <div style="font-size:19px;font-weight:700;" class="mb12">📔 היומן שלי</div>
+    <div class="card">
+      <textarea id="j-text" class="inp" placeholder="מה עבר עלייך היום? מה הרגשת? רגע שרוצים לזכור..."></textarea>
+      <div class="row mt8">
+        ${canSpeak ? `<button id="mic" class="mic" onclick="toggleMic()" aria-label="הקלטה">🎙️</button><span id="mic-lbl" class="small grow">אפשר גם לדבר — והטקסט ייכתב לבד</span>` : '<span class="grow"></span>'}
+        <button id="j-save" class="btn btn-pri" onclick="saveJournal()">שמירה</button>
+      </div>
+    </div>
+    ${ST.journal.map(e => journalCard(e)).join('') || '<p class="small center mb12">היומן עוד ריק 🌸</p>'}
+    ${chatCard()}
+  `);
+}
+function journalCard(e, readOnly){
+  const d = new Date(e.id);
+  return `<div class="card fin" style="padding:14px;">
+    <div class="row-sb mb8"><span class="badge">${e.week ? 'שבוע ' + e.week : ''} · ${d.getDate()}.${d.getMonth()+1}</span>
+      ${readOnly ? '' : `<button class="link" style="color:var(--red);" onclick="delJournal(${e.id})">מחיקה</button>`}</div>
+    <p style="font-size:15px;line-height:1.7;white-space:pre-wrap;">${esc(e.text)}</p></div>`;
+}
+function toggleMic(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(ST.rec){ ST.rec.stop(); return; }
+  const r = new SR(); r.lang = 'he-IL'; r.continuous = true; r.interimResults = true;
+  const ta = $('j-text'), base = ta.value ? ta.value + ' ' : '';
+  r.onresult = e => { let t = ''; for(let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript; ta.value = base + t; };
+  r.onerror = e => { if(e.error === 'not-allowed') toast('צריך לאשר גישה למיקרופון', 'error'); };
+  r.onend = () => { ST.rec = null; $('mic')?.classList.remove('rec'); if($('mic-lbl')) $('mic-lbl').textContent = 'אפשר גם לדבר — והטקסט ייכתב לבד'; };
+  try { r.start(); ST.rec = r; $('mic').classList.add('rec'); $('mic-lbl').textContent = '🔴 מקליטה... לחצי שוב לעצירה'; } catch { toast('ההקלטה לא זמינה בדפדפן הזה', 'error'); }
+}
+async function saveJournal(){
+  if(ST.rec) ST.rec.stop();
+  const text = $('j-text').value.trim();
+  if(!text) return toast('היומן ריק — כתבי משהו קודם', 'error');
+  const p = preg(ST.user.dueDate);
+  $('j-save').disabled = true;
+  try { const r = await api('POST','/journal',{text, week:p?.weeks||0}); ST.journal.unshift({id:r.id, text, week:p?.weeks||0}); toast('✅ נשמר ביומן','success'); tabJournal(); }
+  catch(e){ toast(e.message,'error'); $('j-save').disabled = false; }
+}
+async function delJournal(id){
+  if(!confirm('למחוק את הרשומה?')) return;
+  try { await api('DELETE','/journal/' + id); ST.journal = ST.journal.filter(e => e.id !== id); tabJournal(); } catch(e){ toast(e.message,'error'); }
+}
+
+const PROMPTS = ['מה מותר לאכול בהריון?','איך מקלים על בחילות?','מתי מרגישים בעיטות?','מה לארוז לתיק לידה?'];
+function chatCard(){
+  return `<div class="card" style="background:linear-gradient(145deg,#f5edf8,#faf3fb);border-color:rgba(196,168,212,.5);">
+    <div class="card-title">💬 שאלות על ההריון</div>
+    <div class="chips">${PROMPTS.map((p,i) => `<div class="chip" onclick="ask(PROMPTS[${i}])">${p}</div>`).join('')}</div>
+    <div id="chat" class="chat">${ST.chat.map(m => `<div class="msg ${m.r}">${esc(m.t)}</div>`).join('')}${ST.chatBusy ? '<div class="msg ai">כותבת... ✍️</div>' : ''}</div>
+    <div class="row"><input id="chat-in" class="inp grow" placeholder="שאלי כל שאלה..." onkeydown="if(event.key==='Enter')sendChat()"/><button class="btn btn-pri btn-sm" onclick="sendChat()" aria-label="שליחה">שליחה</button></div>
+    <div class="note mt8">מידע כללי בלבד, לא תחליף לרופא/ה. בדימום, ירידה בתנועות, כאב חזק או ירידת מים — פונים מיד למיון יולדות.</div>
+  </div>`;
+}
+function sendChat(){ const v = $('chat-in').value.trim(); if(v) ask(v); }
+async function ask(q){
+  if(ST.chatBusy) return;
+  ST.chat.push({r:'user', t:q}); ST.chatBusy = true; refreshChat();
+  const p = preg(isPartner() ? ST.mom?.dueDate : ST.user.dueDate);
+  try { const r = await api('POST','/chat',{question:q, week:p?.weeks||0}); ST.chat.push({r:'ai', t:r.answer}); }
+  catch(e){ ST.chat.push({r:'ai', t:'לא הצלחתי לענות כרגע 🙏 ' + e.message}); }
+  ST.chatBusy = false; refreshChat();
+}
+function refreshChat(){
+  const box = $('chat'); if(!box) return;
+  box.innerHTML = ST.chat.map(m => `<div class="msg ${m.r}">${esc(m.t)}</div>`).join('') + (ST.chatBusy ? '<div class="msg ai">כותבת... ✍️</div>' : '');
+  box.scrollTop = box.scrollHeight;
+  const inp = $('chat-in'); if(inp && !ST.chatBusy) inp.value = '';
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// שותף — צד האמא
+// ════════════════════════════════════════════════════════════════════════════
+function tabPartner(){
+  const u = ST.user;
+  if(u.pendingPartner){
+    const p = u.pendingPartner;
+    return page(`<div class="card fin center" style="border-color:var(--cin);">
+      <div style="font-size:44px;">💛</div><div class="card-title" style="justify-content:center;">בקשת חיבור</div>
+      <p class="sub"><b>${esc(p.name)}</b><br><span dir="ltr">${esc(p.email)}</span><br>רוצה להתחבר אלייך כשותף/ה.</p>
+      <p class="small mt8 mb12">רק אם זה האדם שהזמנת — אשרי. אחרי החיבור תבחרי מה לשתף.</p>
+      <div class="row"><button class="btn btn-green grow" onclick="respond(true)">אישור</button><button class="btn btn-danger grow" onclick="respond(false)">דחייה</button></div></div>`);
+  }
+  if(u.partnerUid){
+    const s = u.share || {};
+    return page(`<div class="card fin center"><div style="font-size:44px;">👫</div><div class="card-title" style="justify-content:center;">מחוברים: ${esc(u.partnerName || 'השותף/ה')}</div>
+      <p class="sub">השבוע, הבדיקות הקרובות והמשימה הזוגית מוצגים אצלו/ה תמיד.</p></div>
+      <div class="card"><div class="card-title">🔒 מה עוד לשתף?</div>
+        ${shareRow('meds','💊 תרופות והיום שלי','תרופות, בעיטות ומים של היום', s.meds)}
+        ${shareRow('docs','📁 התיק הרפואי','שמות הבדיקות והערכים (בלי התמונות)', s.docs)}
+        ${shareRow('journal','📔 היומן','הרשומות שלך ביומן', s.journal)}
+      </div>
+      <button class="btn btn-danger btn-full" onclick="unlink()">ניתוק החיבור</button>`);
+  }
+  page(`<div class="card fin center">
+      <div style="font-size:48px;">💛</div><div class="card-title" style="justify-content:center;">מזמינים את השותף/ה</div>
+      <p class="sub mb12">שולחים קישור בוואטסאפ. הוא/היא נרשמים, ואת מאשרת — רק אז מתחברים.</p>
+      ${u.inviteCode ? inviteBox(u.inviteCode) : `<button id="code-btn" class="btn btn-pri btn-full" onclick="makeCode()">יצירת קישור הזמנה</button>`}
+    </div>`);
+}
+function inviteBox(code){
+  const link = location.origin + '/?join=' + code;
+  const msg = `💛 הצטרף/י אליי לאפליקציית ההריון "שנינו" — נעקוב יחד אחרי ההריון שבוע אחרי שבוע.\n${link}\nקוד: ${code}`;
+  return `<div id="invite-code" style="font-size:30px;font-weight:800;letter-spacing:6px;color:var(--cin);margin:6px 0;" dir="ltr">${code}</div>
+    <a class="btn btn-wa btn-full" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">שליחה בוואטסאפ</a>
+    <p class="small mt8">הקוד תקף לשבוע. <button class="link" onclick="makeCode()">קוד חדש</button></p>`;
+}
+const shareRow = (k, t, s, on) => `<div class="row-sb lrow"><div><b style="font-size:15px;">${t}</b><div class="small">${s}</div></div><button class="toggle${on?' on':''}" onclick="toggleShare('${k}')" aria-label="${t}"></button></div>`;
+async function makeCode(){
+  try { const r = await api('POST','/partner/code'); ST.user.inviteCode = r.code; tabPartner(); } catch(e){ toast(e.message,'error'); }
+}
+async function respond(approve){
+  try {
+    await api('POST','/partner/respond',{approve});
+    ST.user = await api('GET','/profile');
+    toast(approve ? '💛 מחוברים!' : 'הבקשה נדחתה', approve ? 'success' : 'info');
+    renderTabbar(); tabPartner();
+  } catch(e){ toast(e.message,'error'); }
+}
+async function toggleShare(k){
+  const s = ST.user.share = {meds:false, docs:false, journal:false, ...(ST.user.share||{})};
+  s[k] = !s[k]; tabPartner();
+  try { await api('PUT','/profile',{share:s}); } catch(e){ toast(e.message,'error'); }
+}
+async function unlink(){
+  if(!confirm('לנתק את החיבור? השותף/ה לא יראה יותר את הנתונים שלך.')) return;
+  try { await api('POST','/partner/unlink'); toast('החיבור נותק'); if(isPartner()){ ST.mom = null; return boot(); } ST.user = await api('GET','/profile'); render(); } catch(e){ toast(e.message,'error'); }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// פרופיל — אמא
+// ════════════════════════════════════════════════════════════════════════════
+const F = (id, label, val, type='text', ph='') => `<div class="field"><label for="p-${id}">${label}</label><input id="p-${id}" class="inp" type="${type}" value="${esc(val||'')}" placeholder="${ph}"/></div>`;
+function tabProfile(){
+  const u = ST.user;
+  ST.medsEdit = ST.medsEdit || JSON.parse(JSON.stringify(u.meds || []));
+  page(`
+    <div class="center mb12"><div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--cin),var(--rose));display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;font-weight:700;margin:0 auto 6px;">${esc((u.fullName||'?')[0])}</div>
+      <div style="font-size:18px;font-weight:700;">${esc(u.fullName)}</div><div class="small" dir="ltr">${esc(u.email)}</div></div>
+
+    <div class="card"><div class="card-title">🤰 ההריון</div>
+      ${F('dueDate','תאריך לידה משוער', normDate(u.dueDate), 'date')}
+      <div class="hint" style="margin-top:-6px;margin-bottom:12px;">השבוע מחושב מהתאריך הזה אוטומטית, כל יום.</div>
+      ${F('fullName','שם מלא', u.fullName)}
+      ${F('fund','קופת חולים', u.fund, 'text', 'כללית / מכבי / מאוחדת / לאומית')}
+      ${F('doctor','רופא/ה או מיילדת', u.doctor)}
+      ${F('clinic','מרפאה', u.clinic)}
+      ${F('hospital','בית חולים ללידה', u.hospital)}
+    </div>
+
+    <div class="card"><div class="card-title">💊 תרופות ותוספים</div>
+      <div id="meds-edit">${medsEditor()}</div>
+      <div class="note mt8">⏰ תזכורת שבאמת מצלצלת: אחרי השמירה לוחצים על "תזכורת ביומן" ליד כל תרופה, והיא תיכנס ליומן של הטלפון.</div>
+    </div>
+
+    <div class="card"><div class="card-title">🏥 פרטים לבית החולים</div>
+      ${F('phone','טלפון נייד', u.phone, 'tel')}
+      ${F('idnum','תעודת זהות', u.idnum, 'text')}
+      ${F('bloodtype','סוג דם', u.bloodtype, 'text', 'A+, O-...')}
+      ${F('allergies','אלרגיות', u.allergies, 'text', 'אם אין — "אין"')}
+      ${F('prevpreg','הריונות / לידות קודמות', u.prevpreg)}
+      ${F('ecname','איש/אשת קשר לחירום', u.ecname)}
+      ${F('ecphone','טלפון לחירום', u.ecphone, 'tel')}
+      <div class="field"><label for="p-birthpref">העדפות ללידה</label><textarea id="p-birthpref" class="inp" placeholder="אפידורל, מוזיקה, מי בחדר...">${esc(u.birthpref||'')}</textarea></div>
+    </div>
+
+    <button id="p-save" class="btn btn-pri btn-full mb12" onclick="saveProfile()">💾 שמירה</button>
+    <button class="btn btn-ghost btn-full mb12" onclick="printCard()">🖨️ כרטיס רפואי להדפסה</button>
+    <button class="btn btn-danger btn-full" onclick="logout()">יציאה מהחשבון</button>
+    <p class="small center mt12">שנינו · לטם מחוליה, 2026</p>
+  `);
+}
+function medsEditor(){
+  const saved = ST.user.meds || [];
+  return ST.medsEdit.map((m,i) => `<div class="row mb8">
+      <input class="inp grow" placeholder="שם התרופה" value="${esc(m.name)}" oninput="ST.medsEdit[${i}].name=this.value"/>
+      <input class="inp" style="width:110px;" type="time" value="${esc(m.time||'08:00')}" onchange="ST.medsEdit[${i}].time=this.value"/>
+      <button class="cbtn" onclick="ST.medsEdit.splice(${i},1);$('meds-edit').innerHTML=medsEditor()" aria-label="הסרה">✕</button></div>
+      ${saved.some(s => s.name === m.name && s.time === m.time) && m.name ? `<div class="row mb12" style="gap:6px;"><a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="${gcalLink(m)}">📅 תזכורת ביומן (Google)</a><button class="btn btn-ghost btn-sm" onclick="icsDownload(${i})">📅 אייפון</button></div>` : ''}`).join('')
+    + `<button class="link" onclick="ST.medsEdit.push({name:'',time:'08:00'});$('meds-edit').innerHTML=medsEditor()">+ הוספת תרופה</button>`;
+}
+function nextTime(t){
+  const [h,m] = t.split(':').map(Number), d = new Date(); d.setHours(h, m, 0, 0);
+  if(d < new Date()) d.setDate(d.getDate() + 1);
+  return d;
+}
+const icsStamp = d => `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+function gcalLink(m){
+  const s = nextTime(m.time), e = new Date(s.getTime() + 10*60000);
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text=' + encodeURIComponent('💊 ' + m.name)
+    + '&details=' + encodeURIComponent('תזכורת מאפליקציית שנינו')
+    + '&dates=' + icsStamp(s) + '/' + icsStamp(e)
+    + '&ctz=Asia/Jerusalem&recur=' + encodeURIComponent('RRULE:FREQ=DAILY');
+}
+function icsDownload(i){
+  const m = ST.medsEdit[i], s = nextTime(m.time), e = new Date(s.getTime() + 10*60000);
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//shneynu//he','BEGIN:VEVENT',
+    'UID:' + Date.now() + '@shneynu', 'DTSTAMP:' + icsStamp(new Date()), 'DTSTART;TZID=Asia/Jerusalem:' + icsStamp(s), 'DTEND;TZID=Asia/Jerusalem:' + icsStamp(e),
+    'RRULE:FREQ=DAILY', 'SUMMARY:💊 ' + m.name, 'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:' + m.name,'TRIGGER:PT0M','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar'})); a.download = 'תזכורת-' + m.name + '.ics'; a.click();
+}
+async function saveProfile(){
+  const g = id => $('p-' + id)?.value.trim();
+  const data = {};
+  ['fullName','fund','doctor','clinic','hospital','phone','idnum','bloodtype','allergies','prevpreg','ecname','ecphone','birthpref'].forEach(k => data[k] = g(k));
+  data.dueDate = g('dueDate') || '';
+  if(data.dueDate && !preg(data.dueDate)) return toast('תאריך הלידה לא נראה הגיוני', 'error');
+  if(!data.fullName) return toast('נא להזין שם', 'error');
+  data.meds = ST.medsEdit.filter(m => m.name.trim()).map(m => ({name:m.name.trim(), time:m.time || '08:00'}));
+  const btn = $('p-save'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    await api('PUT','/profile', data);
+    Object.assign(ST.user, data); ST.medsEdit = null;
+    toast('✅ נשמר','success'); render();
+  } catch(e){ toast(e.message,'error'); btn.disabled = false; btn.textContent = '💾 שמירה'; }
+}
+
+// ── כרטיס רפואי להדפסה ──
+function printCard(){
+  const u = ST.user, p = preg(u.dueDate);
+  const row = (l, v) => v ? `<tr><td>${l}</td><td>${esc(v)}</td></tr>` : '';
+  const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>כרטיס רפואי — ${esc(u.fullName)}</title>
+  <style>body{font-family:Arial,sans-serif;padding:24px;max-width:680px;margin:auto;color:#222}h1{color:#C0714F;font-size:22px}h2{font-size:15px;color:#C0714F;border-bottom:2px solid #FAD9C8;padding-bottom:4px;margin-top:20px}table{width:100%;border-collapse:collapse}td{padding:6px 4px;border-bottom:1px solid #eee;font-size:14px}td:first-child{color:#777;width:40%}.b{margin-top:20px}@media print{.b{display:none}}</style></head><body>
+  <h1>כרטיס רפואי — ${esc(u.fullName)}</h1><div style="color:#888;font-size:12px;">הופק מאפליקציית שנינו · ${fmtDate(todayStr())}</div>
+  <h2>הריון</h2><table>${row('תאריך לידה משוער', fmtDate(normDate(u.dueDate)))}${p ? row('שבוע נוכחי', p.weeks + '+' + p.days) : ''}${row('מספר עוברים', u.babies)}${row('הריונות / לידות קודמות', u.prevpreg)}</table>
+  <h2>פרטים אישיים</h2><table>${row('תעודת זהות', u.idnum)}${row('טלפון', u.phone)}${row('קופת חולים', u.fund)}${row('רופא/ה', u.doctor)}${row('מרפאה', u.clinic)}</table>
+  <h2>רפואי</h2><table>${row('סוג דם', u.bloodtype)}${row('אלרגיות', u.allergies)}${row('תרופות', (u.meds||[]).map(m => m.name).join(', '))}</table>
+  <h2>חירום</h2><table>${row('איש/אשת קשר', u.ecname)}${row('טלפון', u.ecphone)}</table>
+  ${u.birthpref ? `<h2>העדפות ללידה</h2><p style="font-size:14px;line-height:1.7;">${esc(u.birthpref)}</p>` : ''}
+  <button class="b" onclick="print()" style="padding:12px 24px;font-size:16px;background:#C0714F;color:#fff;border:none;border-radius:99px;">הדפסה / שמירה כ-PDF</button>
+  </body></html>`;
+  const w = window.open('', '_blank');
+  if(!w) return toast('הדפדפן חסם חלון חדש — אשרי חלונות קופצים', 'error');
+  w.document.write(html); w.document.close();
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// צד השותף
+// ════════════════════════════════════════════════════════════════════════════
+function renderJoin(prefill){
+  showScreen('scr-join');
+  const u = ST.user;
+  if(u.pendingWith){
+    $('join-body').innerHTML = `<div class="card fin center" style="margin-top:20px;"><div style="font-size:48px;">⏳</div>
+      <div class="card-title" style="justify-content:center;">ממתינים לאישור</div>
+      <p class="sub mb12">שלחנו ל${esc(u.pendingWithName || 'בת הזוג')} בקשה. ברגע שהיא תאשר — תראה/י כאן הכול.</p>
+      <button class="btn btn-pri btn-full mb8" onclick="boot()">🔄 בדיקה שוב</button>
+      <button class="btn btn-ghost btn-full" onclick="logout()">יציאה</button></div>`;
+    return;
+  }
+  $('join-body').innerHTML = `<div class="card fin" style="margin-top:20px;">
+    <div class="center"><div style="font-size:48px;">💛</div><div class="card-title" style="justify-content:center;">מצטרפים</div>
+    <p class="sub mb12">הזינו את הקוד שקיבלתם בוואטסאפ.</p></div>
+    <input id="join-code" class="inp mb8" dir="ltr" style="text-align:center;font-size:24px;letter-spacing:6px;text-transform:uppercase;" maxlength="6" value="${esc(prefill||'')}" placeholder="ABC123"/>
+    <div id="join-err" class="err mb8"></div>
+    <button id="join-btn" class="btn btn-pri btn-full mb8" onclick="doJoin()">שליחת בקשת חיבור</button>
+    <button class="btn btn-ghost btn-full" onclick="logout()">יציאה</button></div>`;
+}
+async function doJoin(){
+  const code = $('join-code').value.trim().toUpperCase();
+  if(code.length < 6) return $('join-err').textContent = 'הקוד בן 6 תווים';
+  $('join-btn').disabled = true;
+  try {
+    const r = await api('POST','/partner/join',{code});
+    sessionStorage.removeItem('shn_join');
+    ST.user.role = 'partner'; ST.user.pendingWith = 'x'; ST.user.pendingWithName = r.ownerName;
+    renderJoin();
+  } catch(e){ $('join-err').textContent = e.message; $('join-btn').disabled = false; }
+}
+async function loadPartner(){ try { ST.mom = (await api('GET','/partner/data')).mom; } catch { ST.mom = null; } }
+
+function tabHomePartner(){
+  const m = ST.mom;
+  if(!m) return page(`<div class="card center"><p class="sub">החיבור לא פעיל כרגע.</p><button class="btn btn-pri mt8" onclick="refreshPartner()">רענון</button></div>`);
+  const t = m.today;
+  page(`
+    ${heroCard(m.dueDate, ST.user.fullName, true)}
+    ${coupleCard(m.dueDate, true)}
+    ${m.share?.meds && t ? `<div class="card fin"><div class="card-title">📋 היום של ${esc(m.fullName.split(' ')[0])}</div>
+      <div class="row" style="gap:16px;font-size:15px;"><span>👶 ${t.kicks||0} בעיטות</span><span>💧 ${t.water||0} כוסות</span></div>
+      ${(m.meds||[]).map(x => { const done = (t.medsTaken||[]).includes(x.name); return `<div class="med${done?' done':''}" style="cursor:default;margin-top:8px;"><div class="chk">${done?'✓':''}</div><div class="grow"><b>${esc(x.name)}</b><div class="small">${esc(x.time)}</div></div></div>`; }).join('')}
+    </div>` : ''}
+    ${testsCard(m.dueDate)}
+    ${rightsCard(true)}
+    <button class="btn btn-ghost btn-full" onclick="refreshPartner()">🔄 רענון</button>
+  `);
+}
+async function refreshPartner(){ await loadPartner(); render(); }
+function tabDocsPartner(){
+  const m = ST.mom;
+  if(!m?.share?.docs) return page(`<div class="card center fin"><div style="font-size:40px;">🔒</div><p class="sub">${esc(m?.fullName?.split(' ')[0] || 'בת הזוג')} עוד לא שיתפה את התיק הרפואי.</p></div>`);
+  page(`<div style="font-size:19px;font-weight:700;" class="mb12">📁 התיק הרפואי</div>${(m.docs||[]).map(d => docCard(d, true)).join('') || '<p class="small center">אין בדיקות עדיין</p>'}`);
+}
+function tabJournalPartner(){
+  const m = ST.mom;
+  page(`${m?.share?.journal ? (m.journal||[]).map(e => journalCard(e, true)).join('') || '<p class="small center mb12">היומן ריק</p>'
+      : `<div class="card center fin"><div style="font-size:40px;">🔒</div><p class="sub">היומן פרטי, כל עוד לא שותף.</p></div>`}
+    ${chatCard()}`);
+}
+function tabProfilePartner(){
+  const u = ST.user;
+  page(`<div class="card center fin"><div style="font-size:44px;">💛</div><div style="font-size:18px;font-weight:700;">${esc(u.fullName)}</div><div class="small" dir="ltr">${esc(u.email)}</div>
+      <p class="sub mt8">מחובר/ת ל: <b>${esc(u.partnerName || '')}</b></p></div>
+    <button class="btn btn-ghost btn-full mb12" onclick="unlink()">ניתוק החיבור</button>
+    <button class="btn btn-danger btn-full" onclick="logout()">יציאה מהחשבון</button>
+    <p class="small center mt12">שנינו · לטם מחוליה, 2026</p>`);
+}
+
+boot();
+</script>
+</body>
+</html>
